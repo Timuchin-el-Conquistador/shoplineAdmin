@@ -18,7 +18,7 @@ const Dashboard = dynamic(() => import('.'));
 
 async function DashboardPage() {
   const session = await retrieveSession() as Session;
-  console.log(session)
+
   if (session == null) {
     return <InternalServerError/>
   }
@@ -27,7 +27,6 @@ async function DashboardPage() {
       <Dashboard
         removeLinkAction={removeLinkAction}
         retrieveUrlsAction={retrieveUrlsAction}
-        planName={session.planName}
       />
     </Layout>
   );

@@ -46,7 +46,7 @@ type PageProps = {
   ) => Promise<{ status: number; message: string; account: User | null }>;
 };
 
-function Calls(props: PageProps) {
+function Customers(props: PageProps) {
   const router = useRouter();
 
   const {
@@ -364,4 +364,4 @@ function Calls(props: PageProps) {
   );
 }
 
-export default Calls;
+export default Customers;

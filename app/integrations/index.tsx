@@ -14,7 +14,6 @@ import { type Integration } from "@/lib/types/user";
 type PageProps = {
   integrations: Integration[];
   monthlyIntegrationsCapacity: number;
-  planName: string;
 };
 
 function Integrations(props: PageProps) {

@@ -30,7 +30,7 @@ async function IntegrationsPage() {
       <Integrations
         integrations={integrations}
         monthlyIntegrationsCapacity={session.monthlyIntegrationsCapacity as number}
-        planName={session.planName}
+
       />
     </Layout>
   );

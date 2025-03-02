@@ -22,7 +22,7 @@ type PageProps = {
   removeLinkAction: (
     slug: string
   ) => Promise<{ status: number; message: string }>;
-  planName: string;
+
 };
 
 function Dashboard(props: PageProps) {
