@@ -14,6 +14,20 @@ import { fakeBackend } from "../axios";
 
 
 
+export async function confirmEmail(token: string) {
+  try {
+    const path = `api/v1/user/confirm-email/${token}`;
+    const response: { message: string } = await fakeBackend.get(path);
+
+    return response.message;
+  } catch (error) {
+    return error instanceof Error ? error : new Error(String(error));
+  }
+}
+
+
+
+
 
 export async function retrieveUser() {
   try {
