@@ -54,17 +54,19 @@ function Table(props: ComponentProps) {
             <tbody>
               {props.customers.map((customer: User) => {
                 // Step 1: Remove the ordinal suffix (e.g., "nd")
-
+                let isoDate;
+                    if(customer.lastLogin){
                 const cleanedDateString = customer.lastLogin.replace(
                   /(\d+)(st|nd|rd|th)/,
                   "$1"
-                );
+                ) ;
 
                 // Step 2: Parse the date
                 const date = new Date(cleanedDateString);
 
                 // Step 3: Convert to ISO 8601 format
-                const isoDate = date.toISOString();
+                 isoDate = date.toISOString();
+              }
 
                 const subscriptionStatus = customer.subscriptionStatus;
                 const variant =

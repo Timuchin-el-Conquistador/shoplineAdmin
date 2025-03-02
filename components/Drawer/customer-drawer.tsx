@@ -74,7 +74,7 @@ function Drawer(props: ComponentProps) {
     // Step 3: Convert to ISO 8601 format
     return date.toISOString();
   }, [props.createdOn]);
-console.log(props)
+
   return (
     <SlDrawer
       noHeader

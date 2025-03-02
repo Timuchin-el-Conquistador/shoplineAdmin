@@ -105,7 +105,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
           success: response.message,
         }));
 
-        router.push("/users");
+        router.push("/users/sign_in");
       } catch (error) {
         set((prevState) => ({
           ...prevState,
