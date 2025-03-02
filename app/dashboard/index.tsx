@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 
 import Link from "next/link";
 
@@ -11,7 +11,6 @@ import { CardSkeletonPulse } from "@/components/Loaders/pulse";
 
 import { type ExtendedLink } from "@/lib/types/links";
 
-import MaximumLimitReached from "@/components/modals/maximum-limit-reached";
 import DeletingLintWarning from "@/components/modals/link-remove-attempt-warning";
 
 type PageProps = {
@@ -23,7 +22,6 @@ type PageProps = {
   removeLinkAction: (
     slug: string
   ) => Promise<{ status: number; message: string }>;
-  monthlyLinksCapacity: number;
   planName: string;
 };
 
@@ -56,15 +54,6 @@ function Dashboard(props: PageProps) {
 
   const linksLength = useMemo(() => links.length, [links]);
 
-  const handleClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (linksLength == props.monthlyLinksCapacity) {
-        e.preventDefault(); // Stop navigation
-        setMaxLimitReached(true);
-      }
-    },
-    [linksLength, props.monthlyLinksCapacity] // Recreates only when shouldRedirect changes
-  );
 
   return (
     <div id="pages-grid" className="index-card-grid">
@@ -104,48 +93,22 @@ function Dashboard(props: PageProps) {
             <div id="tooltip" className="sp-tooltip">
               <div className="sp-tooltip-element">
                 <span className="bg-white flex justify-center border text-sm text-center px-2 rounded-2xl w-16 m-auto items-center text-gray-400">
-                  {linksLength} / {props.monthlyLinksCapacity}
+                  {linksLength} 
                 </span>
               </div>{" "}
-              <div
-                className="sp-tooltip-body"
-                style={{ width: "300px", left: "5px" }}
-              >
-                <div
-                  className="sp-tooltip-arrow"
-                  style={{ left: "calc(50%)" }}
-                ></div>{" "}
-                <div>
-                  <div className="text-left">
-                    You have ({linksLength}) links. Your subscription plan
-                    allows up to ({props.monthlyLinksCapacity}) links.
-                    <br />
-                    <br />
-                    To increase your links limit, upgrade your subscription plan
-                    from Dashboard &gt; Billing.
-                  </div>
-                </div>
-              </div>
+   
             </div>
           </div>{" "}
           <Link
             href="/pages/new"
             className="block btn btn-blue mt-8"
-            onClick={handleClick}
+
           >
             New Link
           </Link>
         </div>
       </div>
 
-      <MaximumLimitReached
-        subscriptionFeature="Links"
-        subscriptionPlan={props.planName}
-        isOpen={maxLimitReached}
-        closeModal={() => {
-          setMaxLimitReached(false);
-        }}
-      />
 
       <DeletingLintWarning
         attemptingToDeleteSession={attemptingToDeleteLinkWarningModal.isOpen}

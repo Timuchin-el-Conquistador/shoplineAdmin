@@ -4,7 +4,7 @@ import { fakeBackend } from "@/lib/axios";
 
 import { verifySession } from "@/lib/dal";
 
-import { Account, type NewUser, type User } from "@/lib/types/user";
+import { Account, type NewUser } from "@/lib/types/user";
 
 import { createSession, updateSession } from "@/lib/session";
 
@@ -88,7 +88,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
         success: null,
       }));
       try {
-        const path = `api/v1/user/signup`
+        const path = `api/v1/admin/signup`
         const response: { message: string } = await fakeBackend.post(
          path,
           {
@@ -123,7 +123,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
           error: null,
           success: null,
         }));
-        const  path = "api/v1/user/resend-confirmation";
+        const  path = "api/v1/admin/resend-confirmation";
         const response: { message: string } = await fakeBackend.post(path, {
           email,
         });
@@ -151,7 +151,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
         success: null,
       }));
       try {
-        const path = "api/v1/user/signin"
+        const path = "api/v1/admin/signin"
         const response: { message: string; account: Account } =
           await fakeBackend.post(path, { ...user, role: "web" });
 
@@ -159,14 +159,15 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
           userId: response.account.userId,
           email: response.account.email,
           fullName: response.account.fullName,
-          planName:response.account.planName,
-          monthlyMinutesCapacity:response.account.monthlyMinutesCapacity,
-          monthlyLinksCapacity:response.account.monthlyLinksCapacity,
-          monthlyIntegrationsCapacity:response.account.monthlyIntegrationsCapacity,
-          subscriptionStatus: response.account.subscriptionStatus,
-          accountStatus:response.account.accountStatus,
-          watchedTutorial:response.account.watchedTutorial,
-          monthlyMinutesCapacityReached:response.account.monthlyMinutesCapacity<response.account.monthlyMinutesConsumed
+         // planName:response.account.planName,
+         // monthlyMinutesCapacity:response.account.monthlyMinutesCapacity,
+       //   monthlyLinksCapacity:response.account.monthlyLinksCapacity,
+         // monthlyIntegrationsCapacity:response.account.monthlyIntegrationsCapacity,
+        //  subscriptionStatus: response.account.subscriptionStatus,
+         accountStatus:response.account.accountStatus,
+       //  isBrowserNotificationsOn:response.account.isBrowserNotificationsOn,
+      //    watchedTutorial:response.account.watchedTutorial,
+      //    monthlyMinutesCapacityReached:response.account.monthlyMinutesCapacity<response.account.monthlyMinutesConsumed
         });
 
         set((prevState) => ({
@@ -192,7 +193,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
           error: null,
           success: null,
         }));
-         const path = "api/v1/user/forgot-password";
+         const path = "api/v1/admin/forgot-password";
         const response: { message: string } = await fakeBackend.post(path, {
           email,
         });
@@ -213,7 +214,74 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
         }));
       }
     },
+
+
+
+    resetPassword: async (password, confirmPassword, token, router) => {
+      try {
+        if (password != confirmPassword) {
+          return set((prevState) => ({
+            ...prevState,
+            error: new Error("Passwords do not match"),
+          }));
+        }
+
+        if (password == null) {
+          return set((prevState) => ({
+            ...prevState,
+            error: new Error("New password not provided."),
+          }));
+        }
+
+        set((prevState) => ({
+          ...prevState,
+          loading: true,
+          error: null,
+          success: null,
+        }));
     
+         const path = `api/v1/admin/${token}/reset-password`;
+        const response: { account: Account } = await fakeBackend.post(
+          path,
+          {
+            password,
+          }
+        );
+
+        await createSession({
+          userId: response.account.userId,
+          email: response.account.email,
+          fullName: response.account.fullName,
+         // planName:response.account.planName,
+         // monthlyMinutesCapacity:response.account.monthlyMinutesCapacity,
+         // monthlyLinksCapacity:response.account.monthlyLinksCapacity,
+      //    numberOfCreatedLinks:response.account.numberOfCreatedLinks,
+       //   monthlyIntegrationsCapacity:response.account.monthlyIntegrationsCapacity,
+        //  monthlyMinutesConsumed:response.account.monthlyMinutesConsumed,
+        // isBrowserNotificationsOn:response.account.isBrowserNotificationsOn,
+        // subscriptionStatus: response.account.subscriptionStatus,
+       accountStatus:response.account.accountStatus,
+      //   watchedTutorial:response.account.watchedTutorial,
+      //  monthlyMinutesCapacityReached:response.account.monthlyMinutesCapacity <response.account.monthlyMinutesConsumed
+         
+        });
+        set((prevState) => ({
+          ...prevState,
+          loading: false,
+          user: response.account,
+        }));
+        router.replace("/dashboard");
+
+      } catch (error) {
+        set((prevState) => ({
+          ...prevState,
+          loading: false,
+          error: error instanceof Error ? error : new Error(String(error)),
+        }));
+      }
+    },
+
+
     changeEmail: async (email, router) => {
       try {
 
@@ -285,132 +353,6 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
         }));
 
       
-      } catch (error) {
-        set((prevState) => ({
-          ...prevState,
-          loading: false,
-          error: error instanceof Error ? error : new Error(String(error)),
-        }));
-      }
-    },
-    /*submitOTP: async (otp, router) => {
-      sessionStorage.removeItem("email");
-      try {
-        set((prevState) => ({
-          ...prevState,
-          loading: true,
-          error: null,
-          message: null,
-        }));
-        const path = `api/v1/test-app/user/confirm-otp`;
-        const response: { message: string; token: string } =
-          await fakeBackend.post(path, { OTP: otp });
- 
-        set((prevState) => ({
-          ...prevState,
-          loading: false,
-          message: response.message,
-          token: response.token,
-        }));
-
-        sessionStorage.setItem("reset-passord-token", response.token);
-        setTimeout(() => {
-          router.replace("/reset-password");
-        }, 700);
-      } catch (error) {
-        set((prevState) => ({
-          ...prevState,
-          loading: false,
-          error: error instanceof Error ? error : new Error(String(error)),
-        }));
-      }
-    },*/
-
-    /* resendToEmailOTP: async () => {
-      const email = sessionStorage.getItem("email") || "";
-
-      try {
-        set((prevState) => ({
-          ...prevState,
-          loading: true,
-          error: null,
-          message: null,
-        }));
-        const path = `api/v1/test-app/user/forgot-password`;
-        const response: { message: string } = await fakeBackend.post(path, {
-          email,
-        });
-
-        set((prevState) => ({
-          ...prevState,
-          loading: false,
-          message: response.message,
-          //  token:response.token
-        }));
-      } catch (error) {
-        set((prevState) => ({
-          ...prevState,
-          loading: false,
-          error: error instanceof Error ? error : new Error(String(error)),
-        }));
-      }
-    },*/
-
-    resetPassword: async (password, confirmPassword, token, router) => {
-      try {
-        if (password != confirmPassword) {
-          return set((prevState) => ({
-            ...prevState,
-            error: new Error("Passwords do not match"),
-          }));
-        }
-
-        if (password == null) {
-          return set((prevState) => ({
-            ...prevState,
-            error: new Error("New password not provided."),
-          }));
-        }
-
-        set((prevState) => ({
-          ...prevState,
-          loading: true,
-          error: null,
-          success: null,
-        }));
-    
-         const path = `api/v1/user/${token}/reset-password`;
-        const response: { account: Account } = await fakeBackend.post(
-          path,
-          {
-            password,
-          }
-        );
-
-        await createSession({
-          userId: response.account.userId,
-          email: response.account.email,
-          fullName: response.account.fullName,
-          planName:response.account.planName,
-          monthlyMinutesCapacity:response.account.monthlyMinutesCapacity,
-          monthlyLinksCapacity:response.account.monthlyLinksCapacity,
-      //    numberOfCreatedLinks:response.account.numberOfCreatedLinks,
-          monthlyIntegrationsCapacity:response.account.monthlyIntegrationsCapacity,
-        //  monthlyMinutesConsumed:response.account.monthlyMinutesConsumed,
-       //   isBrowserNotificationsOn:response.account.isBrowserNotificationsOn,
-         subscriptionStatus: response.account.subscriptionStatus,
-         accountStatus:response.account.accountStatus,
-         watchedTutorial:response.account.watchedTutorial,
-         monthlyMinutesCapacityReached:response.account.monthlyMinutesCapacity <response.account.monthlyMinutesConsumed
-         
-        });
-        set((prevState) => ({
-          ...prevState,
-          loading: false,
-          user: response.account,
-        }));
-        router.replace("/dashboard");
-
       } catch (error) {
         set((prevState) => ({
           ...prevState,

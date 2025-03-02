@@ -1,6 +1,6 @@
 import ActiveCallSession from ".";
 
-import { retrieveUrl, retrieveActiveCallSession } from "@/lib/actions/public";
+import { retrieveUrl, retrieveLiveCallSession } from "@/lib/actions/visitor";
 import { retrieveAccountInformation } from "@/lib/actions/user";
 import { retrieveSession } from "@/lib/session";
 
@@ -25,7 +25,7 @@ async function ActiveCallSessionPage(props: {
     return <InternalServerError />;
   }
 
-  const callResponse = await retrieveActiveCallSession(props.params.sessionId);
+  const callResponse = await retrieveLiveCallSession(props.params.sessionId);
   const call =
     callResponse instanceof Error || callResponse == null ? null : callResponse;
 

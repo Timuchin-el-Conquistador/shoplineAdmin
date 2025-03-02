@@ -4,7 +4,7 @@ import { verifySession } from "../dal";
 
 import { redirect } from "next/navigation";
 
-import { type Account, type Integration } from "../types/user";
+import { type AccountStatus, type User, type Integration, type Account } from "../types/user";
 import { type Device } from "../types/device";
 
 import { fakeBackend } from "../axios";
@@ -85,25 +85,6 @@ export async function retrieveIntegration(integrationId:string) {
 
 
 
-export async function retrieveAccountInformationAction() {
-  'use server'
-  try {
-    const session = await verifySession();
-
-    if (!session) return redirect("/users/sign_in");
-
-    const path = `api/v1/user/${session.email}`;
-
-    const response: { message: string; account: Account } = await fakeBackend.get(
-      path
-    );
-
-
-    return { status:200, message:response.message,account:response.account };
-  } catch (error) {
-    return { status:400, message: error instanceof Error ? error.message : String(error),account:null };
-  }
-}
 
 
 export async function retrieveAccountInformation() {
@@ -112,7 +93,7 @@ export async function retrieveAccountInformation() {
 
     if (!session) return redirect("/users/sign_in");
 
-    const path = `api/v1/user/${session.email}`;
+    const path = `api/v1/admin/${session.email}`;
 
     const response: { message: string; account: Account } = await fakeBackend.get(
       path
@@ -126,3 +107,27 @@ export async function retrieveAccountInformation() {
 }
 
 
+
+
+export async function retrieveCustomerAccountInformationAction(email:string) {
+  try {
+    const session = await verifySession();
+
+    if (!session) return redirect("/users/sign_in");
+
+    const path = `api/v1/user/${email}`;
+
+    const response: { message: string; account: User } = await fakeBackend.get(
+      path
+    );
+
+    return { status: 200, message: response.message, account: response.account };
+  } catch (error) {
+    return {
+      status: 400,
+      message: error instanceof Error ? error.message : String(error),
+      account: null,
+    };
+}
+
+}

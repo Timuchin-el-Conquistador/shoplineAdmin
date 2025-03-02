@@ -1,17 +1,17 @@
-import { retrieveAccountStatus } from "@/lib/actions/public";
+import { retrieveUserAccountStatus } from "@/lib/actions/visitor";
 import AccountInactive from "../Presentational/account-inactive";
 
 import ErrorBoundary from "../error-bound";
 
 async function PublicLayout({
   children,
-  userId,
+  email,
 }: {
   children: React.ReactNode;
-  userId?: string ;
+  email?: string ;
 }) {
-  if (userId) {
-    let response = await retrieveAccountStatus(userId);
+  if (email) {
+    let response = await retrieveUserAccountStatus(email);
 
     const accountStatus =
       response instanceof Error || response == null ? null : response;

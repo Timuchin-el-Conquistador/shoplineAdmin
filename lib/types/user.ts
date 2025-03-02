@@ -11,7 +11,6 @@ export enum AccountStatus {
   SUSPENDED = "suspended",   // Temporarily suspended due to some issue
 }
 
-
 // Subscription status enum
 export enum SubscriptionStatus {
   ACTIVE = "active",
@@ -23,11 +22,16 @@ export enum SubscriptionStatus {
 }
 
 
+
 export interface User {
-  userId: string;
+  _id: string;
   fullName: string;
   email: string;
-  accountStatus:AccountStatus
+  lastLogin:string
+  createdOn:string
+  accountStatus:AccountStatus,
+  subscriptionStatus:SubscriptionStatus
+  planName:string
 }
 export interface NewUser {
   fullName: string;
@@ -57,14 +61,14 @@ export interface Session{
   userId:string,
   fullName: string,
   email: string,
-  planName: string,
+  //planName: string,
   accountStatus:AccountStatus
-  monthlyMinutesCapacity: number,
-  monthlyLinksCapacity: number,
-  subscriptionStatus:string,
-  monthlyIntegrationsCapacity:number,
-  watchedTutorial:boolean
-  monthlyMinutesCapacityReached:boolean
+ // monthlyMinutesCapacity: number,
+ // monthlyLinksCapacity: number,
+ // subscriptionStatus:string,
+ // monthlyIntegrationsCapacity:number,
+//  watchedTutorial:boolean
+//  monthlyMinutesCapacityReached:boolean
   [key: string]: unknown;
 }
 
@@ -72,14 +76,14 @@ export interface Account{
   userId:string,
   fullName: string,
   email: string,
-  planName: string,
-  monthlyMinutesCapacity: number,
-  monthlyLinksCapacity: number,
-  numberOfCreatedLinks: number,
-  monthlyMinutesConsumed: number,
-  subscriptionStatus:SubscriptionStatus,
-  monthlyIntegrationsCapacity:number,
+ // planName: string,
+//  monthlyMinutesCapacity: number,
+ //// monthlyLinksCapacity: number,
+ numberOfCreatedLinks: number,
+//  monthlyMinutesConsumed: number,
+  //subscriptionStatus:SubscriptionStatus,
+  //monthlyIntegrationsCapacity:number,
   browserNotifications:boolean,
   accountStatus:AccountStatus
-  watchedTutorial:boolean
+  //watchedTutorial:boolean
 }

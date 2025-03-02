@@ -94,6 +94,21 @@ function Sidebar({
                     </svg>
                     Calls
                   </a>{" "}
+                  <a
+                    href="/customers"
+                    className={`dashboard-button ${
+                      page == "customers" && "selected"
+                    }`}
+                  >
+                    <img
+                      src="customers.png"
+                      width="24"
+                      height="24"
+                      className="dashboard-sidebar-icon"
+                      style={{ display: "inline-block" }}
+                    />
+                    Customers
+                  </a>{" "}
                   {/*} <Link
                   href="/stats"
                   className={`dashboard-button ${
@@ -143,14 +158,14 @@ function Sidebar({
                       <span className="text-gray-300">&gt; &nbsp;</span>{" "}
                       Settings
                     </a>{" "}
-                    <a
+                    {/*<a
                       href="/billing"
                       className={`advanced-buttons ${
                         page == "billing" && "selected"
                       }`}
                     >
                       <span className="text-gray-300">&gt; &nbsp;</span> Billing
-                    </a>
+                    </a>*/}
                   </div>
                 </div>
               </nav>
@@ -201,7 +216,7 @@ function Sidebar({
             </svg>{" "}
             <span className="text-xs block text-gray-700 mt-1">Calls</span>
           </Link>{" "}
-        {/*}  <Link
+          {/*}  <Link
             href="/stats"
             className="flex flex-col items-center justify-center w-full h-full "
           >
@@ -272,17 +287,15 @@ function Sidebar({
           </div>{" "}
           <div className="flex items-center space-x-2 pb-4">
             <div className="h-10 w-10 flex items-center justify-center rounded-full bg-gray-300 text-gray-700">
-              {fullName.split(' ')[0].split('')[0]}
+              {fullName.split(" ")[0].split("")[0]}
             </div>{" "}
             <div>
-              <p className="text-base font-medium text-gray-900">
-               {fullName}
-              </p>{" "}
+              <p className="text-base font-medium text-gray-900">{fullName}</p>{" "}
               <p className="text-sm text-gray-500">{email}</p>
             </div>
           </div>{" "}
           <nav>
-          <div className="mt-2 divide-y divide-gray-200 overflow-hidden">
+            <div className="mt-2 divide-y divide-gray-200 overflow-hidden">
               {/*}  <Link
                 href="/organizations"
                 className="flex items-center relative py-3 pl-2"

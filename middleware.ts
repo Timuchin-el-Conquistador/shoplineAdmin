@@ -14,6 +14,7 @@ const routes = [
   /^\/calls\/([a-zA-Z0-9]+)\/recording$/,
   /^\/session\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)$/,
   /^\/settings$/,
+  /^\/customers$/,
   /^\/integrations$/,
   /^\/integrations\/new$/,
   /^\/integrations\/new\/mobile$/,
@@ -21,11 +22,7 @@ const routes = [
   /^\/integrations\/update\/([a-zA-Z0-9]+)$/,
   /^\/pages\/new$/,
   /^\/pages\/edit\/([a-zA-Z0-9]+)$/,
-  /^\/billing$/,
-  /^\/billing\/choose_plan$/,
   /^\/users\/sign_out$/,
-  /^\/subscription\/failed$/,
-  /^\/subscription\/success$/,
   /^\/users$/,
   /^\/users\/sign_in$/,
   /^\/users\/confirmation$/,
@@ -43,6 +40,7 @@ const protectedRoutes = [
   /^\/calls\/([a-zA-Z0-9]+)$/,
   /^\/calls\/([a-zA-Z0-9]+)\/recording$/,
   /^\/settings$/,
+  /^\/customers$/,
   /^\/integrations$/,
   /^\/integrations\/new$/,
   /^\/integrations\/new\/mobile$/,
@@ -50,11 +48,8 @@ const protectedRoutes = [
   /^\/integrations\/update\/([a-zA-Z0-9]+)$/,
   /^\/pages\/new$/,
   /^\/pages\/edit\/([a-zA-Z0-9]+)$/,
-  /^\/billing$/,
-  /^\/billing\/choose_plan$/,
   /^\/users\/sign_out$/,
-  /^\/subscription\/failed$/,
-  /^\/subscription\/success$/,
+
 ];
 //public
 const publicRoutes = [
@@ -67,22 +62,7 @@ const publicRoutes = [
   /^\/$/,
 ];
 
-//to show these routesuser must have activesubscription
-const requireActiveSubscriptionRoutes = [
-  /^\/dashboard$/,
-  /^\/embed$/,
-  /^\/embed\/([a-zA-Z0-9]+)$/,
-  /^\/calls$/,
-  /^\/calls\/([a-zA-Z0-9]+)$/,
-  /^\/calls\/([a-zA-Z0-9]+)\/recording$/,
-  /^\/integrations$/,
-  /^\/integrations\/new$/,
-  /^\/integrations\/new\/mobile$/,
-  /^\/integrations\/update$/,
-  /^\/integrations\/update\/([a-zA-Z0-9]+)$/,
-  /^\/pages\/new$/,
-  /^\/pages\/edit\/([a-zA-Z0-9]+)$/,
-];
+
 
 export default async function middleware(req: NextRequest) {
   // 2. Check if the current route is protected or public
@@ -124,19 +104,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/users/sign_in", req.nextUrl));
   }
 
-  const isSubscriptionStatusActive =
-    session?.subscriptionStatus == "active" ||
-    session?.subscriptionStatus == "trialing";
-  // 5. Redirect to /billing if the user is not authenticated
 
-  //check if the current route matches any route requiring subscription
-  const isRouteRequireActiveSubscription = requireActiveSubscriptionRoutes.some(
-    (route) => route.test(path)
-  );
-
-  if (isRouteRequireActiveSubscription && !isSubscriptionStatusActive) {
-    return NextResponse.redirect(new URL("/billing", req.nextUrl));
-  }
   // 6. Redirect to /dashboard if the user is authenticated
   if (
     isPublicRoute &&

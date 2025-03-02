@@ -39,14 +39,14 @@ export async function validateToken(token: string) {
     userId: session.userId,
     email: session.email,
     fullName: session.fullName,
-    subscriptionStatus: session.subscriptionStatus,
-    planName:session.planName,
-    monthlyMinutesCapacity:session.monthlyMinutesCapacity,
-    monthlyLinksCapacity:session.monthlyLinksCapacity,
-    monthlyIntegrationsCapacity:session.monthlyIntegrationsCapacity,
+ //   subscriptionStatus: session.subscriptionStatus,
+    //planName:session.planName,
+ //   monthlyMinutesCapacity:session.monthlyMinutesCapacity,
+   // monthlyLinksCapacity:session.monthlyLinksCapacity,
+  //  monthlyIntegrationsCapacity:session.monthlyIntegrationsCapacity,
     accountStatus:session.accountStatus,
-    watchedTutorial:session.watchedTutorial,
-    monthlyMinutesCapacityReached:session.monthlyMinutesCapacityReached
+  //  watchedTutorial:session.watchedTutorial,
+  //  monthlyMinutesCapacityReached:session.monthlyMinutesCapacityReached
   };
 
 

@@ -67,36 +67,7 @@ export async function updateSession(
   });
 }
 
-export async function updateSubscription(
-  planName: string,
-  monthlyLinksCapacity: number,
-  monthlyIntegrationsCapacity: number,
-  subscriptionStatus: string
-) {
-  "use server";
 
-  const cookie = await cookies().get("session")?.value;
-
-  let payload = (await decrypt(cookie)) as Session
-
-
-  payload ={
-    ...payload,
-    planName,
-    monthlyLinksCapacity,
-    monthlyIntegrationsCapacity,
-    subscriptionStatus,
-    
-  }
-
-  const session = await encrypt(payload);
-
-  await cookies().set("session", session, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-  });
-}
 export async function retrieveSession() {
   "use server";
 

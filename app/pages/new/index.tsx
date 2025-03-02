@@ -196,25 +196,7 @@ function NewLink(props: PageProps) {
   return (
     <>
       <div id="main" className="p-6 mb-20">
-        <div
-          style={{
-            position: "fixed",
-            right: "15px",
-            top: "15px",
-            display: loading ? "block" : "hidden",
-          }}
-        >
-          <SlAlert variant="primary" open={loading}>
-            <SlIcon slot="icon" name="info-circle"></SlIcon>
-            <div className="flex items-center">
-              <strong>Canceling subscription</strong>
 
-              <SlSpinner
-                style={{ fontSize: "1rem", marginLeft: "1rem" }}
-              ></SlSpinner>
-            </div>
-          </SlAlert>
-        </div>
 
         <div
           style={{

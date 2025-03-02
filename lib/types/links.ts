@@ -10,7 +10,7 @@ export interface Link {
   linkName: string;
   integrations: Integration[];
   settings: Settings;
-  owner:string
+  owner:{email:string,_id:string,fullName:string}
 }
 
 export interface Settings {

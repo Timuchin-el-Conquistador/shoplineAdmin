@@ -67,12 +67,9 @@ type PageProps = {
     email: string;
   };
   browserNotifications: boolean;
-  monthlyMinutesCapacity: number;
-  monthlyMinutesConsumed: number;
   numberOfCreatedLinks: number;
-  planName: string;
-  monthlyLinksCapacity: number;
-  subscriptionStatus: string;
+
+
 };
 
 function Settings(props: PageProps) {
@@ -278,23 +275,7 @@ function Settings(props: PageProps) {
               </dd>
             </div>
           )}
-          <div>
-            <dt>Subscription Plan</dt>{" "}
-            <dd className="group relative">
-              {props.planName}
-              <a href="/billing">
-                <SlButton
-                  size="small"
-                  variant="default"
-                  data-optional=""
-                  data-valid=""
-                  className="edit-btn"
-                >
-                  Edit
-                </SlButton>
-              </a>
-            </dd>
-          </div>{" "}
+
           <div>
             <dt className="whitespace-nowrap">
               <Link href="/users/sign_out">Sign out</Link> from your account
@@ -302,56 +283,7 @@ function Settings(props: PageProps) {
           </div>
         </dl>
       </div>{" "}
-      <h3 className="font-semibold text-lg mb-1 mt-8">Account Stats</h3>{" "}
-      <div className="bg-white p-6">
-        <dl style={{ marginTop: "-1rem" }}>
-          <div>
-            <dt># of Links</dt> <dd>{props.numberOfCreatedLinks}/{props.monthlyLinksCapacity} link</dd>
-          </div>{" "}
-          <div>
-            <dt>Monthly Minutes Capacity</dt>
-            <dd>
-              {props.monthlyMinutesCapacity}
-              {props.subscriptionStatus != "active" &&
-                props.subscriptionStatus != "trialing" && (
-                  <SlBadge
-                    variant="danger"
-                    className="inline-block sm:ml-2 ml-0 sm:mr-1 mr-0 sm:my-0"
-                    pulse
-                  >
-                    low
-                  </SlBadge>
-                )}
-             {' '} (<Link href="/billing">increase</Link>)
-            </dd>
-          </div>{" "}
-          <div>
-            <dt>Monthly Minutes Consumed</dt>{" "}
-            <dd>
-              {props.monthlyMinutesConsumed} (
-              {props.subscriptionStatus == "active" ||
-              props.subscriptionStatus == "trialing"
-                ? Math.round(
-                    props.monthlyMinutesConsumed/props.monthlyMinutesCapacity*100
-                    
-                  )
-                : 0}
-              %)
-              {props.subscriptionStatus != "active" &&
-                props.subscriptionStatus != "trialing" && (
-                  <SlBadge
-                    variant="danger"
-                    className="inline-block sm:ml-2 ml-0 sm:mr-1 mr-0 sm:my-0"
-                    pulse
-                  >
-                    low
-                  </SlBadge>
-                )}
-              {' '}(<Link href="/billing">increase</Link>)
-            </dd>
-          </div>
-        </dl>
-      </div>{" "}
+  
       <h3 className="font-semibold text-lg mb-1 mt-8">Notifications</h3>{" "}
       <div className="bg-white p-6">
         <dl style={{ marginTop: "-1rem" }}>

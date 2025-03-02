@@ -11,7 +11,6 @@ import { AudioLoadingSkeletonPulse } from "@/components/Loaders/pulse";
 
 type PageProps = {
   callId: string;
-  planName: string;
   retrieveAudioRecordUrlAction: (callId: string) => Promise<{
     status: number;
     message: string;
@@ -87,21 +86,9 @@ function Recording(props: PageProps) {
           {transcriptionUrl && (
             <div id="transcription" className="mt-6">
               <div className="mt-2 items-center dotted-container text-gray-400">
-                {props.planName == "Professional Plan" ||
-                props.planName == "Business Plan" ? (
-                  <a download={props.callId + "json"} href={transcriptionUrl}>
-                    Download Transcription
-                  </a>
-                ) : (
-                  <span>
-                    Transcription is not available on the Basic Plan. Please{" "}
-                    <a href="/billing/choose_plan" className="text-blue-500">
-                      {" "}
-                      upgrade{" "}
-                    </a>{" "}
-                    to a higher plan to access this feature.
-                  </span>
-                )}
+                <a download={props.callId + "json"} href={transcriptionUrl}>
+                  Download Transcription
+                </a>
               </div>
             </div>
           )}

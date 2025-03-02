@@ -2,32 +2,27 @@
 
 import dynamic from "next/dynamic";
 
-import {
-  IncompletePayment,
-  SubscriptionExpired,
-  NoActiveSubscription,
-} from "../Alerts/billing";
 import { NoDevice } from "../Alerts/warning";
 
-import { Plan } from "@/lib/types/billing";
+
 
 import { socket } from "@/utils/socket";
 
 import { Fragment, useCallback, useEffect, useState } from "react";
 
 import WebCallNotification from "../Notifications/call";
-import { CreateFirstLink, WatchTutorial } from "../modals/tutorial";
+
 
 import { type Call } from "@/lib/types/call";
+import { Settings } from "@/lib/types/links";
 
 import { useSessionStore } from "@/providers/session";
 
 import { useRouter } from "next/navigation";
 
-import useTutorial from "@/hooks/tutorial";
 import useLinkForm from "@/hooks/link-form";
-import { Settings } from "@/lib/types/links";
-import { updateSession } from "@/lib/session";
+
+
 
 const SlIcon = dynamic(
   // Notice how we use the full path to the component. If you only do `import("@shoelace-style/shoelace/dist/react")` you will load the entire component library and not get tree shaking.
@@ -48,20 +43,12 @@ const isProduction = process.env.NODE_ENV == "production";
 
 function Notifications({
   hasActiveDevices,
-  subscription,
   isNotificationsOn,
-  watchedTutorial,
-  monthlyMinutesCapacityReached,
-  prevMonthlyMinutesCapacityReached,
   user,
   createUrlAction,
 }: {
   isNotificationsOn: boolean;
   hasActiveDevices: boolean;
-  subscription: Plan;
-  watchedTutorial: boolean;
-  monthlyMinutesCapacityReached: boolean;
-  prevMonthlyMinutesCapacityReached: boolean;
   user: string;
   createUrlAction: (
     slug: string,
@@ -97,8 +84,7 @@ function Notifications({
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccessMesssage] = useState<string>("");
 
-  const { tutorial, toggleFirstModalState, toggleSecondModalState } =
-    useTutorial(!watchedTutorial);
+
 
   const { form, handleSlugChange } = useLinkForm({
     slug: "",
@@ -115,52 +101,9 @@ function Notifications({
     },
   });
 
-  //tutorial
-  const createLink = async () => {
-    setLoading(true);
-    const response = await createUrlAction(
-      form.link.slug,
-      form.link.linkName,
-      form.link.callStrategy,
-      form.link.connectedDevices.map((el) => el._id),
-      form.link.availability,
-      form.link.settings
-    );
 
-    setLoading(false);
 
-    if (response.status === 400) {
-      setErrorMessage(response.message);
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 2000);
-      return;
-    }
 
-    setSuccessMesssage(response.message);
-    setTimeout(() => {
-      setSuccessMesssage("");
-    }, 2000);
-
-    toggleFirstModalState(false); //close
-
-    setTimeout(() => {
-      toggleSecondModalState(true);
-    }, 500);
-  };
-
-  useEffect(() => {
-    async function updateCookie() {
-      await updateSession(
-        "monthlyMinutesCapacityReached",
-        monthlyMinutesCapacityReached
-      );
-    }
-    if (prevMonthlyMinutesCapacityReached == monthlyMinutesCapacityReached) {
-      return;
-    }
-    updateCookie();
-  }, []);
 
   useEffect(() => {
     if (!isNotificationsOn) return;
@@ -246,10 +189,7 @@ function Notifications({
             closeNoIntegratedDevicesAlert={closeNoIntegratedDevicesAlert}
           />
         )}
-        {subscription?.status == "incomplete_expired" ||
-          (subscription?.status == "past_due" && <SubscriptionExpired />)}
-        {subscription?.status == "incomplete" && <IncompletePayment />}
-        {subscription?.status == "canceled" && <NoActiveSubscription />}
+     
         <div className="fixed top-2 right-2 z-[9999] space-y-2">
           {notifications.map((call) => (
             <Fragment key={call._id}>
@@ -266,38 +206,9 @@ function Notifications({
           ))}
         </div>
 
-        <CreateFirstLink
-          modalIsOpen={tutorial.firstModalIsOpen}
-          slugStatus={form.slugStatus}
-          domain={
-            isProduction
-              ? process.env.NEXT_PUBLIC_FRONTEND_URL!
-              : process.env.NEXT_PUBLIC_FRONTEND_LOCAL_URL!
-          }
-          loading={loading}
-          handleSlugChange={(value: string) => {
-            handleSlugChange(value);
-            setTimeout(() => {
-              socket.emit("slug-validation", { slug: value });
-            }, 1000);
-          }}
-          createFirstLink={() => {
-            createLink();
-          }}
-        />
+   
 
-        <WatchTutorial
-          modalIsOpen={tutorial.secondModalIsOpen}
-          domain={
-            isProduction
-              ? process.env.NEXT_PUBLIC_FRONTEND_URL!
-              : process.env.NEXT_PUBLIC_FRONTEND_LOCAL_URL!
-          }
-          slug={form.link.slug}
-          closeModal={() => {
-            toggleSecondModalState(false); //close
-          }}
-        />
+
       </>
     );
   } else {

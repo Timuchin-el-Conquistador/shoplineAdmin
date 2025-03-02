@@ -6,11 +6,13 @@ import ShoelaceSetup from "./shoelace-setup";
 
 export const metadata: Metadata = {
   title: "ShopLine: One Click, Instant Sales",
-  description: "With ShopLine, every customer interaction is a chance to boost satisfaction, loyalty, and revenue. Get started today and elevate your e-commerce sales!s",
+  description:
+    "With ShopLine, every customer interaction is a chance to boost satisfaction, loyalty, and revenue. Get started today and elevate your e-commerce sales!s",
 };
 
 import { UserStoreProvider } from "@/providers/user";
 import { SessionStoreProvider } from "@/providers/session";
+import { CustomersStoreProvider } from "@/providers/customers";
 
 import { retrieveSession } from "@/lib/session";
 import { Session } from "@/lib/types/user";
@@ -38,14 +40,16 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       <body>
         <UserStoreProvider>
           <SessionStoreProvider>
-            <ShoelaceSetup>
-              <SocketConnectionLayout
-                isAuth={session != null}
-                userId={session?.userId || null}
-              >
-                {props.children}
-              </SocketConnectionLayout>
-            </ShoelaceSetup>
+            <CustomersStoreProvider>
+              <ShoelaceSetup>
+                <SocketConnectionLayout
+                  isAuth={session != null}
+                  userId={session?.userId || null}
+                >
+                  {props.children}
+                </SocketConnectionLayout>
+              </ShoelaceSetup>
+            </CustomersStoreProvider>
           </SessionStoreProvider>
         </UserStoreProvider>
       </body>

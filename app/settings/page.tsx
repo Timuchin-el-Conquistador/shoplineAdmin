@@ -22,13 +22,10 @@ async function SettingsPage() {
           fullName: account.fullName,
           email: account.email,
         }}
-        monthlyMinutesCapacity={account.monthlyMinutesCapacity}
-        monthlyMinutesConsumed={account.monthlyMinutesConsumed}
+  
         browserNotifications={account.browserNotifications}
         numberOfCreatedLinks={account.numberOfCreatedLinks}
-        planName={account.planName}
-        monthlyLinksCapacity={account.monthlyLinksCapacity}
-        subscriptionStatus={account.subscriptionStatus}
+
       />
     </Layout>
   );

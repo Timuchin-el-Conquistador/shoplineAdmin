@@ -5,7 +5,7 @@ import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 import Card from "@/components/cards/integration";
-import MaximumLimitReached from "@/components/modals/maximum-limit-reached";
+
 
 import "@/styles/dashboard.scss";
 
@@ -55,26 +55,7 @@ function Integrations(props: PageProps) {
                   {integrationsLength} / {props.monthlyIntegrationsCapacity}
                 </span>
               </div>{" "}
-              <div
-                className="sp-tooltip-body"
-                style={{ width: "300px", left: "5px" }}
-              >
-                <div
-                  className="sp-tooltip-arrow"
-                  style={{ left: "calc(50%)" }}
-                ></div>{" "}
-                <div>
-                  <div className="text-left">
-                    You have ({integrationsLength}) integrations. Your
-                    subscription plan allows up to (
-                    {props.monthlyIntegrationsCapacity}) integrations.
-                    <br />
-                    <br />
-                    To increase your integrations limit, upgrade your
-                    subscription plan from Dashboard &gt; Billing.
-                  </div>
-                </div>
-              </div>
+            
             </div>
 
           </div>{" "}
@@ -88,14 +69,7 @@ function Integrations(props: PageProps) {
         </div>
       </div>
 
-      <MaximumLimitReached
-        subscriptionFeature="Integrations"
-        subscriptionPlan={props.planName}
-        isOpen={maxLimitReached}
-        closeModal={() => {
-          setMaxLimitReached(false);
-        }}
-      />
+  
     </div>
   );
 }

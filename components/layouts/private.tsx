@@ -1,19 +1,20 @@
 import NotificationsLayout from "./notifications";
 
-import { retrieveSubscription } from "@/lib/actions/billing";
 import {
   retrieveDevices,
   retrieveAccountInformation,
 } from "@/lib/actions/user";
 import { createUrlAction } from "@/lib/actions/link";
+import { retrieveSession } from "@/lib/session";
+import {type  Session } from "@/lib/types/user";
 
 import Sidebar from "../sidebar";
 
 import ErrorBoundary from "../error-bound";
-import { retrieveSession } from "@/lib/session";
+
 import InternalServerError from "../Presentational/500";
 
-import {type  Session } from "@/lib/types/user";
+
 
 async function PrivateLayout({
   children,
@@ -29,11 +30,6 @@ async function PrivateLayout({
   const session = await retrieveSession() as Session;
   if (session == null) return <InternalServerError />;
 
-  const subscriptionResponse = await retrieveSubscription();
-  const subscription =
-    subscriptionResponse instanceof Error || subscriptionResponse == null
-      ? null
-      : subscriptionResponse;
 
   const devicesResponse = await retrieveDevices();
   const devices =
@@ -48,10 +44,7 @@ async function PrivateLayout({
 
   if (account == null) return <InternalServerError />;
 
-  const monthlyMinutesCapacity = session.monthlyMinutesCapacity as number;
 
-  const monthlyMinutesCapacityReached =
-    monthlyMinutesCapacity < account?.monthlyMinutesConsumed;
 
   return (
     <div className="flex overflow-hidden bg-gray-100 h-screen">
@@ -66,12 +59,8 @@ async function PrivateLayout({
         <main className="flex-1 relative overflow-y-auto focus:outline-none">
           <NotificationsLayout
             hasActiveDevices={devices.length > 0}
-            subscription={subscription}
-            watchedTutorial={session.watchedTutorial as boolean}
             isNotificationsOn={notifications}
             createUrlAction={createUrlAction}
-            monthlyMinutesCapacityReached={monthlyMinutesCapacityReached}
-            prevMonthlyMinutesCapacityReached={session.monthlyMinutesCapacityReached}
             user={session.fullName}
           />
           <ErrorBoundary>{children}</ErrorBoundary>

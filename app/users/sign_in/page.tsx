@@ -72,7 +72,7 @@ function Login() {
         <Image className="inline-block w-16 mt-8" src={Logo} alt="ShopLine" />
         <h2 className="text-xl mt-4">Sign-in to your account</h2>
         <h3 className=" text-sm font-medium text-gray-600">
-          or <Link href="/users/sign_up">start your 7-day free trial</Link>
+          or <Link href="/users/sign_up">create new account</Link>
         </h3>
       </div>
       <div className="authenticate-page p-4 sm:p-0">

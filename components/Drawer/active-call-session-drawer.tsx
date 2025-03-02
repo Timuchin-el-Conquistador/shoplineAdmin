@@ -53,7 +53,7 @@ type ComponentProps = {
   endSession:(callId:string) => void
 };
 
-function ActiveCallSessionDrawer(props: ComponentProps) {
+function Drawer(props: ComponentProps) {
   const firstName = props.callAnsweredBy.split(" ")[0];
   const lastName = props.callAnsweredBy.split(" ")[1];
   return (
@@ -192,4 +192,4 @@ function ActiveCallSessionDrawer(props: ComponentProps) {
   );
 }
 
-export default ActiveCallSessionDrawer;
+export default Drawer;
