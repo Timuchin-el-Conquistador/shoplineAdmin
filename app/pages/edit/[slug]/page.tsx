@@ -29,7 +29,7 @@ async function EditPage(props: { params: { slug: string } }) {
           slug: url.slug,
           availability: url.availability,
           callStrategy: url.callStrategy,
-          connectedDevices: url.connectedDevices,
+          connectedDevices: url.integrations.filter(el => el.category == 'mobile'),
           integrations: url.integrations,
           linkName: url.linkName,
           settings: {

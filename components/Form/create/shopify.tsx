@@ -1,24 +1,26 @@
-
-'use client'
+"use client";
 
 import dynamic from "next/dynamic";
 
-import '@/styles/integrations/device.scss'
+import "@/styles/integrations/device.scss";
 
-import { type Integration as IIntegration } from "@/lib/types/user";
+import Spinner from "@/components/Loaders/spinner";
+import { useRef } from "react";
 
-const SlTooltip = dynamic(
-  () => import("@shoelace-style/shoelace/dist/react/tooltip/index.js"),
+const SlButton = dynamic(
+  () => import("@shoelace-style/shoelace/dist/react/button/index.js"),
   {
-   // loading: () => <>Loading...</>,
+    // loading: () => <>Loading...</>,
     ssr: false,
   }
 );
 type ComponentProps = {
-  integration:IIntegration|null
-}
+  loading: boolean;
+  createIntegration: (storeDomain: string) => Promise<void>;
+};
+function Integration(props: ComponentProps) {
+  const storeDomainRef = useRef<HTMLInputElement | null>(null);
 
-function Integration(props:ComponentProps) {
   return (
     <div className="p-6">
       <div className="bg-white p-6">
@@ -26,7 +28,7 @@ function Integration(props:ComponentProps) {
           <div className="mb-6 border-b border-gray-200">
             <div className="flex items-center justify-between flex-wrap sm:flex-nowrap">
               <h3 className="text-2xl text-gray-900 pb-4">
-                {props.integration?.integrationType}<span className="text-gray-400 ml-2"></span>
+                Shopify <span className="text-gray-400 ml-2"></span>
               </h3>
             </div>
           </div>
@@ -34,31 +36,26 @@ function Integration(props:ComponentProps) {
 
         <div className="mb-12 grid max-w-4xl md:grid-cols-6 md:gap-4 md:px-12">
           <div className="text-center">
-            <img
-              src="/external-logos/mobile.svg"
-              className="w-32 mb-4 md:mb-0"
-            />
+            <img src="/shopify.png" className=" mb-4 md:mb-0" />
           </div>
 
           <div className="col-span-5 md:px-4 leading-6">
             <div id="mobile-view" className="w-xl md:ml-12">
               <div>
-                <p className="mb-6">
-                  To update please specify the device name below.
-                </p>{" "}
+                <p className="mb-6">To update please specify the name below.</p>{" "}
                 <label className="block">
-                  <b>Device Name</b>{" "}
+                  <b>Shopify Store Domain</b>{" "}
                   <input
                     type="text"
-                    placeholder="My Phone, Joe's Phone"
+                    placeholder="shopify store domain"
                     className="w-full sm:text-sm"
-                    defaultValue={props.integration?.name}
+                    ref={storeDomainRef}
                   />{" "}
-                  <span className="text-sm text-gray-500">
+                  {/*<span className="text-sm text-gray-500">
                     Help to identify the linked devices.
-                  </span>
+                  </span>*/}
                 </label>{" "}
-                <a className="text-blue-500 cursor-pointer md:-mt-4">
+                {/*<a className="text-blue-500 cursor-pointer md:-mt-4">
                   <svg
                     width="16"
                     height="16"
@@ -73,9 +70,9 @@ function Integration(props:ComponentProps) {
                     <use xlinkHref="/feather-sprite.svg#zap"></use>
                   </svg>
                   test
-                </a>
+                </a>*/}
               </div>{" "}
-              <div id="used-by-pages">
+              {/*<div id="used-by-pages">
                 <div>This integration is not connected to any page.</div>
               </div>{" "}
               <div className="mt-2 text-gray-500 text-sm">
@@ -88,7 +85,7 @@ function Integration(props:ComponentProps) {
                     Last seen today at 11:31 PM
                   </div>
                 </SlTooltip>
-              </div>
+              </div>*/}
             </div>
           </div>
         </div>
@@ -99,11 +96,30 @@ function Integration(props:ComponentProps) {
           action=""
           className="bg-white grid grid-cols-2 mt-24"
         >
-          <div className="text-left">
-            <button className="btn btn-red text-lg inline-block">Delete</button>
-          </div>{" "}
-          <div className="text-right">
-            <button className="btn btn-blue text-lg inline-block">Save</button>
+          <div className="w-full flex items-center justify-between mt-16 mb-1">
+            <SlButton
+              variant="default"
+              size="medium"
+              data-optional=""
+              data-valid=""
+              className="inline-block w-50"
+              onClick={() => {}}
+            >
+              Cancel
+            </SlButton>{" "}
+            <SlButton
+              variant="primary"
+              size="medium"
+              data-optional=""
+              data-valid=""
+              className="inline-block w-50"
+              onClick={async () => {
+                const storeDomain = storeDomainRef?.current?.value || "";
+                props.createIntegration(storeDomain);
+              }}
+            >
+              {props.loading ? <Spinner /> : "Save"}
+            </SlButton>
           </div>
         </form>
       </div>
@@ -111,5 +127,4 @@ function Integration(props:ComponentProps) {
   );
 }
 
-
-export default Integration
+export default Integration;

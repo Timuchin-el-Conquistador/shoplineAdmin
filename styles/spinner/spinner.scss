@@ -6,8 +6,9 @@
   .animated-circle {
     width: 10px;
     height: 10px;
-    background: #0056ff;      
+    background: #ffffff;      
     display: inline-flex;
+    border-radius: 50px;
   }
   
   .animated-circle.one {
@@ -16,6 +17,7 @@
   
   .animated-circle.two {
     animation: bounce-two 1.5s ease-in-out infinite;
+    margin: 0 10px;
   }
   
   .animated-circle.three {

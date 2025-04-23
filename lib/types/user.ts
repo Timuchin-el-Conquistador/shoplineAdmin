@@ -1,14 +1,12 @@
 import { Link } from "./links";
 
-
-
 export enum AccountStatus {
-  ACTIVE = "active",         // User is active and has an active subscription
-  INACTIVE = "inactive",     // User is inactive (e.g., did not renew subscription)
-  BLOCKED = "blocked",       // Admin has blocked the user
-  PENDING = "pending",       // Account is pending verification or approval
- // EXPIRED = "expired",       // Subscription has expired
-  SUSPENDED = "suspended",   // Temporarily suspended due to some issue
+  ACTIVE = "active", // User is active and has an active subscription
+  INACTIVE = "inactive", // User is inactive (e.g., did not renew subscription)
+  BLOCKED = "blocked", // Admin has blocked the user
+  PENDING = "pending", // Account is pending verification or approval
+  // EXPIRED = "expired",       // Subscription has expired
+  SUSPENDED = "suspended", // Temporarily suspended due to some issue
 }
 
 // Subscription status enum
@@ -18,20 +16,18 @@ export enum SubscriptionStatus {
   PAST_DUE = "past_due",
   CANCELED = "canceled",
   UNPAID = "unpaid",
-  PENDING = "pending",      
+  PENDING = "pending",
 }
-
-
 
 export interface User {
   _id: string;
   fullName: string;
   email: string;
-  lastLogin:string
-  createdOn:string
-  accountStatus:AccountStatus,
-  subscriptionStatus:SubscriptionStatus
-  planName:string
+  lastLogin: string;
+  createdOn: string;
+  accountStatus: AccountStatus;
+  subscriptionStatus: SubscriptionStatus;
+  planName: string;
 }
 export interface NewUser {
   fullName: string;
@@ -42,48 +38,33 @@ export interface NewUser {
 
 
 
-export interface  Integration  {
-  integrationType: string;
-  owner: User;
-  integratedOn: string;
-  _id: string;
-  createdOn: string;
-  lastLogin: string;
-  name: string;
-  uuid: string;
-  links:Link[]
-  toObject: () => Integration;
-  [key: string]: unknown;
-};
-
-
-export interface Session{
-  userId:string,
-  fullName: string,
-  email: string,
+export interface Session {
+  userId: string;
+  fullName: string;
+  email: string;
   //planName: string,
-  accountStatus:AccountStatus
- // monthlyMinutesCapacity: number,
- // monthlyLinksCapacity: number,
- // subscriptionStatus:string,
- // monthlyIntegrationsCapacity:number,
-//  watchedTutorial:boolean
-//  monthlyMinutesCapacityReached:boolean
+  accountStatus: AccountStatus;
+  // monthlyMinutesCapacity: number,
+  // monthlyLinksCapacity: number,
+  // subscriptionStatus:string,
+  // monthlyIntegrationsCapacity:number,
+  //  watchedTutorial:boolean
+  //  monthlyMinutesCapacityReached:boolean
   [key: string]: unknown;
 }
 
-export interface Account{
-  userId:string,
-  fullName: string,
-  email: string,
- // planName: string,
-//  monthlyMinutesCapacity: number,
- //// monthlyLinksCapacity: number,
- numberOfCreatedLinks: number,
-//  monthlyMinutesConsumed: number,
+export interface Account {
+  userId: string;
+  fullName: string;
+  email: string;
+  // planName: string,
+  //  monthlyMinutesCapacity: number,
+  //// monthlyLinksCapacity: number,
+  numberOfCreatedLinks: number;
+  //  monthlyMinutesConsumed: number,
   //subscriptionStatus:SubscriptionStatus,
   //monthlyIntegrationsCapacity:number,
-  browserNotifications:boolean,
-  accountStatus:AccountStatus
+  browserNotifications: boolean;
+  accountStatus: AccountStatus;
   //watchedTutorial:boolean
 }

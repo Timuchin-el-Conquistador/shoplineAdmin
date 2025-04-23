@@ -6,7 +6,7 @@ import { useRef, useState,useEffect } from "react";
 
 import Link from "next/link"
 
-import { type Integration as IIntegration } from "@/lib/types//user";
+import { type Integration as IIntegration } from "@/lib/types//integration";
 
 const SlRelativeTime = dynamic(
   () => import("@shoelace-style/shoelace/dist/react/relative-time/index.js"),
@@ -137,7 +137,7 @@ function Integration(props:ComponentProps) {
           >
             <div role="none" className="py-1">
               <Link
-                href={`/integrations/update/${props.integration._id}`}
+                href={`/integrations/update/mobile/${props.integration._id}`}
                 role="menuitem"
                 className="expandable-section-menu-item"
               >

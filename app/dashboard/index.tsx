@@ -29,7 +29,6 @@ function Dashboard(props: PageProps) {
   const [links, setLinks] = useState<ExtendedLink[]>([]);
   const [loaded, setLoadedState] = useState(false);
 
-  const [maxLimitReached, setMaxLimitReached] = useState(false);
 
   const [
     attemptingToDeleteLinkWarningModal,

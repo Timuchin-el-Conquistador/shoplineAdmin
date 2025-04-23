@@ -4,8 +4,8 @@ import { verifySession } from "../dal";
 
 import { redirect } from "next/navigation";
 
-import { type AccountStatus, type User, type Integration, type Account } from "../types/user";
-import { type Device } from "../types/device";
+import {  type User, type Account } from "../types/user";
+import { type Integration } from "../types/integration";
 
 import { fakeBackend } from "../axios";
 
@@ -50,8 +50,8 @@ export async function retrieveDevices() {
 
     if (!session) return redirect("/users/sign_in");
 
-    const path = `api/v1/user/${session.email}/devices/`;
-    const response: { message: string; devices: Device[] } = await fakeBackend.get(
+    const path = `api/v1/user/${session.email}/integrations/devices/`;
+    const response: { message: string; devices: Integration[] } = await fakeBackend.get(
       path
     );
 
@@ -120,7 +120,28 @@ export async function retrieveAccountInformation() {
   }
 }
 
+export async function createShopifyIntegrationAction(storeDomain:string) {
+  try {
+    const session = await verifySession();
 
+    if (!session) return redirect("/users/sign_in");
+
+    const path = `api/v1/user/${session.email}/integrations/shopify/create`;
+
+    const response: { message: string, authUrl?:string } = await fakeBackend.post(
+      path,
+      {storeDomain}
+    );
+
+    return { status: 200, message: response.message, authUrl:response.authUrl };
+  } catch (error:any) {
+    return {
+      status: error.status,
+      message: error instanceof Error ? error.message : String(error),
+    };
+}
+
+}
 
 
 export async function retrieveCustomerAccountInformationAction(email:string) {

@@ -29,8 +29,6 @@ async function IntegrationsPage() {
     <Layout page="integrations" sidebar={true} notifications={true}>
       <Integrations
         integrations={integrations}
-        monthlyIntegrationsCapacity={session.monthlyIntegrationsCapacity as number}
-
       />
     </Layout>
   );

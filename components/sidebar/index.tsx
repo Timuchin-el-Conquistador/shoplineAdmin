@@ -101,7 +101,7 @@ function Sidebar({
                     }`}
                   >
                     <img
-                      src="customers.png"
+                      src="/customers.png"
                       width="24"
                       height="24"
                       className="dashboard-sidebar-icon"

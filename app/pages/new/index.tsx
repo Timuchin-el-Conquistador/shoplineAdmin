@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 import DailyAvailability from "@/components/availability";
-import ConnectedDevice from "@/components/Integrations/connected-device";
+import ConnectedDevice from "@/components/integrations/connected-device";
 import NoConnectedDeviceWarning from "@/components/modals/no-connected-device-warning";
 import AvailableDevices from "@/components/modals/available-devices";
 
@@ -14,7 +14,6 @@ import useLinkForm from "@/hooks/link-form";
 import "@/styles/pages.new.scss";
 
 import { type Settings } from "@/lib/types/links";
-import { type Device } from "@/lib/types/device";
 
 import { useRouter } from "next/navigation";
 import { Fragment, useCallback, useMemo, useState } from "react";
@@ -24,7 +23,7 @@ import { socket } from "@/utils/socket";
 import Link from "next/link";
 
 import { QRCodeCanvas } from "qrcode.react";
-
+import { Integration } from "@/lib/types/integration";
 
 const SlButton = dynamic(
   () => import("@shoelace-style/shoelace/dist/react/button/index.js"),
@@ -65,16 +64,10 @@ const SlAlert = dynamic(
   }
 );
 
-const SlSpinner = dynamic(
-  () => import("@shoelace-style/shoelace/dist/react/spinner/index.js"),
-  {
-    //  loading: () => <>Loading...</>,
-    ssr: false,
-  }
-);
+
 type PageProps = {
   //integrations: IIntegration[];
-  devices: Device[];
+  devices: Integration[];
   hasDevices: boolean;
   domain: string;
   createUrlAction: (
@@ -130,23 +123,20 @@ function NewLink(props: PageProps) {
     customMessages: false,
   });
 
-  const checkedDevices: Device[] = [];
+  const checkedDevices: Integration[] = [];
 
   const linkDevices = useCallback(() => {
     connectDevices(checkedDevices);
     setAvailableDevicesModalState(false);
   }, [checkedDevices]);
 
-
-  function sanitizeInput(input:string) {
+  function sanitizeInput(input: string) {
     // Replace spaces or any character that's not alphanumeric or dash with a dash
-    return input.replace(/[^a-zA-Z0-9]/g, '-');
+    return input.replace(/[^a-zA-Z0-9]/g, "-");
   }
-  
-
 
   const createLink = async () => {
-    //setLoading(true);
+    setLoading(true);
     const response = await props.createUrlAction(
       form.link.slug,
       form.link.linkName,
@@ -156,7 +146,7 @@ function NewLink(props: PageProps) {
       form.link.settings
     );
 
-    //  setLoading(false);
+     setLoading(false);
     if (response.status === 400) {
       setErrorMessage(response.message);
 
@@ -168,36 +158,32 @@ function NewLink(props: PageProps) {
     router.back();
   };
 
+  const downloadQR = useCallback(() => {
+    const canvas = document.getElementById("qr-code") as HTMLCanvasElement;
 
+    if (!canvas) {
+      console.error("QR Code canvas not found");
+      return;
+    }
 
-    const downloadQR = useCallback(() => {
-      const canvas = document.getElementById("qr-code") as HTMLCanvasElement;
-      
-      if (!canvas) {
-        console.error("QR Code canvas not found");
-        return;
-      }
-    
-      const pngUrl = canvas.toDataURL("image/png"); // Keep "image/png"
-      
-      const downloadLink = document.createElement("a");
-      downloadLink.href = pngUrl;
-      downloadLink.download = `${form.link.slug || "qr-code"}.png`; // Default name if slug is missing
-    
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-    }, [form.link.slug]); // Ensure `form.link.slug` is properly included in dependencies
-    
-    const link = useMemo(() => {
-      return `https://${props.domain}/${form.link.slug}`;
-    }, [form.link.slug]);
+    const pngUrl = canvas.toDataURL("image/png"); // Keep "image/png"
+
+    const downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = `${form.link.slug || "qr-code"}.png`; // Default name if slug is missing
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  }, [form.link.slug]); // Ensure `form.link.slug` is properly included in dependencies
+
+  const link = useMemo(() => {
+    return `https://${props.domain}/${form.link.slug}`;
+  }, [form.link.slug]);
 
   return (
     <>
       <div id="main" className="p-6 mb-20">
-
-
         <div
           style={{
             position: "fixed",
@@ -242,13 +228,13 @@ function NewLink(props: PageProps) {
               <div className="md:w-1/2 relative">
                 <div className="flex relative">
                   <span className="flex items-center px-3 text-sm text-gray-950 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md max-w-48">
-                  {props.domain}
+                    {props.domain}
                   </span>{" "}
                   <input
                     name="Slug"
                     placeholder="yourname"
                     className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-3 pr-10 !truncate"
-                     value={form.link.slug}
+                    value={form.link.slug}
                     onChange={(event) => {
                       const value = sanitizeInput(event.target.value);
                       handleSlugChange(value);
@@ -313,14 +299,14 @@ function NewLink(props: PageProps) {
                   </span>
                 )}
                 <div className="mt-5">
-                <QRCodeCanvas value={link} id="qr-code" />
-                <button
-                  onClick={() => {
-                    downloadQR();
-                  }}
-                >
-                  Download
-                </button>
+                  <QRCodeCanvas value={link} id="qr-code" />
+                  <button
+                    onClick={() => {
+                      downloadQR();
+                    }}
+                  >
+                    Download
+                  </button>
                 </div>
               </div>
             </div>{" "}
@@ -638,14 +624,14 @@ function NewLink(props: PageProps) {
                   }
                 }}
               >
-                Save
+                    {loading ? <Spinner /> : 'Save'}
               </SlButton>
             </div>
           </div>
         </div>
       </div>
 
-      {loading ? <Spinner /> : null}
+
 
       <NoConnectedDeviceWarning
         isNoConnectedMobileDeviceModalVisible={

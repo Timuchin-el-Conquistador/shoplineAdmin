@@ -2,9 +2,9 @@
 
 import dynamic from "next/dynamic";
 
-import { Device } from "@/lib/types/device";
-
 import { Fragment } from "react";
+
+import { type Integration } from "@/lib/types/integration";
 
 const SlDialog = dynamic(
   () => import("@shoelace-style/shoelace/dist/react/dialog/index.js"),
@@ -34,9 +34,9 @@ type ComponentProps = {
   unlinkDeviceFromUrl: (deviceId: string) => void;
   linkDevices: () => void;
   isAvailableDevicesModalOpen: boolean;
-  checkedDevices: Device[];
-  availableDevices: Device[];
-  connectedDevices: Device[];
+  checkedDevices: Integration[];
+  availableDevices: Integration[];
+  connectedDevices: Integration[];
 };
 function AvailableDevices(props: ComponentProps) {
   return (
@@ -51,7 +51,7 @@ function AvailableDevices(props: ComponentProps) {
       <div className="bg-white rounded-md border border-gray-200">
         <div className="divide-y divide-gray-200 max-h-[40vh] overflow-scroll">
           <div className="flex flex-row pl-3 py-3 hover:bg-stone-100 text-sm h-16 cursor-pointer">
-            {props.availableDevices.map((device: Device) => (
+            {props.availableDevices.map((device: Integration) => (
               <Fragment key={device._id}>
                 <SlCheckbox
                   size="small"
@@ -70,13 +70,13 @@ function AvailableDevices(props: ComponentProps) {
                   }}
                   checked={
                     props.connectedDevices.findIndex(
-                      (el: Device) => el._id == device._id
+                      (el: Integration) => el._id == device._id
                     ) > -1
                   }
                 ></SlCheckbox>{" "}
                 <div className="flex flex-col w-full truncate ml-1">
                   <p className="text-gray-900 truncate font-medium">
-                    {device.ownerFullName}
+                    {device.owner.fullName}
                   </p>{" "}
                   <p className="text-gray-500 text-xs truncate items-center">
                     Mobile

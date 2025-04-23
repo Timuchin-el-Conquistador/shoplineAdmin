@@ -5,7 +5,8 @@ import { type Link } from "@/lib/types/links";
 import { socket } from "@/utils/socket";
 
 import { useEffect } from "react";
-import { Device } from "@/lib/types/device";
+
+import { Integration } from "@/lib/types/integration";
 
 type State = {
   link: Omit<Link, "integrations" | "owner" | "timeLength">;
@@ -26,7 +27,7 @@ type Action =
     }
   | {
       type: "CONNECT_DEVICE";
-      payload: Device[];
+      payload: Integration[];
     }
   | {
       type: "ONLINE_MESSAGE";
@@ -161,7 +162,7 @@ const useLinkForm = (
   const unlinkDeviceFromUrl = (deviceId: string) => {
     setForm({ type: "REMOVE_DEVICE", payload: deviceId });
   };
-  const connectDevices = (devices: Device[]) => {
+  const connectDevices = (devices: Integration[]) => {
     setForm({ type: "CONNECT_DEVICE", payload: devices });
   };
 

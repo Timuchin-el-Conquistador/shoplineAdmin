@@ -5,13 +5,12 @@ import dynamic from "next/dynamic";
 import "@/styles/pages.new.scss";
 
 import DailyAvailability from "@/components/availability";
-import ConnectedDevice from "@/components/Integrations/connected-device";
+import ConnectedDevice from "@/components/integrations/connected-device";
 import AvailableDevices from "@/components/modals/available-devices";
 
 import useLinkForm from "@/hooks/link-form";
 
 import { type Link as ILink } from "@/lib/types/links";
-import { type Device } from "@/lib/types/device";
 import { type Settings } from "@/lib/types/links";
 
 import { Fragment, useCallback, useMemo, useState } from "react";
@@ -22,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { socket } from "@/utils/socket";
 
 import { QRCodeCanvas } from "qrcode.react";
+import { Integration } from "@/lib/types/integration";
 
 const SlButton = dynamic(
   () => import("@shoelace-style/shoelace/dist/react/button/index.js"),
@@ -56,7 +56,7 @@ const SlIcon = dynamic(
 
 type PageProps = {
   link: Omit<ILink, "owner">;
-  devices: Device[];
+  devices: Integration[];
   hasConnectedDevices: boolean;
   hasDevices: boolean;
   domain: string;
@@ -101,7 +101,7 @@ function EditLink(props: PageProps) {
     customMessages: false,
   });
 
-  const checkedDevices: Device[] = [];
+  const checkedDevices: Integration[] = [];
 
   const linkDevices = useCallback(() => {
     connectDevices(checkedDevices);

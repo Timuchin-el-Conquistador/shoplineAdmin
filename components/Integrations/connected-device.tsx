@@ -1,7 +1,7 @@
 
 import dynamic from "next/dynamic"
 
-import { type Device } from "@/lib/types/device";
+import { type Integration } from "@/lib/types/integration";
 
 import Image from "next/image";
 
@@ -16,7 +16,7 @@ const SlTooltip = dynamic(
 
 type ComponentProps = {
   removeDeviceFromLink:(deviceId:string) => void,
-    device:Device
+    device:Integration
 }
 
 
