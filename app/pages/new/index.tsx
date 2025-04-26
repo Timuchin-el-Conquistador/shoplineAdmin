@@ -3,8 +3,8 @@
 import dynamic from "next/dynamic";
 
 import DailyAvailability from "@/components/availability";
-import ConnectedDevice from "@/components/integrations/connected-device";
-import ConnectedStore from "@/components/integrations/connected-store"
+import ConnectedDevice from '@/components/integrations/connected-device';
+import ConnectedStore from '@/components/integrations/connected-store';
 import NoConnectedDeviceWarning from "@/components/modals/no-connected-device-warning";
 import AvailableDevices from "@/components/modals/available-devices";
 import IntegratedStores from "@/components/modals/integarted-stores";
