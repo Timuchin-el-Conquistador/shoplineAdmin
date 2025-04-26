@@ -80,10 +80,10 @@ function Drawer(props: ComponentProps) {
         <div className="mt-4 text-gray-500 text-sm">Info</div>{" "}
         <div>
           {props.caller?.country}, {props.caller?.countryCode}
-          <small>
+       {props.caller?.info &&   <small>
             {props.caller?.info.browser}, {props.caller?.info.operatingSystem},{" "}
             {props.caller?.info.device}
-          </small>
+          </small>}
         </div>{" "}
         <hr className="my-4" />{" "}
         {props.callStatus == 'live' &&  <div>

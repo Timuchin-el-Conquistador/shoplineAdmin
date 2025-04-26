@@ -34,7 +34,7 @@ type ComponentProps = {
   unlinkDeviceFromUrl: (deviceId: string) => void;
   linkDevices: () => void;
   isAvailableDevicesModalOpen: boolean;
-  checkedDevices: Integration[];
+  checkedIntegrations: Integration[];
   availableDevices: Integration[];
   connectedDevices: Integration[];
 };
@@ -63,7 +63,7 @@ function AvailableDevices(props: ComponentProps) {
                     const checked = (event.target as HTMLInputElement).checked;
 
                     if (checked) {
-                      props.checkedDevices.push(device);
+                      props.checkedIntegrations.push(device);
                     } else {
                       props.unlinkDeviceFromUrl(device._id);
                     }

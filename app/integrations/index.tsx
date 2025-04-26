@@ -16,19 +16,22 @@ type PageProps = {
 };
 
 function Integrations(props: PageProps) {
-
   return (
     <div id="pages-grid" className="index-card-grid">
-      {props.integrations.filter(el => el.category == 'mobile').map((integration) => (
-        <Fragment key={integration._id}>
-          <DeviceIntegrations integration={integration} />
-        </Fragment>
-      ))}
-            {props.integrations.filter(el => el.category == 'shopify').map((integration) => (
-        <Fragment key={integration._id}>
-          <ShopifyIntegrations integration={integration} />
-        </Fragment>
-      ))}
+      {props.integrations
+        .filter((el) => el.category == "mobile")
+        .map((integration) => (
+          <Fragment key={integration._id}>
+            <DeviceIntegrations integration={integration} />
+          </Fragment>
+        ))}
+      {props.integrations
+        .filter((el) => el.category == "store")
+        .map((integration) => (
+          <Fragment key={integration._id}>
+            <ShopifyIntegrations integration={integration} />
+          </Fragment>
+        ))}
       <div
         className="index-card bordered"
         style={{

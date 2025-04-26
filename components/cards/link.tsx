@@ -96,7 +96,7 @@ function Card(props: ComponentProps) {
         <div className="mt-6">
           <div className="text-sm text-gray-400">Integrations</div>{" "}
           <div className="text-sm">
-            {props.connectedDevices.length} integration
+            {props.connectedDevices.length + props.stores.length} integration
           </div>
         </div>
       </div>

@@ -39,26 +39,15 @@ const SlAlert = dynamic(
     ssr: false,
   }
 );
-const isProduction = process.env.NODE_ENV == "production";
 
 function Notifications({
   hasActiveDevices,
   isNotificationsOn,
   user,
-  createUrlAction,
 }: {
   isNotificationsOn: boolean;
   hasActiveDevices: boolean;
   user: string;
-  createUrlAction: (
-    slug: string,
-    linkName: string,
-    callStrategy: string | null,
-    connectedDevices: string[],
-    //integrations: string[],
-    availability: string,
-    settings: Settings
-  ) => Promise<{ status: number; message: string }>;
 }) {
   const router = useRouter();
 
@@ -90,7 +79,7 @@ function Notifications({
     slug: "",
     availability: "offline",
     linkName: "Call me",
-    // integrations: [],
+     stores: [],
     callStrategy: null,
     connectedDevices: [],
     settings: {

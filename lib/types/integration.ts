@@ -15,5 +15,7 @@ export interface Integration {
   description:string,
   toObject: () => Integration;
   status: string;
+  from:string,
+  store:string;
   [key: string]: unknown;
 }

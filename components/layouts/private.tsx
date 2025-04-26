@@ -1,10 +1,9 @@
 import NotificationsLayout from "./notifications";
 
 import {
-  retrieveDevices,
+  hasDeviceIntegrations,
   retrieveAccountInformation,
 } from "@/lib/actions/user";
-import { createUrlAction } from "@/lib/actions/link";
 import { retrieveSession } from "@/lib/session";
 import {type  Session } from "@/lib/types/user";
 
@@ -31,10 +30,10 @@ async function PrivateLayout({
   if (session == null) return <InternalServerError />;
 
 
-  const devicesResponse = await retrieveDevices();
-  const devices =
+  const devicesResponse = await hasDeviceIntegrations();
+  const hasActiveDevices =
     devicesResponse instanceof Error || devicesResponse == null
-      ? []
+      ? false
       : devicesResponse;
 
   let response = await retrieveAccountInformation();
@@ -58,9 +57,8 @@ async function PrivateLayout({
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
         <main className="flex-1 relative overflow-y-auto focus:outline-none">
           <NotificationsLayout
-            hasActiveDevices={devices.length > 0}
+            hasActiveDevices={hasActiveDevices}
             isNotificationsOn={notifications}
-            createUrlAction={createUrlAction}
             user={session.fullName}
           />
           <ErrorBoundary>{children}</ErrorBoundary>

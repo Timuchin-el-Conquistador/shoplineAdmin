@@ -9,9 +9,9 @@ import { useEffect } from "react";
 import { Integration } from "@/lib/types/integration";
 
 type State = {
-  link: Omit<Link, "integrations" | "owner" | "timeLength">;
+  link: Omit<Link, "owner" | "timeLength">;
   message: null | string;
-  status: "loading" | "active" | "failed"|null ;
+  status: "loading" | "active" | "failed" | null;
   slugStatus: "checking" | "active" | "taken";
 };
 
@@ -19,6 +19,7 @@ type Action =
   | { type: "SLUG"; payload: string }
   | { type: "NAME"; payload: string }
   | { type: "REMOVE_DEVICE"; payload: string }
+  | { type: "REMOVE_STORE"; payload: string }
   | { type: "AVAILABILITY"; payload: string }
   | { type: "SLUGSTATUSCHANGE"; payload: "checking" | "active" | "taken" }
   | {
@@ -26,7 +27,11 @@ type Action =
       payload: { checked: boolean; field: "email" | "phone" };
     }
   | {
-      type: "CONNECT_DEVICE";
+      type: "CONNECT_DEVICES";
+      payload: Integration[];
+    }
+  | {
+      type: "CONNECT_STORES";
       payload: Integration[];
     }
   | {
@@ -68,12 +73,31 @@ const formReducer = (state: State, action: Action): State => {
           ),
         },
       };
-    case "CONNECT_DEVICE":
+      case "REMOVE_STORE":
+        return {
+          ...state,
+          link: {
+            ...state.link,
+            stores: state.link.stores.filter(
+              (el) => el._id !== action.payload
+            ),
+          },
+        };
+    case "CONNECT_DEVICES":
       return {
         ...state,
         link: {
           ...state.link,
           connectedDevices: [...state.link.connectedDevices, ...action.payload],
+          callStrategy: "call all devices at once",
+        },
+      };
+    case "CONNECT_STORES":
+      return {
+        ...state,
+        link: {
+          ...state.link,
+          stores: [...state.link.stores, ...action.payload],
           callStrategy: "call all devices at once",
         },
       };
@@ -136,18 +160,16 @@ const formReducer = (state: State, action: Action): State => {
   }
 };
 
-const useLinkForm = (
-  initialLink: Omit<Link, "timeLength" | "owner" | "integrations">
-) => {
+const useLinkForm = (initialLink: Omit<Link, "timeLength" | "owner">) => {
   const [form, setForm] = useReducer(formReducer, {
     link: initialLink,
     message: null,
     status: null,
-    slugStatus: 'active',
+    slugStatus: "active",
   });
 
-  const handleSlugChange = (slug: string,) => {
-    if ( form.link.slug == slug) {
+  const handleSlugChange = (slug: string) => {
+    if (form.link.slug == slug) {
       setForm({ type: "SLUGSTATUSCHANGE", payload: "active" });
     } else {
       setForm({ type: "SLUGSTATUSCHANGE", payload: "checking" });
@@ -162,10 +184,15 @@ const useLinkForm = (
   const unlinkDeviceFromUrl = (deviceId: string) => {
     setForm({ type: "REMOVE_DEVICE", payload: deviceId });
   };
-  const connectDevices = (devices: Integration[]) => {
-    setForm({ type: "CONNECT_DEVICE", payload: devices });
+  const unlinkStoreFromUrl = (deviceId: string) => {
+    setForm({ type: "REMOVE_STORE", payload: deviceId });
   };
-
+  const connectDevices = (devices: Integration[]) => {
+    setForm({ type: "CONNECT_DEVICES", payload: devices });
+  };
+  const connectStores = (stores: Integration[]) => {
+    setForm({ type: "CONNECT_STORES", payload: stores });
+  };
   const changeAvailability = (availability: string) => {
     setForm({ type: "AVAILABILITY", payload: availability });
   };
@@ -187,7 +214,6 @@ const useLinkForm = (
 
   useEffect(() => {
     socket.on("slug-validation-result", (response) => {
-
       setForm({
         type: "SLUGSTATUSCHANGE",
         payload: response.slugIsTaken ? "taken" : "active",
@@ -200,7 +226,9 @@ const useLinkForm = (
     handleSlugChange,
     handleLinkNameChange,
     unlinkDeviceFromUrl,
+    unlinkStoreFromUrl,
     connectDevices,
+    connectStores,
     changeAvailability,
     visitorFormFieldsChange,
     changeOnlineMessage,

@@ -41,7 +41,22 @@ export async function retrieveUser() {
   }
 }
 
+export async function retrieveStoreIntegrations(){
+  try {
+    const session = await verifySession();
 
+    if (!session) return redirect("/users/sign_in");
+
+    const path = `api/v1/user/${session.email}/integrations/shopify/stores`;
+    const response: { message: string; stores: Integration[] } = await fakeBackend.get(
+      path
+    );
+
+    return response.stores;
+  } catch (error) {
+    return error instanceof Error ? error : new Error(String(error));
+  }
+}
 
 
 export async function retrieveDevices() {
@@ -50,7 +65,8 @@ export async function retrieveDevices() {
 
     if (!session) return redirect("/users/sign_in");
 
-    const path = `api/v1/user/${session.email}/integrations/devices/`;
+    const path = `api/v1/user/${session.email}/integrations/devices`;
+
     const response: { message: string; devices: Integration[] } = await fakeBackend.get(
       path
     );
@@ -60,6 +76,26 @@ export async function retrieveDevices() {
     return error instanceof Error ? error : new Error(String(error));
   }
 }
+
+
+export async function hasDeviceIntegrations() {
+  try {
+    const session = await verifySession();
+
+    if (!session) return redirect("/users/sign_in");
+
+    const path = `api/v1/user/${session.email}/integrations/has-device-integrations`;
+
+    const response: { message: string; hasDeviceIntegartions: boolean} = await fakeBackend.get(
+      path
+    );
+
+    return response.hasDeviceIntegartions;
+  } catch (error) {
+    return error instanceof Error ? error : new Error(String(error));
+  }
+}
+
 
 export async function retrieveIntegrations() {
   try {
@@ -126,7 +162,7 @@ export async function createShopifyIntegrationAction(storeDomain:string) {
 
     if (!session) return redirect("/users/sign_in");
 
-    const path = `api/v1/user/${session.email}/integrations/shopify/create`;
+    const path = `api/v1/user/${session.email}/integrations/shopify/store/create`;
 
     const response: { message: string, authUrl?:string } = await fakeBackend.post(
       path,

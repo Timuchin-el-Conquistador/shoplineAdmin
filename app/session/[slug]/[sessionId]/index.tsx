@@ -46,6 +46,7 @@ function ActiveCallSession(props: PageProps) {
       setStatus("declined");
     }
     function callAnswered() {
+      alert('ANSWERED')
       setStatus("live");
     }
     function callEnded() {

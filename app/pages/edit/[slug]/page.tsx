@@ -1,9 +1,10 @@
 import Edit from ".";
 
 import Layout from "@/components/layouts/private";
+import InternalServerError from "@/components/Presentational/500";
 
 import { retrieveUrl, updateUrlAction } from "@/lib/actions/link";
-import { retrieveDevices } from "@/lib/actions/user";
+import { retrieveDevices, retrieveStoreIntegrations } from "@/lib/actions/user";
 
 async function EditPage(props: { params: { slug: string } }) {
   const urlResponse = await retrieveUrl(props.params.slug);
@@ -15,22 +16,32 @@ async function EditPage(props: { params: { slug: string } }) {
     devicesResponse instanceof Error || devicesResponse == null
       ? []
       : devicesResponse;
+  const retrieveIntegratedResponse = await retrieveStoreIntegrations();
+  const stores =
+  retrieveIntegratedResponse instanceof Error ||
+  retrieveIntegratedResponse == null
+      ? []
+      : retrieveIntegratedResponse;
 
-  if (url == null) return;
+
+  if (url == null) {
+    return <InternalServerError />;
+  };
   const isProduction = process.env.NODE_ENV == "production";
   return (
     <Layout page="pages" sidebar={true} notifications={true}>
       <Edit
         domain={
-          isProduction ? process.env.FRONTEND_URL! : process.env.LOCAL_FRONTEND_URL!
+          isProduction
+            ? process.env.FRONTEND_URL!
+            : process.env.LOCAL_FRONTEND_URL!
         }
         link={{
           _id: url._id,
           slug: url.slug,
           availability: url.availability,
           callStrategy: url.callStrategy,
-          connectedDevices: url.integrations.filter(el => el.category == 'mobile'),
-          integrations: url.integrations,
+          connectedDevices: url.connectedDevices,
           linkName: url.linkName,
           settings: {
             visitorForm: url.settings.visitorForm,
@@ -38,11 +49,11 @@ async function EditPage(props: { params: { slug: string } }) {
             offlineMessage: url.settings.offlineMessage,
             recording: true,
           },
+          stores: url.stores,
         }}
         updateUrlAction={updateUrlAction}
-        hasConnectedDevices={url.connectedDevices.length > 0}
-        hasDevices={devices.length > 0}
         devices={devices}
+        stores={stores}
       />
     </Layout>
   );

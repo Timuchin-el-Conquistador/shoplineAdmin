@@ -24,6 +24,8 @@ import Link from "next/link";
 
 import { QRCodeCanvas } from "qrcode.react";
 import { Integration } from "@/lib/types/integration";
+import IntegratedStores from "@/components/modals/integarted-stores";
+import ConnectedStore from "@/components/integrations/connected-store";
 
 const SlButton = dynamic(
   () => import("@shoelace-style/shoelace/dist/react/button/index.js"),
@@ -64,18 +66,17 @@ const SlAlert = dynamic(
   }
 );
 
-
 type PageProps = {
   //integrations: IIntegration[];
   devices: Integration[];
-  hasDevices: boolean;
+  stores: Integration[];
   domain: string;
   createUrlAction: (
     slug: string,
     linkName: string,
     callStrategy: string | null,
     connectedDevices: string[],
-    //integrations: string[],
+    stores: string[],
     availability: string,
     settings: Settings
   ) => Promise<{ status: number; message: string }>;
@@ -87,18 +88,20 @@ function NewLink(props: PageProps) {
     handleSlugChange,
     handleLinkNameChange,
     unlinkDeviceFromUrl,
+    unlinkStoreFromUrl,
     changeAvailability,
     visitorFormFieldsChange,
     connectDevices,
+    connectStores,
     changeOnlineMessage,
     changeOfflineMessage,
   } = useLinkForm({
     slug: "",
     availability: "online",
     linkName: "",
-    // integrations: [],
     callStrategy: null,
     connectedDevices: [],
+    stores: [],
     settings: {
       visitorForm: ["email"],
       onlineMessage: "Introduce yourself and press call.",
@@ -117,18 +120,24 @@ function NewLink(props: PageProps) {
 
   const [isAvailableDevicesModalOpen, setAvailableDevicesModalState] =
     useState(false);
+  const [isIntegratedStoresModalOpen, setIntegratedStoresModalState] =
+    useState(false);
 
   const [settingsVisibility, setSettingsVisibility] = useState({
     visitorForm: false,
     customMessages: false,
   });
 
-  const checkedDevices: Integration[] = [];
+  const checkedIntegrations: Integration[] = [];
 
   const linkDevices = useCallback(() => {
-    connectDevices(checkedDevices);
+    connectDevices(checkedIntegrations);
     setAvailableDevicesModalState(false);
-  }, [checkedDevices]);
+  }, [checkedIntegrations]);
+  const linkStores = useCallback(() => {
+    connectStores(checkedIntegrations);
+    setIntegratedStoresModalState(false);
+  }, [checkedIntegrations]);
 
   function sanitizeInput(input: string) {
     // Replace spaces or any character that's not alphanumeric or dash with a dash
@@ -142,11 +151,12 @@ function NewLink(props: PageProps) {
       form.link.linkName,
       form.link.callStrategy,
       form.link.connectedDevices.map((el) => el._id),
+      form.link.stores.map((el) => el._id),
       form.link.availability,
       form.link.settings
     );
 
-     setLoading(false);
+    setLoading(false);
     if (response.status === 400) {
       setErrorMessage(response.message);
 
@@ -180,7 +190,7 @@ function NewLink(props: PageProps) {
   const link = useMemo(() => {
     return `https://${props.domain}/${form.link.slug}`;
   }, [form.link.slug]);
-
+console.log(props.stores)
   return (
     <>
       <div id="main" className="p-6 mb-20">
@@ -349,15 +359,17 @@ function NewLink(props: PageProps) {
                 </p>
               </div>{" "}
               <div className="lg:w-1/2">
-                {form.link.connectedDevices.map((el) => (
-                  <Fragment key={el._id}>
-                    <ConnectedDevice
-                      device={el}
-                      removeDeviceFromLink={unlinkDeviceFromUrl}
-                    />
-                  </Fragment>
-                ))}
-                {!props.hasDevices ? (
+                {form.link.connectedDevices
+                  .filter((el) => el.category == "mobile")
+                  .map((el) => (
+                    <Fragment key={el._id}>
+                      <ConnectedDevice
+                        device={el}
+                        removeDeviceFromLink={unlinkDeviceFromUrl}
+                      />
+                    </Fragment>
+                  ))}
+                {!props.devices.length ? (
                   <div className="lg:w-full">
                     {" "}
                     <div
@@ -387,7 +399,7 @@ function NewLink(props: PageProps) {
                     + Add Device
                   </SlButton>
                 )}
-                {form.link.connectedDevices.length > 0 && (
+                {form.link.connectedDevices.length && (
                   <div className="flex items-start mt-7 text-sm">
                     <input
                       id="call-all-devices"
@@ -445,6 +457,63 @@ function NewLink(props: PageProps) {
                   </div>
                   </sl-tooltip>*/}
                 </div>
+              </div>
+            </div>
+            <hr />{" "}
+            <div className="lg:flex w-full">
+              <div className="flex flex-col lg:w-1/2">
+                <label className="font-medium text-md">Stores</label>{" "}
+                <p className="text-xs text-gray-400 mb-2 lg:mb-auto w-[95%]">
+                  Receive incoming calls from your store visitors
+                  <SlTooltip
+                    content="Different strategies determine how and when your devices are notified of incoming calls. You can set the strategy from options under the '+ Add Device' button and learn more about each option there."
+                    style={{ maxWidth: "300px" }}
+                  >
+                    <span className="text-blue-700 cursor-help underline">
+                      Learn more
+                    </span>
+                  </SlTooltip>
+                </p>
+              </div>{" "}
+              <div className="lg:w-1/2">
+                {form.link.stores
+                  .map((el) => (
+                    <Fragment key={el._id}>
+                      <ConnectedStore
+                        store={el}
+                        removeStoreFromLink={unlinkStoreFromUrl}
+                      />
+                    </Fragment>
+                  ))}
+                {!props.stores.length ? (
+                  <div className="lg:w-full">
+                    {" "}
+                    <div
+                      role="alert"
+                      className="mt-2 md:mt-auto bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-2 rounded-lg"
+                    >
+                      <p className="font-medium">Connect your store</p>{" "}
+                      <p className="text-xs mt-1">
+                        You did not connect a store
+                      </p>{" "}
+                      <Link
+                        href="/integrations/new/shopify"
+                        className="mt-2 inline-block text-xs font-semibold text-yellow-800 hover:text-yellow-600 hover:underline"
+                      >
+                        + Add Store
+                      </Link>
+                    </div>{" "}
+                  </div>
+                ) : (
+                  <SlButton
+                    className="text-blue-700 text-sm cursor-pointer mt-2 block"
+                    onClick={() => {
+                      setIntegratedStoresModalState(true);
+                    }}
+                  >
+                    + Add Store
+                  </SlButton>
+                )}
               </div>
             </div>
             <hr />
@@ -617,21 +686,23 @@ function NewLink(props: PageProps) {
                 data-valid=""
                 className="inline-block"
                 onClick={async () => {
-                  if (!form.link.connectedDevices.length) {
+                  if (
+                    !form.link.connectedDevices.filter(
+                      (el) => el.category == "mobile"
+                    ).length
+                  ) {
                     setNoConnectedMobileDeviceModalVisibility(true);
                   } else {
                     createLink();
                   }
                 }}
               >
-                    {loading ? <Spinner /> : 'Save'}
+                {loading ? <Spinner /> : "Save"}
               </SlButton>
             </div>
           </div>
         </div>
       </div>
-
-
 
       <NoConnectedDeviceWarning
         isNoConnectedMobileDeviceModalVisible={
@@ -651,9 +722,18 @@ function NewLink(props: PageProps) {
         setAvailableDevicesModalState={setAvailableDevicesModalState}
         unlinkDeviceFromUrl={unlinkDeviceFromUrl}
         linkDevices={linkDevices}
-        checkedDevices={checkedDevices}
+        checkedIntegrations={checkedIntegrations}
         availableDevices={props.devices}
         connectedDevices={form.link.connectedDevices}
+      />
+      <IntegratedStores
+        isIntegratedStoresModalOpen={isIntegratedStoresModalOpen}
+        setIntegratedStoresModalState={setIntegratedStoresModalState}
+        unlinkStores={unlinkStoreFromUrl}
+        linkStores={linkStores}
+        checkedIntegrations={checkedIntegrations}
+        integratedStores={props.stores}
+        connectedStores={form.link.stores}
       />
     </>
   );

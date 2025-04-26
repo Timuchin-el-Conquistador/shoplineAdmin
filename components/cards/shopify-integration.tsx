@@ -99,7 +99,7 @@ function Integration(props:ComponentProps) {
               className="text-sm"
             >
               <div className="cursor-pointer w-fit">
-            Last seen  <SlRelativeTime date={isoDate} />
+              <SlRelativeTime date={isoDate} />
               </div>
             </SlTooltip>
           </div>

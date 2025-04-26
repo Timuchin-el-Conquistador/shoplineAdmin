@@ -5,10 +5,10 @@ export interface Link {
   _id?: string;
   slug: string;
   connectedDevices: Integration[];
+  stores:Integration[],
   callStrategy: string | null;
   availability: string;
   linkName: string;
-  integrations: Integration[];
   settings: Settings;
   owner:{email:string,_id:string,fullName:string}
 }
