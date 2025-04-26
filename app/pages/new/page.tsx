@@ -6,7 +6,7 @@ import { createUrlAction } from "@/lib/actions/link";
 
 import { retrieveDevices,retrieveStoreIntegrations } from "@/lib/actions/user";
 
-async function NewLinkPage(props: { params: { slug: string } }) {
+async function NewLinkPage() {
   //const integrationsResponse = await retrieveIntegrations();
   // const integrations  = integrationsResponse instanceof Error || integrationsResponse == null ? [] : integrationsResponse;
   const devicesResponse = await retrieveDevices();
