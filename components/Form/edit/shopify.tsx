@@ -26,6 +26,8 @@ function Integration(props: ComponentProps) {
   const [success, setSuccessMesssage] = useState<string>("");
 
   const storeDomainRef = useRef<HTMLInputElement | null>(null);
+
+
   return (
     <div className="p-6">
       <div className="bg-white p-6">
@@ -113,7 +115,7 @@ function Integration(props: ComponentProps) {
               className="inline-block w-50"
               onClick={() => {}}
             >
-              Cancel
+              Delete
             </SlButton>{" "}
             <SlButton
               variant="primary"
@@ -121,9 +123,8 @@ function Integration(props: ComponentProps) {
               data-optional=""
               data-valid=""
               className="inline-block w-50"
-              onClick={async () => {}}
             >
-              {loading ? <Spinner /> : "Save"}
+              {loading ? <Spinner /> : "Delete"}
             </SlButton>
           </div>
         </form>

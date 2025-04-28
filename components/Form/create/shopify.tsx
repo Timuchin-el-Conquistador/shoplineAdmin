@@ -7,6 +7,8 @@ import "@/styles/integrations/device.scss";
 import Spinner from "@/components/Loaders/spinner";
 import { useRef } from "react";
 
+import { useRouter} from "next/navigation";
+
 const SlButton = dynamic(
   () => import("@shoelace-style/shoelace/dist/react/button/index.js"),
   {
@@ -18,7 +20,19 @@ type ComponentProps = {
   loading: boolean;
   createIntegration: (storeDomain: string) => Promise<void>;
 };
+
+
+function sanitizeUrl(url: string): string  {
+  try {
+    const parsedUrl = new URL(url.startsWith('http') ? url : `https://${url}`);
+    return parsedUrl.hostname; // returns subdomain.domain.com
+  } catch (error) {
+    console.error('Invalid URL:', error);
+    return '';
+  }
+}
 function Integration(props: ComponentProps) {
+const router = useRouter()
   const storeDomainRef = useRef<HTMLInputElement | null>(null);
 
   return (
@@ -103,7 +117,9 @@ function Integration(props: ComponentProps) {
               data-optional=""
               data-valid=""
               className="inline-block w-50"
-              onClick={() => {}}
+              onClick={() => {
+        router.replace('/integrations')
+              }}
             >
               Cancel
             </SlButton>{" "}
@@ -114,7 +130,10 @@ function Integration(props: ComponentProps) {
               data-valid=""
               className="inline-block w-50"
               onClick={async () => {
-                const storeDomain = storeDomainRef?.current?.value || "";
+                const input = storeDomainRef?.current?.value || "";
+
+                const storeDomain = sanitizeUrl(input); 
+
                 props.createIntegration(storeDomain);
               }}
             >

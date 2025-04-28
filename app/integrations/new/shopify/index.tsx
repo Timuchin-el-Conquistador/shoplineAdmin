@@ -54,6 +54,7 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
     }
 
     if (response.message == "authentification") {
+      setLoading(false);
       window.open(
         response.authUrl!,
         //"https://b6a9-37-61-113-83.ngrok-free.app/auth",
@@ -65,10 +66,9 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
         // 🔐 Optional: Validate the origin
         // if (event.origin !== 'https://your-app.com') return;
 
-        const { token, shop } = event.data;
+        const {  shop } = event.data;
 
-        if (token && shop) {
-          console.log("Received token from popup:", token);
+        if ( shop) {
           console.log("Shop domain:", shop);
 
           // ✅ You can now:
@@ -76,7 +76,7 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
           // - Send it to your backend for validation
           // - Redirect user, etc.
 
-          socket.emit("shopify-token-validation", { shop, token });
+          socket.emit("shopify-token-validation", { shop });
         } else {
           console.warn("Missing token or shop in message");
         }
@@ -85,7 +85,10 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
       return;
     }
     setLoading(false);
-    router.push("/integrations");
+    setSuccessMesssage("Store integration is succeseful");
+    setTimeout(() => {
+      router.push("/integrations");
+    }, 2000);
   };
 
   useEffect(() => {
@@ -93,7 +96,6 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
       valid: boolean;
       storeDomain?:string
     }) => {
-      console.log(data)
       if (data.valid) {
         setSuccessMesssage("Store authentification is succeseful");
         createIntegration(data.storeDomain!)

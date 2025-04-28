@@ -25,7 +25,7 @@ const SlTooltip = dynamic(
 );
 
 type ComponentProps = {
-
+  removeIntegration:(integrationId:string) => void
   integration:IIntegration
 }
 
@@ -140,15 +140,20 @@ function Integration(props:ComponentProps) {
             className="expandable-section-menu bg-white divide-y divide-gray-100 focus:outline-none"
             style={{bottom: '-15%'}}
           >
-            <div role="none" className="py-1">
-              <Link
-                href={`/integrations/update/shopify/${props.integration._id}`}
+        
+        <div role="none" className="py-1">
+              <button
                 role="menuitem"
-                className="expandable-section-menu-item"
+                className="expandable-section-menu-item delete-button w-full text-left"
+                onClick={() => {
+                  props.removeIntegration(props.integration._id);
+                  setDropDownVisibility(false); // Close or perform an action
+                }}
               >
-                Edit
-              </Link>
-            </div>{" "}
+                Delete
+              </button>
+            </div>
+
 
       
           </div>

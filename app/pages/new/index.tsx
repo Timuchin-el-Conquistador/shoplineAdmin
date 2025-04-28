@@ -190,7 +190,7 @@ function NewLink(props: PageProps) {
   const link = useMemo(() => {
     return `https://${props.domain}/${form.link.slug}`;
   }, [form.link.slug]);
-console.log(props.stores)
+
   return (
     <>
       <div id="main" className="p-6 mb-20">
