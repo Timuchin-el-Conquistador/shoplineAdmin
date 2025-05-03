@@ -6,8 +6,9 @@ import "@/styles/modal.scss";
 import dynamic from "next/dynamic";
 import Timer from "./timer";
 
+import { socket } from "@/utils/socket";
 
-import {socket} from '@/utils/socket'
+import { useEffect, useState } from "react";
 
 const SlSpinner = dynamic(
   () => import("@shoelace-style/shoelace/dist/react/spinner/index.js"),
@@ -17,40 +18,49 @@ const SlSpinner = dynamic(
   }
 );
 
-
-
 type ComponentProps = {
-  linkName:string;
-  callId:string
-}
+  linkName: string;
+  callId: string;
+};
 
-function ConnectingCall(props:ComponentProps) {
+function ConnectingCall(props: ComponentProps) {
+  const [time, setTime] = useState(0); // time in seconds
 
+  useEffect(() => {
+    const interval = setInterval(function () {
+      setTime((prevTime) => prevTime + 1);
+    }, 1000);
+    return () => clearInterval(interval); // cleanup on unmount
+  }, []);
 
-  const sendAsMissedCall = () =>{
-  socket.emit('missed-call', {callId:props.callId})
-  }
+  const sendAsMissedCall = () => {
+    socket.emit("missed-call", { callId: props.callId });
+  };
   return (
-
-      <div
-        id="visitor-dialog"
-        className="modal-dialog no-transition visible"
-        style={{ position: "relative", top: "0", left: "0", height:'fit-content' }}
-      >
-        <div className="status-card m-3">
-          <div className="status online"></div>{" "}
-          <div className="title">{props.linkName}</div>{" "}
-          <div className="subtitle">Online</div>
+    <div
+      id="visitor-dialog"
+      className="modal-dialog no-transition visible"
+      style={{
+        position: "relative",
+        top: "0",
+        left: "0",
+        height: "fit-content",
+      }}
+    >
+      <div className="status-card m-3">
+        <div className="status online"></div>{" "}
+        <div className="title">{props.linkName}</div>{" "}
+        <div className="subtitle">Online</div>
+      </div>{" "}
+      <div className="m-3 mt-6">
+        <div className="text-center my-4">
+          <SlSpinner></SlSpinner>
         </div>{" "}
-        <div className="m-3 mt-6">
-          <div className="text-center my-4">
-            <SlSpinner></SlSpinner>
-          </div>{" "}
-          <div>Ringing... may take 1-3 minutes. Keep this window open.</div>{" "}
-          <Timer sendAsMissedCall={sendAsMissedCall}/>
-        </div>
+        <div>Ringing... may take 1-3 minutes. Keep this window open.</div>{" "}
+        <Timer sendAsMissedCall={sendAsMissedCall} time={time} />
       </div>
 
+    </div>
   );
 }
 

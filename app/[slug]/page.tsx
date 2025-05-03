@@ -41,7 +41,7 @@ async function SessionPage(props: { params: { slug: string } }) {
     );
   }
   return (
-    <PublicLayout email={url.owner.email}>
+    <PublicLayout email={url.owner?.email}>
       <Visitor slug={slug} url={url} />
     </PublicLayout>
   );

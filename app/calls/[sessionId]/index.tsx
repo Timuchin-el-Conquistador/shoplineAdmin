@@ -38,6 +38,7 @@ type PageProps = {
   callStatus: string;
   answeredBy: string;
   declinedBy: string;
+
 };
 
 function Details(props: PageProps) {
@@ -85,6 +86,16 @@ function Details(props: PageProps) {
 						"
               >
                 Recording
+              </Link>
+           <Link
+                href={`/calls/${props.callId}/voicemail`}
+                className="
+							whitespace-nowrap py-4 px-2 sm:px-6 border-b-2 border-transparent font-medium text-sm focus:outline-none
+							hover:text-blue-500 hover:border-blue-300
+							text-gray-500 
+						"
+              >
+                 Voice mail
               </Link>
             </nav>
           </div>

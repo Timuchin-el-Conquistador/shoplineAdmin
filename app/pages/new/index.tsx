@@ -7,7 +7,7 @@ import ConnectedDevice from '@/components/integrations/connected-device';
 import ConnectedStore from '@/components/integrations/connected-store';
 import NoConnectedDeviceWarning from "@/components/modals/no-connected-device-warning";
 import AvailableDevices from "@/components/modals/available-devices";
-import IntegratedStores from "@/components/modals/integarted-stores";
+import IntegratedStores from "@/components/modals/integrated-stores";
 import Spinner from "@/components/Loaders/spinner";
 
 import useLinkForm from "@/hooks/link-form";

@@ -7,7 +7,7 @@ import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 
 import DeviceIntegrations from "@/components/cards/device-integration";
-import ShopifyIntegrations from "@/components/cards/shopify-integration";
+import StoreIntegration from "@/components/cards/store-integration";
 import { CardSkeletonPulse } from "@/components/Loaders/pulse";
 
 import "@/styles/dashboard.scss";
@@ -75,7 +75,7 @@ function Integrations(props: PageProps) {
       }, 2000);
       return;
     }
-
+    setIntegrations(prevState => prevState.filter(el => el._id != integrationId))
     setSuccessMesssage(response.message);
 
     setTimeout(() => {
@@ -143,7 +143,7 @@ function Integrations(props: PageProps) {
         .filter((el) => el.category == "store")
         .map((integration) => (
           <Fragment key={integration._id}>
-            <ShopifyIntegrations
+            <StoreIntegration
               integration={integration}
               removeIntegration={removeIntegration}
             />

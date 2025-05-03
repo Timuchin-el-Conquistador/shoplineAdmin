@@ -2,32 +2,21 @@ import { useEffect, useRef, useState } from "react";
 
 import { formatMMSSTime } from "@/utils/timer";
 
-export default function Timer(props: { sendAsMissedCall: () => void }) {
-  const [time, setTime] = useState(0); // time in seconds
+export default function Timer(props: { sendAsMissedCall: () => void, time:number }) {
 
 
-  const countRef = useRef(time); // Store latest state
-  
-  useEffect(() => {
-    countRef.current = time; // Update ref whenever state updates
-  }, [time]);
 
   useEffect(() => {
-    const interval = setInterval(function(){
 
-      if (countRef.current/60 >3) {
-        props.sendAsMissedCall();
-        return clearInterval(interval);
-      }
-      setTime((prevTime) => prevTime + 1);
-    }, 1000);
+    setTimeout(() => {
+      props.sendAsMissedCall();
+    }, 1000 *60 *3)
 
-    return () => clearInterval(interval); // cleanup on unmount
   }, []);
 
   return (
     <div className="mt-2 text-sm text-gray-500">
-      Waiting since {formatMMSSTime(time)}
+      Waiting since {formatMMSSTime(props.time)}
     </div>
   );
 }

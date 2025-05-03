@@ -2,8 +2,8 @@ import Recording from ".";
 
 import Layout from "@/components/layouts/private";
 
+import { retrieveAudioRecordUrlAction,retrieveCall } from "@/lib/actions/call";
 
-import { retrieveAudioRecordUrlAction } from "@/lib/actions/call";
 
 async function RecordingPage(props: { params: { sessionId: string } }) {
 
@@ -13,6 +13,7 @@ async function RecordingPage(props: { params: { sessionId: string } }) {
       <Recording
         callId={props.params.sessionId}
         retrieveAudioRecordUrlAction={retrieveAudioRecordUrlAction}
+
       />
     </Layout>
   );

@@ -137,7 +137,7 @@ function ActiveCallSession(props: PageProps) {
           </div>
         </>
       );
-    } else if (status == "ended") {
+    } else if (status == "ended" || status == 'missed') {
       return (
         <>
           <div id="animated-background" className="">

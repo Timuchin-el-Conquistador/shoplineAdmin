@@ -85,7 +85,7 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
       return;
     }
     setLoading(false);
-    setSuccessMesssage("Store integration is succeseful");
+    setSuccessMesssage(response.message);
     setTimeout(() => {
       router.push("/integrations");
     }, 2000);

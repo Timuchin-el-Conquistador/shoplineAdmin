@@ -8,7 +8,7 @@ import DailyAvailability from "@/components/availability";
 import ConnectedDevice from '@/components/integrations/connected-device';
 import ConnectedStore from '@/components/integrations/connected-store';
 import AvailableDevices from "@/components/modals/available-devices";
-import IntegratedStores from "@/components/modals/integarted-stores";
+import IntegratedStores from "@/components/modals/integrated-stores";
 
 import useLinkForm from "@/hooks/link-form";
 
