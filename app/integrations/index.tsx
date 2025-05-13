@@ -75,15 +75,15 @@ function Integrations(props: PageProps) {
       }, 2000);
       return;
     }
-    setIntegrations(prevState => prevState.filter(el => el._id != integrationId))
+    setIntegrations((prevState) =>
+      prevState.filter((el) => el._id != integrationId)
+    );
     setSuccessMesssage(response.message);
 
     setTimeout(() => {
       setSuccessMesssage("");
     }, 2000);
   };
-
-
 
   return (
     <div id="pages-grid" className="index-card-grid">

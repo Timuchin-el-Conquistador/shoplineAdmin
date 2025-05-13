@@ -2,9 +2,9 @@ import Image from "next/image";
 
 import dynamic from "next/dynamic";
 
-import { useRef, useState,useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 
-import Link from "next/link"
+import Link from "next/link";
 
 import { type Integration as IIntegration } from "@/lib/types//integration";
 
@@ -25,49 +25,46 @@ const SlTooltip = dynamic(
 );
 
 type ComponentProps = {
+  integration: IIntegration;
+};
 
-  integration:IIntegration
-}
+function Integration(props: ComponentProps) {
+  const [isDropdownVisible, setDropDownVisibility] = useState(false);
 
+  const elementRef = useRef<HTMLDivElement | null>(null);
 
-function Integration(props:ComponentProps) {
-      const [isDropdownVisible, setDropDownVisibility] = useState(false);
-    
-      const elementRef = useRef<HTMLDivElement | null>(null);
-    
-      const handleOutsideClick = (event: MouseEvent) => {
-        if (
-          elementRef.current &&
-          !elementRef.current.contains(event.target as Node)
-        ) {
-          setDropDownVisibility(false); // Close or perform an action
-        }
-      };
-    
-      useEffect(() => {
-        // Add event listener to detect clicks
-        document.addEventListener("mousedown", handleOutsideClick);
-    
-        // Cleanup the event listener
-        return () => {
-          document.removeEventListener("mousedown", handleOutsideClick);
-        };
-      }, []);
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (
+      elementRef.current &&
+      !elementRef.current.contains(event.target as Node)
+    ) {
+      setDropDownVisibility(false); // Close or perform an action
+    }
+  };
 
+  useEffect(() => {
+    // Add event listener to detect clicks
+    document.addEventListener("mousedown", handleOutsideClick);
 
-               // Step 1: Remove the ordinal suffix (e.g., "nd")
-          
-               const cleanedDateString = props.integration.lastLogin.replace(
-                /(\d+)(st|nd|rd|th)/,
-                "$1"
-              );
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
-              // Step 2: Parse the date
-              const date = new Date(cleanedDateString);
+  // Step 1: Remove the ordinal suffix (e.g., "nd")
 
-              // Step 3: Convert to ISO 8601 format
-              const isoDate = date.toISOString();
-              //const isoDate= moment(call.callStartedTime).toISOString();
+  const cleanedDateString = props.integration.lastLogin.replace(
+    /(\d+)(st|nd|rd|th)/,
+    "$1"
+  );
+
+  // Step 2: Parse the date
+  const date = new Date(cleanedDateString);
+
+  // Step 3: Convert to ISO 8601 format
+  const isoDate = date.toISOString();
+  //const isoDate= moment(call.callStartedTime).toISOString();
   return (
     <div className="index-card item-overflow-visible relative">
       {" "}
@@ -98,7 +95,7 @@ function Integration(props:ComponentProps) {
               className="text-sm"
             >
               <div className="cursor-pointer w-fit">
-            Last seen  <SlRelativeTime date={isoDate} />
+                Last seen <SlRelativeTime date={isoDate} />
               </div>
             </SlTooltip>
           </div>
@@ -106,10 +103,10 @@ function Integration(props:ComponentProps) {
       </div>{" "}
       <div className="index-card-footer">
         <div className="w-full">
-        <button
-          className="index-card-footer-button full-button"
-          onClick={() => setDropDownVisibility((state) => !state)}
-        >
+          <button
+            className="index-card-footer-button full-button"
+            onClick={() => setDropDownVisibility((state) => !state)}
+          >
             <svg
               width="16"
               height="16"
@@ -133,7 +130,7 @@ function Integration(props:ComponentProps) {
             aria-orientation="vertical"
             aria-labelledby="options-menu"
             className="expandable-section-menu bg-white divide-y divide-gray-100 focus:outline-none"
-            style={{bottom: '-15%'}}
+            style={{ bottom: "-15%" }}
           >
             <div role="none" className="py-1">
               <Link
@@ -144,8 +141,6 @@ function Integration(props:ComponentProps) {
                 Edit
               </Link>
             </div>{" "}
-
-      
           </div>
         )}
       </div>
@@ -153,5 +148,4 @@ function Integration(props:ComponentProps) {
   );
 }
 
-
-export default Integration
+export default Integration;

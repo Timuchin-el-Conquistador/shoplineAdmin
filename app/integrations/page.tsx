@@ -2,7 +2,7 @@ import Integrations from ".";
 
 import {
   retrieveIntegrationsActions,
-  removeIntegration,
+  removeIntegration
 } from "@/lib/actions/user";
 import { retrieveSession } from "@/lib/session";
 import { type Session } from "@/lib/types/user";

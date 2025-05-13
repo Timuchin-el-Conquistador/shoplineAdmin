@@ -38,7 +38,7 @@ export async function retrieveStoreIntegrations() {
 
     if (!session) return redirect("/users/sign_in");
 
-    const path = `api/v1/user/${session.email}/integrations/shopify/stores`;
+    const path = `api/v1/user/${session.email}/integrations/stores`;
     const response: { message: string; stores: Integration[] } =
       await fakeBackend.get(path);
 
@@ -46,6 +46,35 @@ export async function retrieveStoreIntegrations() {
   } catch (error) {
     return error instanceof Error ? error : new Error(String(error));
   }
+}
+
+export async function selectAgentAvatarAction(
+  integrationId:string,
+  presenterId: string,
+  driverId: string,
+  voice: { id: string; provider: string }
+) {
+  try {
+    const session = await verifySession();
+
+    if (!session) return redirect("/users/sign_in");
+
+    const path = `api/v1/user/${session.email}/integrations/${integrationId}/agent`;
+    const response: { message: string } =
+      await fakeBackend.put(path, { presenterId, driverId, voice });
+
+      return {
+        status: 200,
+        message: response.message,
+
+      };
+    } catch (error: any) {
+      return {
+        status: error.status,
+        message: error instanceof Error ? error.message : String(error),
+
+      };
+    }
 }
 
 export async function retrieveDevices() {
@@ -107,18 +136,18 @@ export async function retrieveIntegrationsActions() {
     const response: { message: string; integrations: Integration[] } =
       await fakeBackend.get(path);
 
-      return {
-        status: 200,
-        message: response.message,
-        integrations: response.integrations,
-      };
-    } catch (error: any) {
-      return {
-        status: error.status,
-        message: error instanceof Error ? error.message : String(error),
-        integrations: [],
-      };
-    }
+    return {
+      status: 200,
+      message: response.message,
+      integrations: response.integrations,
+    };
+  } catch (error: any) {
+    return {
+      status: error.status,
+      message: error instanceof Error ? error.message : String(error),
+      integrations: [],
+    };
+  }
 }
 export async function retrieveIntegration(integrationId: string) {
   try {
@@ -156,23 +185,6 @@ export async function removeIntegration(integrationId: string) {
   }
 }
 
-export async function retrieveAccountInformation() {
-  try {
-    const session = await verifySession();
-
-    if (!session) return redirect("/users/sign_in");
-
-    const path = `api/v1/admin/${session.email}`;
-
-    const response: { message: string; account: Account } =
-      await fakeBackend.get(path);
-
-    return response.account;
-  } catch (error) {
-    return error instanceof Error ? error : new Error(String(error));
-  }
-}
-
 export async function createShopifyIntegrationAction(storeDomain: string) {
   try {
     const session = await verifySession();
@@ -194,6 +206,23 @@ export async function createShopifyIntegrationAction(storeDomain: string) {
       status: error.status,
       message: error instanceof Error ? error.message : String(error),
     };
+  }
+}
+
+export async function retrieveAccountInformation() {
+  try {
+    const session = await verifySession();
+
+    if (!session) return redirect("/users/sign_in");
+
+    const path = `api/v1/admin/${session.email}`;
+
+    const response: { message: string; account: Account } =
+      await fakeBackend.get(path);
+
+    return response.account;
+  } catch (error) {
+    return error instanceof Error ? error : new Error(String(error));
   }
 }
 
