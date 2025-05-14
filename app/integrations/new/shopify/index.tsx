@@ -52,9 +52,9 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
       }, 2000);
       return;
     }
-
+    setLoading(false);
     if (response.message == "authentification") {
-      setLoading(false);
+ 
       window.open(
         response.authUrl!,
         //"https://b6a9-37-61-113-83.ngrok-free.app/auth",
@@ -65,26 +65,23 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
       window.addEventListener("message", (event) => {
         // 🔐 Optional: Validate the origin
         // if (event.origin !== 'https://your-app.com') return;
+        if(event.origin !== `https://${process.env.NEXT_PUBLIC_FRONTEND_URL}`) return
 
         const {  shop } = event.data;
 
         if ( shop) {
-          console.log("Shop domain:", shop);
-
-          // ✅ You can now:
-          // - Save token in state or localStorage
-          // - Send it to your backend for validation
-          // - Redirect user, etc.
-
           socket.emit("shopify-token-validation", { shop });
         } else {
-          console.warn("Missing token or shop in message");
+          setErrorMessage('Something went wrong');
+          setTimeout(() => {
+            setErrorMessage("");
+          }, 2000);
         }
       });
 
       return;
     }
-    setLoading(false);
+
     setSuccessMesssage(response.message);
     setTimeout(() => {
       router.push("/integrations");

@@ -17,6 +17,7 @@ const routes = [
   /^\/settings$/,
   /^\/customers$/,
   /^\/integrations$/,
+  /^\/integrations\/([a-zA-Z0-9.-]+)$/,
   /^\/integrations\/new$/,
   /^\/integrations\/new\/mobile$/,
   /^\/integrations\/new\/shopify$/,
@@ -46,6 +47,7 @@ const protectedRoutes = [
   /^\/settings$/,
   /^\/customers$/,
   /^\/integrations$/,
+  /^\/integrations\/([a-zA-Z0-9.-]+)$/,
   /^\/integrations\/new$/,
   /^\/integrations\/new\/mobile$/,
   /^\/integrations\/new\/shopify$/,
@@ -54,7 +56,6 @@ const protectedRoutes = [
   /^\/pages\/new$/,
   /^\/pages\/edit\/([a-zA-Z0-9]+)$/,
   /^\/users\/sign_out$/,
-
 ];
 //public
 const publicRoutes = [
@@ -66,8 +67,6 @@ const publicRoutes = [
   /^\/users\/sign_up$/,
   /^\/$/,
 ];
-
-
 
 export default async function middleware(req: NextRequest) {
   // 2. Check if the current route is protected or public
@@ -106,9 +105,8 @@ export default async function middleware(req: NextRequest) {
 
   // 4. Redirect to /login if the user is not authenticated
   if (isProtectedRoute && !session?.userId) {
-    return NextResponse.redirect(new URL("/users/sign_in", req.nextUrl));
+    return NextResponse.redirect(new URL("/users/sign_up", req.nextUrl));
   }
-
 
   // 6. Redirect to /dashboard if the user is authenticated
   if (
@@ -130,6 +128,7 @@ export default async function middleware(req: NextRequest) {
 
   //check if rout eexist
   const isRouteExist = routes.some((route) => route.test(path));
+
   if (!isRouteExist) {
     return NextResponse.rewrite(new URL("/dashboard", req.nextUrl));
   }

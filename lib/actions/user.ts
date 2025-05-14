@@ -191,7 +191,7 @@ export async function createShopifyIntegrationAction(storeDomain: string) {
 
     if (!session) return redirect("/users/sign_in");
 
-    const path = `api/v1/user/${session.email}/integrations/shopify/store/create`;
+    const path = `api/v1/user/${session.email}/integrations/store/create`;
 
     const response: { message: string; authUrl?: string } =
       await fakeBackend.post(path, { storeDomain });
