@@ -5,9 +5,8 @@ import dynamic from "next/dynamic";
 import "@/styles/integrations/mobile.scss";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-import { socket } from "@/utils/socket";
 import Integration from "@/components/Form/create/shopify";
 
 const SlIcon = dynamic(
@@ -35,11 +34,13 @@ type PageProps = {
 function ShopifyStoreIntegrationPage(props: PageProps) {
   const router = useRouter();
 
-  const [error, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setErrorMessage] = useState<string>("");
   const [success, setSuccessMesssage] = useState<string>("");
+  const [isAuthRequired, setAuthRequiredState] = useState<boolean>(false);
 
   const createIntegration = async (storeDomain: string) => {
+
     setLoading(true);
     const response = await props.createShopifyIntegrationAction(storeDomain);
 
@@ -53,31 +54,18 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
       return;
     }
     setLoading(false);
-    if (response.message == "authentification") {
- 
+    if (response.message == "authentification-required") {
+      setAuthRequiredState(true);
+
+      setTimeout(() => {
+       setAuthRequiredState(false)
+      }, 10 * 1000);
+
       window.open(
         response.authUrl!,
-        //"https://b6a9-37-61-113-83.ngrok-free.app/auth",
         "popupWindow",
         "width=600,height=400,scrollbars=no,resizable=no"
       );
-
-      window.addEventListener("message", (event) => {
-        // 🔐 Optional: Validate the origin
-        // if (event.origin !== 'https://your-app.com') return;
-        if(event.origin !== `https://${process.env.NEXT_PUBLIC_FRONTEND_URL}`) return
-
-        const {  shop } = event.data;
-
-        if ( shop) {
-          socket.emit("shopify-token-validation", { shop });
-        } else {
-          setErrorMessage('Something went wrong');
-          setTimeout(() => {
-            setErrorMessage("");
-          }, 2000);
-        }
-      });
 
       return;
     }
@@ -88,34 +76,8 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
     }, 2000);
   };
 
-  useEffect(() => {
-    const processShopifyStoreTokenValidationResult = (data: {
-      valid: boolean;
-      storeDomain?:string
-    }) => {
-      if (data.valid) {
-        setSuccessMesssage("Store authentification is succeseful");
-        createIntegration(data.storeDomain!)
-        setTimeout(() => {
-          router.push("/integrations");
-        }, 2000);
-      } else {
-        setErrorMessage("oauth failed");
-      }
-      setLoading(false);
-    };
-    socket.on(
-      "shopify-token-validation-result",
-      processShopifyStoreTokenValidationResult
-    );
 
-    return () => {
-      socket.off(
-        "shopify-token-validation-result",
-        processShopifyStoreTokenValidationResult
-      );
-    };
-  }, [socket]);
+
 
   return (
     <div id="main" className="p-6 mb-20">
@@ -131,6 +93,29 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
           <SlIcon slot="icon" name="info-circle"></SlIcon>
           <div className="flex items-center">
             <strong>{success}</strong>
+          </div>
+        </SlAlert>
+      </div>
+
+      <div
+        style={{
+          position: "fixed",
+          right: "15px",
+          top: "15px",
+          display: isAuthRequired ? "block" : "none",
+        }}
+      >
+        <SlAlert variant="success" open={isAuthRequired}>
+          <SlIcon slot="icon" name="info-circle"></SlIcon>
+          <div className="flex items-center">
+            <strong>
+              Authentication Required!
+              <br />
+              Please install and authenticate the app before continuing.
+              <br />
+              After completing the authentication, return to the main window to
+              proceed with integration.
+            </strong>
           </div>
         </SlAlert>
       </div>

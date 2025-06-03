@@ -16,14 +16,15 @@ async function EditPage(props: { params: { slug: string } }) {
     devicesResponse instanceof Error || devicesResponse == null
       ? []
       : devicesResponse;
-  const retrieveIntegratedResponse = await retrieveStoreIntegrations();
+
+  const retrieveStoreIntegrationsResponse = await retrieveStoreIntegrations();
   const stores =
-  retrieveIntegratedResponse instanceof Error ||
-  retrieveIntegratedResponse == null
+  retrieveStoreIntegrationsResponse instanceof Error ||
+  retrieveStoreIntegrationsResponse == null
       ? []
-      : retrieveIntegratedResponse;
+      : retrieveStoreIntegrationsResponse;
 
-
+console.log(devicesResponse,retrieveStoreIntegrationsResponse)
   if (url == null) {
     return <InternalServerError />;
   };
