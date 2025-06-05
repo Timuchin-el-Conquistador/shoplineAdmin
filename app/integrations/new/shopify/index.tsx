@@ -5,9 +5,8 @@ import dynamic from "next/dynamic";
 import "@/styles/integrations/mobile.scss";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-import { socket } from "@/utils/socket";
 import Integration from "@/components/Form/create/shopify";
 
 const SlIcon = dynamic(
@@ -35,11 +34,13 @@ type PageProps = {
 function ShopifyStoreIntegrationPage(props: PageProps) {
   const router = useRouter();
 
-  const [error, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setErrorMessage] = useState<string>("");
   const [success, setSuccessMesssage] = useState<string>("");
+  const [isAuthRequired, setAuthRequiredState] = useState<boolean>(false);
 
   const createIntegration = async (storeDomain: string) => {
+
     setLoading(true);
     const response = await props.createShopifyIntegrationAction(storeDomain);
 
@@ -53,11 +54,15 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
       return;
     }
     setLoading(false);
-    if (response.message == "authentification") {
- 
+    if (response.message == "authentification-required") {
+      setAuthRequiredState(true);
+
+      setTimeout(() => {
+       setAuthRequiredState(false)
+      }, 10 * 1000);
+
       window.open(
         response.authUrl!,
-        //"https://b6a9-37-61-113-83.ngrok-free.app/auth",
         "popupWindow",
         "width=600,height=400,scrollbars=no,resizable=no"
       );
@@ -137,6 +142,29 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
           <SlIcon slot="icon" name="info-circle"></SlIcon>
           <div className="flex items-center">
             <strong>{success}</strong>
+          </div>
+        </SlAlert>
+      </div>
+
+      <div
+        style={{
+          position: "fixed",
+          right: "15px",
+          top: "15px",
+          display: isAuthRequired ? "block" : "none",
+        }}
+      >
+        <SlAlert variant="success" open={isAuthRequired}>
+          <SlIcon slot="icon" name="info-circle"></SlIcon>
+          <div className="flex items-center">
+            <strong>
+              Authentication Required!
+              <br />
+              Please install and authenticate the app before continuing.
+              <br />
+              After completing the authentication, return to the main window to
+              proceed with integration.
+            </strong>
           </div>
         </SlAlert>
       </div>
