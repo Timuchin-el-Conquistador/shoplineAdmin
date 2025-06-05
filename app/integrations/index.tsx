@@ -44,9 +44,11 @@ type PageProps = {
 function Integrations(props: PageProps) {
   const [integrations, setIntegrations] = useState<Integration[]>([]);
 
-  const [error, setErrorMessage] = useState<string>("");
+
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setErrorMessage] = useState<string>("");
   const [success, setSuccessMesssage] = useState<string>("");
+
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -99,21 +101,6 @@ function Integrations(props: PageProps) {
           <SlIcon slot="icon" name="info-circle"></SlIcon>
           <div className="flex items-center">
             <strong>{success}</strong>
-          </div>
-        </SlAlert>
-      </div>
-      <div
-        style={{
-          position: "fixed",
-          right: "15px",
-          top: "15px",
-          display: loading ? "block" : "hidden",
-        }}
-      >
-        <SlAlert variant="success" open={loading}>
-          <SlIcon slot="icon" name="info-circle"></SlIcon>
-          <div className="flex items-center">
-            <strong>Removing...</strong>
           </div>
         </SlAlert>
       </div>

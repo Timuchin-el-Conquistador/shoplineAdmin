@@ -40,7 +40,6 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
   const [isAuthRequired, setAuthRequiredState] = useState<boolean>(false);
 
   const createIntegration = async (storeDomain: string) => {
-
     setLoading(true);
     const response = await props.createShopifyIntegrationAction(storeDomain);
 
@@ -58,7 +57,7 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
       setAuthRequiredState(true);
 
       setTimeout(() => {
-       setAuthRequiredState(false)
+        setAuthRequiredState(false);
       }, 10 * 1000);
 
       window.open(
@@ -70,20 +69,20 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
       window.addEventListener("message", (event) => {
         // 🔐 Optional: Validate the origin
         // if (event.origin !== 'https://your-app.com') return;
-        if(event.origin !== `https://${process.env.NEXT_PUBLIC_FRONTEND_URL}`) return
+        if (event.origin !== `https://${process.env.NEXT_PUBLIC_FRONTEND_URL}`)
+          return;
 
-        const {  shop } = event.data;
+        const { shop } = event.data;
 
-        if ( shop) {
-         // socket.emit("shopify-token-validation", { shop });
-         setSuccessMesssage("Store authentification is succeseful");
-         createIntegration(shop)
-         setTimeout(() => {
-           router.push("/integrations");
-         }, 2000);
-
+        if (shop) {
+          // socket.emit("shopify-token-validation", { shop });
+          setSuccessMesssage("Store authentification is succeseful");
+          createIntegration(shop);
+          setTimeout(() => {
+            router.push("/integrations");
+          }, 2000);
         } else {
-          setErrorMessage('Something went wrong');
+          setErrorMessage("Something went wrong");
           setTimeout(() => {
             setErrorMessage("");
           }, 2000);
@@ -160,10 +159,10 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
             <strong>
               Authentication Required!
               <br />
-              Please install and authenticate the app before continuing.
+              Please install and authenticate the app to continue.
               <br />
-              After completing the authentication, return to the main window to
-              proceed with integration.
+              Once authentication is complete, the integration will be fully set
+              up.
             </strong>
           </div>
         </SlAlert>
