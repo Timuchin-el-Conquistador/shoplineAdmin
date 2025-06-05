@@ -70,7 +70,13 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
         const {  shop } = event.data;
 
         if ( shop) {
-          socket.emit("shopify-token-validation", { shop });
+         // socket.emit("shopify-token-validation", { shop });
+         setSuccessMesssage("Store authentification is succeseful");
+         createIntegration(shop)
+         setTimeout(() => {
+           router.push("/integrations");
+         }, 2000);
+
         } else {
           setErrorMessage('Something went wrong');
           setTimeout(() => {
@@ -88,7 +94,7 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
     }, 2000);
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     const processShopifyStoreTokenValidationResult = (data: {
       valid: boolean;
       storeDomain?:string
@@ -115,7 +121,7 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
         processShopifyStoreTokenValidationResult
       );
     };
-  }, [socket]);
+  }, [socket]);*/
 
   return (
     <div id="main" className="p-6 mb-20">
