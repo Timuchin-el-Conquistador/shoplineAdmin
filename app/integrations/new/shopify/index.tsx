@@ -153,7 +153,7 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
           display: isAuthRequired ? "block" : "none",
         }}
       >
-        <SlAlert variant="success" open={isAuthRequired}>
+        <SlAlert variant="primary" open={isAuthRequired}>
           <SlIcon slot="icon" name="info-circle"></SlIcon>
           <div className="flex items-center">
             <strong>
