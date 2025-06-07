@@ -8,12 +8,12 @@
 		border-radius: 0.5rem;
 		text-align: center;
 		height: 18rem;
-		margin-right: 1rem;
-		margin-bottom: 1rem;
 		background-color: #FFF;
 		padding-bottom: 20px;
 	}
-
+	.integ-card:last-child{
+		margin-bottom: 100px;
+	}
 	.integ-card img
 	{
 		display: inline-block;
