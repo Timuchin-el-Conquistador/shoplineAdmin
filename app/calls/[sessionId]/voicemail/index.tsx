@@ -27,10 +27,9 @@ function Voicemail(props: PageProps) {
     async function retrieveCallRecordId(callId: string) {
       setLoadingState(true);
       const response = await props.retrieveVoicemail(callId);
-console.log(response)
       if (response.status == 200) {
         setVoicemailUrl(response.voicemailUrl!);
-   
+
       }
       setLoadingState(false);
     }

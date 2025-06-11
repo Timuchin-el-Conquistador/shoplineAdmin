@@ -5,9 +5,9 @@ import "@shoelace-style/shoelace/dist/themes/light.css";
 import ShoelaceSetup from "./shoelace-setup";
 
 export const metadata: Metadata = {
-  title: "ShopLine: One Click, Instant Sales",
+  title: "Shoporia: One Click, Instant Sales",
   description:
-    "With ShopLine, every customer interaction is a chance to boost satisfaction, loyalty, and revenue. Get started today and elevate your e-commerce sales!s",
+    "With Shoporia, every customer interaction is a chance to boost satisfaction, loyalty, and revenue. Get started today and elevate your e-commerce sales!s",
 };
 
 import { UserStoreProvider } from "@/providers/user";

@@ -41,7 +41,7 @@ function Sidebar({
               <a href="/">
                 <Image
                   className="inline-block"
-                  src="/logo.svg"
+                  src="/shoporialogo.svg"
                   alt="logo"
                   width={150}
                   height={0}
@@ -278,7 +278,7 @@ function Sidebar({
             <Link href="/dashboard">
               <Image
                 className="inline-block"
-                src="/logo.svg"
+                src="/shoporialogo.svg"
                 alt="logo"
                 width={100}
                 height={0}

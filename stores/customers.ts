@@ -60,7 +60,6 @@ export const createCustomersStore = (
             success: response.message,
           }));
         } catch (error) {
-            console.log('ERROR', error)
           set((prevState) => ({
             ...prevState,
             loaded: true,

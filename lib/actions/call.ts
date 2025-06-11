@@ -59,6 +59,7 @@ export async function retrieveAudioRecordUrlAction(callId:string) {
 
     return { status:200, message:response.message,recordUrl:response.recordUrl,transcriptionUrl:response.transcriptionUrl };
   } catch (error) {
+    
     return { status:400, message: error instanceof Error ? error.message : String(error),recordUrl:null,transcriptionUrl:null  };
   }
 }

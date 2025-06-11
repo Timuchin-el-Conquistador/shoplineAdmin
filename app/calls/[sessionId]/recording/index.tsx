@@ -28,10 +28,9 @@ function Recording(props: PageProps) {
     async function retrieveCallRecordId(callId: string) {
       setLoadingState(true);
       const response = await props.retrieveAudioRecordUrlAction(callId);
-
       if (response.status == 200) {
-        setRecordUrl(response.recordUrl!);
-        setTranscriptionUrl(response.transcriptionUrl!);
+        setRecordUrl(response.recordUrl ?? '');
+        setTranscriptionUrl(response.transcriptionUrl ?? '');
       }
       setLoadingState(false);
     }
