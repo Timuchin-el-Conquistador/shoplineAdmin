@@ -10,9 +10,7 @@ import { redirect } from "next/navigation";
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
-export async function encrypt(
-  payload:Session
-) {
+export async function encrypt(payload: Session) {
   return new SignJWT(payload as JWTPayload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -20,9 +18,9 @@ export async function encrypt(
     .sign(encodedKey);
 }
 
-export async function decrypt(session: string | undefined = "") {
+export async function decrypt(token: string | undefined = "") {
   try {
-    const { payload } = await jwtVerify(session, encodedKey, {
+    const { payload } = await jwtVerify(token, encodedKey, {
       algorithms: ["HS256"],
     });
 
@@ -33,9 +31,7 @@ export async function decrypt(session: string | undefined = "") {
   }
 }
 
-export async function createSession(
-  user: Session
-) {
+export async function createSession(user: Session) {
   //const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const session = await encrypt(user);
 
@@ -46,15 +42,11 @@ export async function createSession(
   });
 }
 
-export async function updateSession(
-  field: keyof Session,
-  value: any
-) {
+export async function updateSession(field: keyof Session, value: any) {
   "use server";
 
   const cookie = await cookies().get("session")?.value;
-  const payload = (await decrypt(cookie)) as Session
-
+  const payload = (await decrypt(cookie)) as Session;
 
   payload[field] = value;
 
@@ -67,7 +59,6 @@ export async function updateSession(
   });
 }
 
-
 export async function retrieveSession() {
   "use server";
 
@@ -79,6 +70,18 @@ export async function retrieveSession() {
   }
   return session;
 }
+
+export async function retrieveShopifyStore() {
+  "use server";
+
+  const cookie = (await cookies()).get("shopify");
+  const store = await decrypt(cookie?.value);
+  if (!store?.storeId) {
+    return { storeId: null };
+  }
+  return store;
+}
+
 export async function deleteSessionAction() {
   "use server";
   // Access cookies and delete the session cookie

@@ -17,7 +17,6 @@ const routes = [
   /^\/settings$/,
   /^\/customers$/,
   /^\/integrations$/,
-  /^\/integrations\/([a-zA-Z0-9.-]+)$/,
   /^\/integrations\/new$/,
   /^\/integrations\/new\/mobile$/,
   /^\/integrations\/new\/shopify$/,
@@ -47,7 +46,6 @@ const protectedRoutes = [
   /^\/settings$/,
   /^\/customers$/,
   /^\/integrations$/,
-  /^\/integrations\/([a-zA-Z0-9.-]+)$/,
   /^\/integrations\/new$/,
   /^\/integrations\/new\/mobile$/,
   /^\/integrations\/new\/shopify$/,
@@ -71,9 +69,9 @@ const publicRoutes = [
 export default async function middleware(req: NextRequest) {
   // 2. Check if the current route is protected or public
   const path = req.nextUrl.pathname;
-  const token = req.nextUrl.searchParams.get("token");
-
-  if (token) {
+  // const token = req.nextUrl.searchParams.get("token"); //mobile
+  const shopifyToken = req.nextUrl.searchParams.get("shopify_token");
+  /* if (token) {
     try {
       // Validate and extract user data from the token (replace with your actual token validation logic)
       const userData = await validateToken(token); // Your function to validate the token
@@ -86,6 +84,25 @@ export default async function middleware(req: NextRequest) {
         // Redirect to the dashboard or default authenticated page
         return response;
       }
+    } catch (error) {
+      // Redirect to login on invalid token
+      return NextResponse.redirect(new URL("/users/sign_in", req.nextUrl));
+    }
+  }*/
+
+  if (shopifyToken) {
+    try {
+      // Validate and extract user data from the token (replace with your actual token validation logic)
+      //const shop = await validateToken(shopifyToken); // Your function to validate the token
+      //    if (shop) {
+      // Encrypt and set the session cookie
+      const response = NextResponse.next();
+      //const session = await encrypt(shop);
+      response.cookies.set("shopify", shopifyToken);
+
+      // Redirect to the dashboard or default authenticated page
+      return response;
+      //     }
     } catch (error) {
       // Redirect to login on invalid token
       return NextResponse.redirect(new URL("/users/sign_in", req.nextUrl));

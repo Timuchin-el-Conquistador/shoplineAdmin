@@ -13,6 +13,7 @@ import { CardSkeletonPulse } from "@/components/Loaders/pulse";
 import "@/styles/dashboard.scss";
 
 import { type Integration } from "@/lib/types/integration";
+import ShopifyOnboarding from "@/components/onboarding";
 
 const SlIcon = dynamic(
   // Notice how we use the full path to the component. If you only do `import("@shoelace-style/shoelace/dist/react")` you will load the entire component library and not get tree shaking.
@@ -44,11 +45,11 @@ type PageProps = {
 function Integrations(props: PageProps) {
   const [integrations, setIntegrations] = useState<Integration[]>([]);
 
-
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setErrorMessage] = useState<string>("");
   const [success, setSuccessMesssage] = useState<string>("");
 
+  const [onboardingPageState, setOnboardingPageState] = useState(false);
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -88,74 +89,88 @@ function Integrations(props: PageProps) {
   };
 
   return (
-    <div id="pages-grid" className="index-card-grid">
-      <div
-        style={{
-          position: "fixed",
-          right: "15px",
-          top: "15px",
-          display: success ? "block" : "hidden",
-        }}
-      >
-        <SlAlert variant="success" open={!!success}>
-          <SlIcon slot="icon" name="info-circle"></SlIcon>
-          <div className="flex items-center">
-            <strong>{success}</strong>
+    <>
+      {integrations.length && onboardingPageState ? (
+        <ShopifyOnboarding
+          themes={[{ id: "down", name: "Down" }]}
+          store={integrations[0].name}
+        />
+      ) : (
+        <div id="pages-grid" className="index-card-grid">
+          <div
+            style={{
+              position: "fixed",
+              right: "15px",
+              top: "15px",
+              display: success ? "block" : "hidden",
+            }}
+          >
+            <SlAlert variant="success" open={!!success}>
+              <SlIcon slot="icon" name="info-circle"></SlIcon>
+              <div className="flex items-center">
+                <strong>{success}</strong>
+              </div>
+            </SlAlert>
           </div>
-        </SlAlert>
-      </div>
-      <div
-        style={{
-          position: "fixed",
-          right: "15px",
-          top: "15px",
-          display: error ? "block" : "hidden",
-        }}
-      >
-        <SlAlert variant="danger" open={!!error}>
-          <SlIcon slot="icon" name="info-circle"></SlIcon>
-          <div className="flex items-center">
-            <strong>{error}</strong>
+          <div
+            style={{
+              position: "fixed",
+              right: "15px",
+              top: "15px",
+              display: error ? "block" : "hidden",
+            }}
+          >
+            <SlAlert variant="danger" open={!!error}>
+              <SlIcon slot="icon" name="info-circle"></SlIcon>
+              <div className="flex items-center">
+                <strong>{error}</strong>
+              </div>
+            </SlAlert>
           </div>
-        </SlAlert>
-      </div>
-      {integrations
-        .filter((el) => el.category == "mobile")
-        .map((integration) => (
-          <Fragment key={integration._id}>
-            <DeviceIntegrations integration={integration} />
-          </Fragment>
-        ))}
-      {integrations
-        .filter((el) => el.category == "store")
-        .map((integration) => (
-          <Fragment key={integration._id}>
-            <StoreIntegration
-              integration={integration}
-              removeIntegration={removeIntegration}
-            />
-          </Fragment>
-        ))}
-
-      {loading && <CardSkeletonPulse />}
-      <div
-        className="index-card bordered"
-        style={{
-          overflow: "visible",
-          position: "relative",
-        }}
-      >
-        <div className="p-6">
-          <h4 className="text-lg font-bold">New Integration </h4>{" "}
-          <div className="mt-6">
-            Click on the button below to create a new integration.
+          {integrations
+            .filter((el) => el.category == "mobile")
+            .map((integration) => (
+              <Fragment key={integration._id}>
+                <DeviceIntegrations integration={integration} />
+              </Fragment>
+            ))}
+          {integrations
+            .filter((el) => el.category == "store")
+            .map((integration) => (
+              <Fragment key={integration._id}>
+                <StoreIntegration
+                  integration={integration}
+                  removeIntegration={removeIntegration}
+                  setOnboardingState={() =>
+                    setOnboardingPageState((prevState) => !prevState)
+                  }
+                />
+              </Fragment>
+            ))}
+          {loading && <CardSkeletonPulse />}
+          <div
+            className="index-card bordered"
+            style={{
+              overflow: "visible",
+              position: "relative",
+            }}
+          >
+            <div className="p-6">
+              <h4 className="text-lg font-bold">New Integration </h4>{" "}
+              <div className="mt-6">
+                Click on the button below to create a new integration.
+              </div>
+              <Link
+                href="/integrations/new"
+                className="block btn btn-blue mt-8"
+              >
+                New Integration
+              </Link>
+            </div>
           </div>
-          <Link href="/integrations/new" className="block btn btn-blue mt-8">
-            New Integration
-          </Link>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

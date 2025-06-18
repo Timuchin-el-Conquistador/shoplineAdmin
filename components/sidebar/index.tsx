@@ -53,7 +53,7 @@ function Sidebar({
                 <div className="space-y-1">
                   <a
                     href="/dashboard"
-                    className={`dashboard-button ${
+                    className={`sidebar-button ${
                       (page == "dashboard" || page.includes("pages")) &&
                       "selected"
                     }`}
@@ -66,7 +66,7 @@ function Sidebar({
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="dashboard-sidebar-icon"
+                      className="sidebar-sidebar-icon"
                       style={{ display: "inline-block" }}
                     >
                       <use xlinkHref="/feather-sprite.svg#home"></use>
@@ -75,7 +75,7 @@ function Sidebar({
                   </a>{" "}
                   <a
                     href="/calls"
-                    className={`dashboard-button ${
+                    className={`sidebar-button ${
                       page == "calls" && "selected"
                     }`}
                   >
@@ -87,16 +87,16 @@ function Sidebar({
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="dashboard-sidebar-icon"
+                      className="sidebar-sidebar-icon"
                       style={{ display: "inline-block" }}
                     >
                       <use xlinkHref="/feather-sprite.svg#phone"></use>
                     </svg>
                     Calls
                   </a>{" "}
-                  <a
+                  {/*<a
                     href="/customers"
-                    className={`dashboard-button ${
+                    className={`sidebar-button ${
                       page == "customers" && "selected"
                     }`}
                   >
@@ -104,11 +104,11 @@ function Sidebar({
                       src="/customers.png"
                       width="24"
                       height="24"
-                      className="dashboard-sidebar-icon"
+                      className="sidebar-sidebar-icon"
                       style={{ display: "inline-block" }}
                     />
                     Customers
-                  </a>{" "}
+                  </a>{" "}*/}
                   {/*} <Link
                   href="/stats"
                   className={`dashboard-button ${
@@ -332,6 +332,7 @@ function Sidebar({
                   </svg>
                 </span>
               </Link>{" "}*/}
+
               <Link
                 href="/integrations"
                 className="flex items-center relative py-3 pl-2"

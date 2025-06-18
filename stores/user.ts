@@ -6,7 +6,7 @@ import { verifySession } from "@/lib/dal";
 
 import { Account, type NewUser } from "@/lib/types/user";
 
-import { createSession, updateSession } from "@/lib/session";
+import { createSession, retrieveShopifyStore, updateSession } from "@/lib/session";
 
 
 
@@ -89,12 +89,15 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
       }));
       try {
         const path = `api/v1/admin/signup`
+
+        const store =  await retrieveShopifyStore()
         const response: { message: string } = await fakeBackend.post(
          path,
           {
             email: user.email,
             fullName: user.fullName,
             password: user.password,
+            storeId:store.storeId
           }
         );
         // await createSession(response.response._id, response.response.email);

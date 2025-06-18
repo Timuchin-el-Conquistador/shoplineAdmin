@@ -2,7 +2,7 @@
 
 
 
-#dashboard-sidebar .dashboard-button
+#dashboard-sidebar .sidebar-button
 {
     line-height: 1.25rem;
     font-size: 0.875rem;
@@ -17,14 +17,14 @@
     transition-duration: 150ms;
 }
 
-#dashboard-sidebar .dashboard-button:hover,
-#dashboard-sidebar .dashboard-button.selected
+#dashboard-sidebar .sidebar-button:hover,
+#dashboard-sidebar .sidebar-button.selected
 {
     background-color: #EEE;
     color: #444;
 }
 
-.dashboard-sidebar-icon
+.sidebar-sidebar-icon
 {
     margin-right: 1rem;
     color: #999;

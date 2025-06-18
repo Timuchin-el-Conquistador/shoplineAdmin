@@ -37,7 +37,7 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setErrorMessage] = useState<string>("");
   const [success, setSuccessMesssage] = useState<string>("");
-  const [isAuthRequired, setAuthRequiredState] = useState<boolean>(false);
+  //const [isAuthRequired, setAuthRequiredState] = useState<boolean>(false);
 
   const createIntegration = async (storeDomain: string) => {
     setLoading(true);
@@ -53,7 +53,8 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
       return;
     }
     setLoading(false);
-    if (response.message == "authentification-required") {
+    setSuccessMesssage("Store authentification is succeseful");
+ /*   if (response.message == "authentification-required") {
       setAuthRequiredState(true);
 
       setTimeout(() => {
@@ -95,7 +96,7 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
     setSuccessMesssage(response.message);
     setTimeout(() => {
       router.push("/integrations");
-    }, 2000);
+    }, 2000);*/
   };
 
   /*useEffect(() => {
@@ -145,7 +146,7 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
         </SlAlert>
       </div>
 
-      <div
+      {/*<div
         style={{
           position: "fixed",
           right: "15px",
@@ -166,7 +167,7 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
             </strong>
           </div>
         </SlAlert>
-      </div>
+      </div>*/}
 
       <div
         style={{
