@@ -27,7 +27,7 @@ const SlAlert = dynamic(
 
 type PageProps = {
   createShopifyIntegrationAction: (
-    storeDomain: string
+    storeName: string
   ) => Promise<{ status: number; message: string; authUrl?: string }>;
 };
 
@@ -39,9 +39,9 @@ function ShopifyStoreIntegrationPage(props: PageProps) {
   const [success, setSuccessMesssage] = useState<string>("");
   //const [isAuthRequired, setAuthRequiredState] = useState<boolean>(false);
 
-  const createIntegration = async (storeDomain: string) => {
+  const createIntegration = async (storeName: string) => {
     setLoading(true);
-    const response = await props.createShopifyIntegrationAction(storeDomain);
+    const response = await props.createShopifyIntegrationAction(storeName);
 
     if (response.status === 400) {
       setLoading(false);

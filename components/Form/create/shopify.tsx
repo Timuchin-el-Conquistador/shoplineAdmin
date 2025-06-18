@@ -18,7 +18,7 @@ const SlButton = dynamic(
 );
 type ComponentProps = {
   loading: boolean;
-  createIntegration: (storeDomain: string) => Promise<void>;
+  createIntegration: (storeName: string) => Promise<void>;
 };
 
 
@@ -33,7 +33,7 @@ function sanitizeUrl(url: string): string  {
 }
 function Integration(props: ComponentProps) {
 const router = useRouter()
-  const storeDomainRef = useRef<HTMLInputElement | null>(null);
+  const storeNameRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <div className="p-6">
@@ -58,12 +58,13 @@ const router = useRouter()
               <div>
                 <p className="mb-6">To update please specify the name below.</p>{" "}
                 <label className="block">
-                  <b>Shopify Store Domain</b>{" "}
+                  <b>Shopify Store Name</b>{" "}
+                  <p>Please provide your store name</p>
                   <input
                     type="text"
                     placeholder="shopify store domain"
                     className="w-full sm:text-sm"
-                    ref={storeDomainRef}
+                    ref={storeNameRef}
                   />{" "}
                   {/*<span className="text-sm text-gray-500">
                     Help to identify the linked devices.
@@ -130,11 +131,11 @@ const router = useRouter()
               data-valid=""
               className="inline-block w-50"
               onClick={async () => {
-                const input = storeDomainRef?.current?.value || "";
+                const input = storeNameRef?.current?.value || "";
 
-                const storeDomain = sanitizeUrl(input); 
+                const storeName = sanitizeUrl(input); 
 
-                props.createIntegration(storeDomain);
+                props.createIntegration(storeName);
               }}
             >
               {props.loading ? <Spinner /> : "Save"}
