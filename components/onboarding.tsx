@@ -17,7 +17,7 @@ function ShopifyOnboarding({
   };
 
   return (
-    <div className="container">
+    <div className="cont mx-6 mt-6">
       <h2 className="header">🛠️ Shopify App Setup</h2>
 
       <div className="instructions">

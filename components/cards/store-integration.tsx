@@ -28,7 +28,7 @@ const SlTooltip = dynamic(
 
 type ComponentProps = {
   removeIntegration: (integrationId: string) => void;
-  setOnboardingState:() => void
+  setOnboardingState:(integrationId:string) => void
   integration: IIntegration;
 };
 
@@ -161,7 +161,7 @@ function Integration(props: ComponentProps) {
                   className="expandable-section-menu-item w-full text-left"
                   onClick={() => {
                     setDropDownVisibility(false); // Close or perform an action
-                    props.setOnboardingState()
+                    props.setOnboardingState(props.integration._id)
                   }}
                 >
                   Onboarding
