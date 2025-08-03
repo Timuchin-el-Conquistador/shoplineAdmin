@@ -323,7 +323,7 @@ function EditLink(props: PageProps) {
                   + Add Device
                 </SlButton>
               )}
-              {props.link.connectedDevices.length >0&& (
+              {props.link.connectedDevices.length >0 && (
                 <div className="flex items-start mt-7 text-sm">
                   <input
                     id="call-all-devices"

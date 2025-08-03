@@ -399,7 +399,7 @@ function NewLink(props: PageProps) {
                     + Add Device
                   </SlButton>
                 )}
-                {form.link.connectedDevices.length && (
+                {form.link.connectedDevices.length > 0 && (
                   <div className="flex items-start mt-7 text-sm">
                     <input
                       id="call-all-devices"
