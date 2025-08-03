@@ -6,7 +6,7 @@ import { useRef, useState, useEffect } from "react";
 
 import { type Integration as IIntegration } from "@/lib/types//integration";
 
-import Agents from "../modals/agent";
+import Agents from "../modals/agents";
 
 import { selectAgentAvatarAction } from "@/lib/actions/user";
 

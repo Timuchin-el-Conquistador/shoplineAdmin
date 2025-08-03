@@ -9,11 +9,13 @@ import Link from "next/link";
 import DeviceIntegrations from "@/components/cards/device-integration";
 import StoreIntegration from "@/components/cards/store-integration";
 import { CardSkeletonPulse } from "@/components/Loaders/pulse";
+//import ShopifyOnboarding from "@/components/onboarding";
 
 import "@/styles/dashboard.scss";
 
 import { type Integration } from "@/lib/types/integration";
-import ShopifyOnboarding from "@/components/onboarding";
+
+
 
 const SlIcon = dynamic(
   // Notice how we use the full path to the component. If you only do `import("@shoelace-style/shoelace/dist/react")` you will load the entire component library and not get tree shaking.
@@ -98,13 +100,13 @@ function Integrations(props: PageProps) {
   }, [onboardingPageState.integrationId]);
 
   return (
-    <>
+  /*  <>
       {integrations.length && onboardingPageState.visibility ? (
         <ShopifyOnboarding
           themes={[{ id: "down", name: "Down" }]}
           store={integrations[integrationIndex].name}
         />
-      ) : (
+      ) : (*/
         <div id="pages-grid" className="index-card-grid">
           <div
             style={{
@@ -181,8 +183,8 @@ function Integrations(props: PageProps) {
             </div>
           </div>
         </div>
-      )}
-    </>
+    /*  )}
+    </>*/
   );
 }
 

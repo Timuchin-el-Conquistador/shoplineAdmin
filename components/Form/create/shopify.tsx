@@ -56,7 +56,6 @@ const router = useRouter()
           <div className="col-span-5 md:px-4 leading-6">
             <div id="mobile-view" className="w-xl md:ml-12">
               <div>
-                <p className="mb-6">To update please specify the name below.</p>{" "}
                 <label className="block">
                   <b>Shopify Store Name</b>{" "}
                   <p>Please provide your store name</p>

@@ -48,34 +48,6 @@ export async function retrieveStoreIntegrations() {
   }
 }
 
-export async function selectAgentAvatarAction(
-  integrationId:string,
-  presenterId: string,
-  driverId: string,
-  voice: { id: string; provider: string }
-) {
-  try {
-    const session = await verifySession();
-
-    if (!session) return redirect("/users/sign_in");
-
-    const path = `api/v1/user/${session.email}/integrations/${integrationId}/agent`;
-    const response: { message: string } =
-      await fakeBackend.put(path, { presenterId, driverId, voice });
-
-      return {
-        status: 200,
-        message: response.message,
-
-      };
-    } catch (error: any) {
-      return {
-        status: error.status,
-        message: error instanceof Error ? error.message : String(error),
-
-      };
-    }
-}
 
 export async function retrieveDevices() {
   try {
@@ -250,4 +222,37 @@ export async function retrieveCustomerAccountInformationAction(email: string) {
       account: null,
     };
   }
+}
+
+
+
+//store
+
+export async function selectAgentAvatarAction(
+  integrationId:string,
+  presenterId: string,
+  driverId: string,
+  voice: { id: string; provider: string }
+) {
+  try {
+    const session = await verifySession();
+
+    if (!session) return redirect("/users/sign_in");
+
+    const path = `api/v1/user/${session.email}/integrations/${integrationId}/agent`;
+    const response: { message: string } =
+      await fakeBackend.put(path, { presenterId, driverId, voice });
+
+      return {
+        status: 200,
+        message: response.message,
+
+      };
+    } catch (error: any) {
+      return {
+        status: error.status,
+        message: error instanceof Error ? error.message : String(error),
+
+      };
+    }
 }

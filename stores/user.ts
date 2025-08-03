@@ -91,6 +91,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
         const path = `api/v1/admin/signup`
 
         const store =  await retrieveShopifyStore()
+        
         const response: { message: string } = await fakeBackend.post(
          path,
           {

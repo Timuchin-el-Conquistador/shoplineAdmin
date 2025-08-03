@@ -41,7 +41,7 @@ function Sidebar({
               <a href="/">
                 <Image
                   className="inline-block"
-                  src="/shoporialogo.svg"
+                  src="/shoporia-logo.svg"
                   alt="logo"
                   width={150}
                   height={0}
@@ -93,6 +93,37 @@ function Sidebar({
                       <use xlinkHref="/feather-sprite.svg#phone"></use>
                     </svg>
                     Calls
+                  </a>{" "}
+                  <a
+                    href="/onboarding"
+                    className={`sidebar-button ${
+                      page == "onboarding" && "selected"
+                    }`}
+                  >
+                    <svg
+                      fill="#9CA3AF"
+                      viewBox="0 0 1920 1920"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="sidebar-sidebar-icon"
+                      style={{ display: "inline-block" }}
+                      width="24"
+                      height="24"
+                    >
+                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                      <g
+                        id="SVGRepo_tracerCarrier"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></g>
+                      <g id="SVGRepo_iconCarrier">
+                        {" "}
+                        <path
+                          d="M1920 332v1257H0V332h1920Zm-115 114H115v1032h1690V446Zm-574 683v113H409v-113h822Zm275-226v113H409V903h1097Zm-275-226v113H409V677h822Z"
+                          fill-rule="evenodd"
+                        ></path>{" "}
+                      </g>
+                    </svg>
+                    Onboarding
                   </a>{" "}
                   {/*<a
                     href="/customers"
@@ -332,7 +363,51 @@ function Sidebar({
                   </svg>
                 </span>
               </Link>{" "}*/}
-
+              <Link
+                href="/onboarding"
+                className="flex items-center relative py-3 pl-2"
+              >
+                <svg
+                  fill="#000000"
+                  viewBox="0 0 1920 1920"
+                  xmlns="http://www.w3.org/2000/svg"
+                   className="h-5 w-5 text-gray-400"
+                    style={{ display: "inline-block" }}
+                  width="24"
+                  height="24"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path
+                      d="M1920 332v1257H0V332h1920Zm-115 114H115v1032h1690V446Zm-574 683v113H409v-113h822Zm275-226v113H409V903h1097Zm-275-226v113H409V677h822Z"
+                      fill-rule="evenodd"
+                    ></path>{" "}
+                  </g>
+                </svg>
+                <p className="text-sm text-gray-600 ml-3 ">Onboarding</p>{" "}
+                <span className="absolute right-0 flex">
+                  <svg
+                    width="24"
+                    height="24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    id=""
+                    className="h-5 w-5 text-gray-400"
+                    style={{ display: "inline-block" }}
+                  >
+                    <use xlinkHref="/feather-sprite.svg#chevron-right"></use>
+                  </svg>
+                </span>
+              </Link>{" "}
               <Link
                 href="/integrations"
                 className="flex items-center relative py-3 pl-2"
