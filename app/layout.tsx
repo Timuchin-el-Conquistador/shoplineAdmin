@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import "@/styles/globals.scss";
+
+import "@/styles/globals.css";
 import "@shoelace-style/shoelace/dist/themes/light.css";
 import ShoelaceSetup from "./shoelace-setup";
 

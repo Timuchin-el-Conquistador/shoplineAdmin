@@ -28,7 +28,6 @@ const SlTooltip = dynamic(
 
 type ComponentProps = {
   removeIntegration: (integrationId: string) => void;
-  setOnboardingState:(integrationId:string) => void
   integration: IIntegration;
 };
 
@@ -155,30 +154,7 @@ function Integration(props: ComponentProps) {
                   Agent
                 </button>
               </div>
-             <div role="none" className="py-1">
-                <button
-                  role="menuitem"
-                  className="expandable-section-menu-item w-full text-left"
-                  onClick={() => {
-                    setDropDownVisibility(false); // Close or perform an action
-                    props.setOnboardingState(props.integration._id)
-                  }}
-                >
-                  Onboarding
-                </button>
-              </div>
-              {/*<div role="none" className="py-1">
-                <button
-                  role="menuitem"
-                  className="expandable-section-menu-item delete-button w-full text-left"
-                  onClick={() => {
-                    props.removeIntegration(props.integration._id);
-                    setDropDownVisibility(false); // Close or perform an action
-                  }}
-                >
-                  Delete
-                </button>
-              </div>*/}
+
             </div>
           )}
         </div>

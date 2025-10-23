@@ -75,23 +75,6 @@ function Notifications({
 
 
 
-  const { form, handleSlugChange } = useLinkForm({
-    slug: "",
-    availability: "offline",
-    linkName: "Call me",
-     stores: [],
-    callStrategy: null,
-    connectedDevices: [],
-    settings: {
-      visitorForm: ["email"],
-      onlineMessage: "Introduce yourself and press call.",
-      offlineMessage: "We'll get back soon..",
-      recording: false,
-    },
-  });
-
-
-
 
 
   useEffect(() => {
@@ -173,11 +156,6 @@ function Notifications({
             </div>
           </SlAlert>
         </div>
-        {isNoIntegratedDeviceAlertVisible && (
-          <NoDevice
-            closeNoIntegratedDevicesAlert={closeNoIntegratedDevicesAlert}
-          />
-        )}
      
         <div className="fixed top-2 right-2 z-[9999] space-y-2">
           {notifications.map((call) => (

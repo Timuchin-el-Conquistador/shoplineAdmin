@@ -51,10 +51,6 @@ function Integrations(props: PageProps) {
   const [error, setErrorMessage] = useState<string>("");
   const [success, setSuccessMesssage] = useState<string>("");
 
-  const [onboardingPageState, setOnboardingPageState] = useState({
-    visibility: false,
-    integrationId: "",
-  });
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -93,20 +89,10 @@ function Integrations(props: PageProps) {
     }, 2000);
   };
 
-  const integrationIndex = useMemo(() => {
-    return integrations.findIndex(
-      (el) => el._id == onboardingPageState.integrationId
-    );
-  }, [onboardingPageState.integrationId]);
+
 
   return (
-  /*  <>
-      {integrations.length && onboardingPageState.visibility ? (
-        <ShopifyOnboarding
-          themes={[{ id: "down", name: "Down" }]}
-          store={integrations[integrationIndex].name}
-        />
-      ) : (*/
+
         <div id="pages-grid" className="index-card-grid">
           <div
             style={{
@@ -152,12 +138,6 @@ function Integrations(props: PageProps) {
                 <StoreIntegration
                   integration={integration}
                   removeIntegration={removeIntegration}
-                  setOnboardingState={(integrationId: string) =>
-                    setOnboardingPageState((prevState) => ({
-                      visibility: !prevState.visibility,
-                      integrationId,
-                    }))
-                  }
                 />
               </Fragment>
             ))}
@@ -183,8 +163,7 @@ function Integrations(props: PageProps) {
             </div>
           </div>
         </div>
-    /*  )}
-    </>*/
+
   );
 }
 

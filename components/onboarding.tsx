@@ -26,7 +26,7 @@ function ShopifyOnboarding({
           <li>
             Visit the{" "}
             <a
-              href={`https://admin.shopify.com/store/${store}/themes`}
+              href={`https://admin.shopify.com/store/${encodeURIComponent(store)}/themes`}
               target="_blank"
               rel="noopener noreferrer"
               className="link"

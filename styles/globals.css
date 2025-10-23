@@ -125,13 +125,10 @@ a {
   cursor: pointer;
   display: flex;
   width: max-content;
-
-  &:hover {
-    opacity: 0.5;
-  }
 }
-
-//inputs selects buttons
+.advanced-options-label:hover {
+  opacity: 0.5;
+}
 
 [type="email"],
 [type="number"],
@@ -227,59 +224,14 @@ textarea {
   padding: 0;
 }
 
-input[type="radio"] {
-  border-radius: 100%;
-}
-input[type="checkbox"],
-[type="radio"] {
-  --tw-shadow: 0 0 #0000;
-  appearance: none;
-  background-color: rgb(255, 255, 255);
-  background-origin: border-box;
-  color: rgb(37, 99, 235);
-  display: inline-block;
-  flex-shrink: 0;
-  height: 1rem;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
-  user-select: none;
-  vertical-align: middle;
-  width: 1rem;
-  border-color: rgb(107, 114, 128);
-  border-width: 1px;
-  padding: 0px;
-}
-input[type="radio"]:checked,
-[type="radio"]:focus {
-  box-shadow: none;
-  color: rgb(2, 132, 199);
-  outline: none;
-}
-
-input[type="radio"]:checked {
-  background-image: url("../public/radio.svg");
-}
-
-input[type="checkbox"]:checked,
-[type="radio"]:checked {
-  background-color: currentcolor;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: 50% center;
-  border-color: rgba(0, 0, 0, 0);
-}
 
 .border-brand-400 {
   --tw-border-opacity: 1;
   border-color: rgb(0 86 255 / var(--tw-border-opacity));
 }
 
-.sp-tooltip {
-  &:hover {
-    .sp-tooltip-body {
-      display: block;
-    }
-  }
+.sp-tooltip:hover .sp-tooltip-body {
+  display: block;
 }
 .sp-tooltip-arrow {
   position: relative;
@@ -301,9 +253,8 @@ input[type="checkbox"]:checked,
   z-index: 99;
   margin-top: 3px;
   display: none;
-  &:hover {
-    .sp-tooltip-body {
-      display: block;
-    }
-  }
+}
+
+.sp-tooltip-body:hover .sp-tooltip-body {
+  display: block;
 }

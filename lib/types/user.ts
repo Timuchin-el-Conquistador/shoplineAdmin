@@ -66,5 +66,6 @@ export interface Account {
   //monthlyIntegrationsCapacity:number,
   browserNotifications: boolean;
   accountStatus: AccountStatus;
+  store: {storeDomain:string, storeId:string, _id:string}
   //watchedTutorial:boolean
 }

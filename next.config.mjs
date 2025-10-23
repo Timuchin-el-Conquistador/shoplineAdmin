@@ -1,6 +1,6 @@
-import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
-import CopyPlugin from 'copy-webpack-plugin';
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
+import CopyPlugin from "copy-webpack-plugin";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -8,8 +8,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const nextConfig = {
   reactStrictMode: true,
   // output: 'export',
-  experimental: { esmExternals: 'loose' },
-  webpack: (config, options) => {
+  experimental: { esmExternals: true },
+
+  /*webpack: (config, options) => {
     config.plugins.push(
       new CopyPlugin({
         patterns: [
@@ -31,7 +32,7 @@ const nextConfig = {
             pathname: '/**',       // Specify the path or use '**' to match all sub-paths
           },
     ],
-  },
+  },*/
 };
 
 export default nextConfig;

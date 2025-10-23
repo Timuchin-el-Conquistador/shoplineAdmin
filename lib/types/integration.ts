@@ -10,6 +10,7 @@ export interface Integration {
   createdOn: string;
   lastLogin: string;
   name: string;
+  domain:string
   uuid: string;
   links: Link[];
   description:string,

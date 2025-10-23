@@ -4,8 +4,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --turbo",
+    "build": "next build --turbo",
     "start": "next start",
     "lint": "next lint"
   },
@@ -19,7 +19,7 @@
     "qrcode.react": "^4.2.0",
     "react": "^18",
     "react-dom": "^18",
-    "sass": "^1.80.6",
+    "sass": "^1.89.2",
     "sharp": "^0.33.5",
     "socket.io-client": "^4.8.1",
     "zod": "^3.23.8",
