@@ -138,3 +138,35 @@ export async function retrieveLocation(locationId: string) {
     return error instanceof Error ? error : new Error(String(error));
   }
 }
+
+export async function retrieveKPI() {
+  try {
+    const session = await verifySession();
+
+    if (!session) return redirect("/users/sign_in");
+    const path = `api/v1/user/${session.email}/locations/kpi`;
+    const response: {
+      message: string;
+      summary: {
+        locations: number;
+        staff: number;
+        visitors: number;
+        sessions: number;
+      };
+      visitors: {
+        _id: string;
+        visitor: string;
+        location: string;
+        staff: string;
+        status: string;
+        date: string;
+      }[];
+
+      monthlyVisitors: number[][];
+      locations: string[];
+    } = await fakeBackend.get(path);
+    return response;
+  } catch (error) {
+    return error instanceof Error ? error : new Error(String(error));
+  }
+}

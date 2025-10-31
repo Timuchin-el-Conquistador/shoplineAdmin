@@ -6,25 +6,10 @@ import { Fragment, useEffect, useMemo, useState } from "react";
 
 import ShopifyOnboarding from "@/components/onboarding";
 
-import "@/styles/dashboard.scss";
+import "@/styles/links.scss";
 
 import { type Integration } from "@/lib/types/integration";
 
-const SlIcon = dynamic(
-  // Notice how we use the full path to the component. If you only do `import("@shoelace-style/shoelace/dist/react")` you will load the entire component library and not get tree shaking.
-  () => import("@shoelace-style/shoelace/dist/react/icon/index.js"),
-  {
-    //   loading: () => <p>Loading...</p>,
-    ssr: false,
-  }
-);
-const SlAlert = dynamic(
-  () => import("@shoelace-style/shoelace/dist/react/alert/index.js"),
-  {
-    //  loading: () => <>Loading...</>,
-    ssr: false,
-  }
-);
 
 type PageProps = {
   retrieveIntegrationsActions: () => Promise<{

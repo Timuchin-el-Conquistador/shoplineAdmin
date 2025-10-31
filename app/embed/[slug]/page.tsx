@@ -5,7 +5,7 @@ async function EmbedPage(props: { params: { slug: string } }) {
   const isProduction = process.env.NODE_ENV == "production";
 
   return (
-    <PrivateLayout page="dashboard" sidebar={true} notifications={true}>
+    <PrivateLayout page="links" sidebar={true} notifications={true}>
       <Embed
         domain={
           isProduction

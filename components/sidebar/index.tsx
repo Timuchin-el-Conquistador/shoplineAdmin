@@ -51,11 +51,10 @@ function Sidebar({
             <div className="mt-5 flex-grow flex flex-col">
               <nav className="flex-1 px-2 bg-white">
                 <div className="space-y-1">
-                  <a
+                    <a
                     href="/dashboard"
                     className={`sidebar-button ${
-                      (page == "dashboard" || page.includes("pages")) &&
-                      "selected"
+                      page == "dashboard"  && "selected"
                     }`}
                   >
                     <svg
@@ -72,6 +71,28 @@ function Sidebar({
                       <use xlinkHref="/feather-sprite.svg#home"></use>
                     </svg>
                     Dashboard
+                  </a>{" "}
+                  <a
+                    href="/links"
+                    className={`sidebar-button ${
+                      (page == "links" || page.includes("pages")) &&
+                      "selected"
+                    }`}
+                  >
+                    <svg
+                      width="24"
+                      height="24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="sidebar-sidebar-icon"
+                      style={{ display: "inline-block" }}
+                    >
+                      <use xlinkHref="/feather-sprite.svg#home"></use>
+                    </svg>
+                    Links
                   </a>{" "}
                   <a
                     href="/calls"
@@ -250,7 +271,7 @@ function Sidebar({
       <div id="mobile_toolbar" className="md:hidden">
         <div className="fixed z-50 grid grid-cols-3 mx-auto w-full h-16 bg-white border-t border-gray-200 bottom-0">
           <Link
-            href="/dashboard"
+            href="/links"
             className="flex flex-col items-center justify-center w-full h-full "
           >
             <svg
@@ -267,7 +288,7 @@ function Sidebar({
             >
               <use xlinkHref="/feather-sprite.svg#home"></use>
             </svg>{" "}
-            <span className="text-xs block text-gray-700 mt-1">Dashboard</span>
+            <span className="text-xs block text-gray-700 mt-1">Links</span>
           </Link>{" "}
           <Link
             href="/calls"
@@ -348,7 +369,7 @@ function Sidebar({
           }
         >
           <div slot="label" className="flex items-center pt-2">
-            <Link href="/dashboard">
+            <Link href="/links">
               <Image
                 className="inline-block"
                 src="/shoporialogo.svg"

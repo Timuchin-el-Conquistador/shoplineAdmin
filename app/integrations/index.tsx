@@ -11,7 +11,7 @@ import StoreIntegration from "@/components/cards/store-integration";
 import { CardSkeletonPulse } from "@/components/Loaders/pulse";
 //import ShopifyOnboarding from "@/components/onboarding";
 
-import "@/styles/dashboard.scss";
+import "@/styles/links.scss";
 
 import { type Integration } from "@/lib/types/integration";
 

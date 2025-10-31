@@ -622,7 +622,7 @@ function EditLink(props: PageProps) {
                   );
                   setLoading(false);
 
-                  router.replace("/dashboard");
+                  router.replace("/links");
                 } catch (err) {
                   setLoading(false);
                   setError(err instanceof Error ? err : new Error(String(err)));

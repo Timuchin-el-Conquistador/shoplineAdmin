@@ -27,7 +27,7 @@ async function CreateLoationPage() {
   if (account.store == null) {
     redirect("/integrations/new/shopify");
   }
-  console.log(account, 'account')
+
   return (
     <Layout page="locations" sidebar={true} notifications={true}>
       <NewLocation

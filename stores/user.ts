@@ -179,7 +179,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
           loading: false,
           user: response.account,
         }));
-        router.replace("/dashboard");
+        router.replace("/links");
       } catch (error) {
         set((prevState) => ({
           ...prevState,
@@ -274,7 +274,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
           loading: false,
           user: response.account,
         }));
-        router.replace("/dashboard");
+        router.replace("/links");
 
       } catch (error) {
         set((prevState) => ({

@@ -6,6 +6,7 @@ import { validateToken } from "./utils/session";
 //all routes
 const routes = [
   /^\/dashboard$/,
+  /^\/links$/,
   /^\/embed$/,
   /^\/embed\/([a-zA-Z0-9\-]+)$/,
   /^\/([a-zA-Z0-9\-]+)$/,
@@ -43,6 +44,7 @@ const routes = [
 // protected
 const protectedRoutes = [
   /^\/dashboard$/,
+  /^\/links$/,
   /^\/embed$/,
   /^\/embed\/([a-zA-Z0-9\-]+)$/,
   /^\/calls$/,
@@ -141,9 +143,9 @@ export default async function middleware(req: NextRequest) {
   if (
     isPublicRoute &&
     session?.userId &&
-    !req.nextUrl.pathname.startsWith("/dashboard")
+    !req.nextUrl.pathname.startsWith("/links")
   ) {
-    return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
+    return NextResponse.redirect(new URL("/links", req.nextUrl));
   }
 
   // Skip middleware for static assets like images, fonts, or API requests
@@ -159,7 +161,7 @@ export default async function middleware(req: NextRequest) {
   const isRouteExist = routes.some((route) => route.test(path));
 
   if (!isRouteExist) {
-    return NextResponse.rewrite(new URL("/dashboard", req.nextUrl));
+    return NextResponse.rewrite(new URL("/links", req.nextUrl));
   }
 
   return NextResponse.next();

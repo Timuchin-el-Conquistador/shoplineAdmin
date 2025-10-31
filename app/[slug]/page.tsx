@@ -29,7 +29,7 @@ async function SessionPage(props: { params: { slug: string } }) {
 
   if (session) {
     return (
-      <PrivateLayout page="dashboard" sidebar={true} notifications={true}>
+      <PrivateLayout page="links" sidebar={true} notifications={true}>
         <Sessions
           domain={isProduction ? process.env.FRONTEND_URL! : process.env.LOCAL_FRONTEND_URL!}
           slug={slug}

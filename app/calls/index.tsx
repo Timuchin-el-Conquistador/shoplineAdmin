@@ -9,7 +9,7 @@ import { useVisibility } from "@/hooks/alerts-visibility";
 
 import { useSessionStore } from "@/providers/session";
 
-import { type Call, type Caller } from "@/lib/types/call";
+import { type Caller } from "@/lib/types/call";
 
 import "@/styles/calls/index.scss";
 

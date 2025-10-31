@@ -1,17 +1,24 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { Fragment, useEffect, useMemo, useState } from "react";
 
-import Link from "next/link";
+import Table from "@/components/Tables/visitors";
 
-import "@/styles/dashboard.scss";
+import "@/styles/links.scss";
 
-import Card from "@/components/cards/link";
+import KPI from "@/components/cards/KPI";
 import { CardSkeletonPulse } from "@/components/Loaders/pulse";
 
 import { type ExtendedLink } from "@/lib/types/links";
 
 import DeletingLintWarning from "@/components/modals/link-remove-attempt-warning";
+
+// Dynamically import the chart component to ensure client-side rendering
+const MyBarChart = dynamic(() => import("@/components/charts/bar"), {
+  ssr: false,
+});
 
 type PageProps = {
   retrieveUrlsAction: () => Promise<{
@@ -22,13 +29,27 @@ type PageProps = {
   removeLinkAction: (
     slug: string
   ) => Promise<{ status: number; message: string }>;
-
+  summary: {
+    locations: number;
+    staff: number;
+    visitors: number;
+    sessions: number;
+  } | null;
+  visitors: {
+    _id: string;
+    visitor: string;
+    location: string;
+    staff: string;
+    status: string;
+    date: string;
+  }[] | null;
+  monthlyVisitors: number[][] | null;
+  locations: string[] | null;
 };
 
 function Dashboard(props: PageProps) {
   const [links, setLinks] = useState<ExtendedLink[]>([]);
   const [loaded, setLoadedState] = useState(false);
-
 
   const [
     attemptingToDeleteLinkWarningModal,
@@ -37,6 +58,41 @@ function Dashboard(props: PageProps) {
     isOpen: false,
     slug: "",
   });
+
+const [chartData, setChartData] = useState<any>({
+  labels: [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+  ],
+  datasets: [],
+});
+
+useEffect(() => {
+  if (!props.locations || !props.monthlyVisitors) return;
+
+  const datasets = props.locations.map((value, index) => {
+    // pick a different hue per location
+    const hue = (index * 60) % 360; // change 60 to adjust color spacing
+    const backgroundColor = `hsla(${hue}, 70%, 60%, 0.5)`;
+    const borderColor = `hsl(${hue}, 70%, 50%)`;
+
+    return {
+      label: value,
+      data: props.monthlyVisitors?.[index],
+      backgroundColor,
+      borderColor,
+      borderWidth: 1,
+    };
+  });
+
+  setChartData((prev:any) => ({
+    ...prev,
+    datasets,
+  }))
+
+}, [props.locations, props.monthlyVisitors]);
+
+
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -51,77 +107,36 @@ function Dashboard(props: PageProps) {
     fetchLinks();
   }, [props.retrieveUrlsAction]);
 
-  const linksLength = useMemo(() => links.length, [links]);
-
 
   return (
-    <div id="pages-grid" className="index-card-grid">
-      {links.map((link) => (
-        <Fragment key={link._id}>
-          <Card
-            slug={link.slug}
-            availability={link.availability}
-            linkName={link.linkName}
-            connectedDevices={link.connectedDevices}
-            stores={link.stores}
-            totalCallDuration={link.totalCallDuration}
-            hasConnectedDevice={link.connectedDevices.length > 0}
-            removeLink={(slug) => {
-              setAttemptingToDeleteLinkWarningModal({
-                isOpen: true,
-                slug,
-              });
-            }}
-          />
-        </Fragment>
-      ))}
-      {!loaded && <CardSkeletonPulse />}
-      <div
-        className="index-card bordered "
-        style={{
-          overflow: "visible",
-          position: "relative",
-        }}
-      >
-        <div className="p-6">
-          <h4 className="text-lg font-bold">New Link</h4>{" "}
-          <div className="mt-6">
-            Create a new link to accept online calls.
-            <br />
-            <br />{" "}
-            <div id="tooltip" className="sp-tooltip">
-              <div className="sp-tooltip-element">
-                <span className="bg-white flex justify-center border text-sm text-center px-2 rounded-2xl w-16 m-auto items-center text-gray-400">
-                  {linksLength} 
-                </span>
-              </div>{" "}
-   
-            </div>
-          </div>{" "}
-          <Link
-            href="/pages/new"
-            className="block btn btn-blue mt-8"
-
-          >
-            New Link
-          </Link>
-        </div>
+    <div id="pages-grid" className="index-card-grid  ml-3">
+      <div className="mb-3">
+        {links.map((link) => (
+          <Fragment key={link._id}>
+            <KPI summary={props.summary}/>
+          </Fragment>
+        ))}
+        {!loaded && <CardSkeletonPulse />}
       </div>
-
+      <Table visitors={props.visitors}/>
+      <br />
+      <div style={{ width: "700px", height: "500px" }}>
+        <MyBarChart data={chartData} />
+      </div>
 
       <DeletingLintWarning
         attemptingToDeleteSession={attemptingToDeleteLinkWarningModal.isOpen}
         cancel={() => {
           setAttemptingToDeleteLinkWarningModal({
-            isOpen:false,
-            slug:''
+            isOpen: false,
+            slug: "",
           });
         }}
         proceedDeletingSession={() => {
-          const slug = attemptingToDeleteLinkWarningModal.slug
+          const slug = attemptingToDeleteLinkWarningModal.slug;
           setAttemptingToDeleteLinkWarningModal({
-            isOpen:false,
-            slug:''
+            isOpen: false,
+            slug: "",
           });
           props.removeLinkAction(slug);
           setLinks((prevState) => prevState.filter((el) => el.slug != slug));
