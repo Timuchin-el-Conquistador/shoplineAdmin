@@ -56,7 +56,6 @@ function Table(props: {
                 <td>Location</td>
                 <td>Date</td>
                 <td>Staff</td>
-                <td>Status</td>
               </tr>
             </thead>
             <tbody>
@@ -78,9 +77,6 @@ function Table(props: {
                     </td>
                     <td className="text-left truncate">
                       <b className="truncate">{session.staff}</b>
-                    </td>
-                    <td className="text-left truncate">
-                      <b className="truncate">{session.status}</b>
                     </td>
                   </tr>
                 );
