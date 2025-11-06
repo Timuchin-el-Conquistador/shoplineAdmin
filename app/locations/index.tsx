@@ -76,7 +76,7 @@ function Locations(props: PageProps) {
       </div>
       <Link
         href="/locations/new"
-        className="block btn btn-blue mt-8 w-[125px] flex justify-center"
+        className="block btn btn-blue mt-8 w-[125px] flex justify-center mb-3"
       >
         New Loation
       </Link>

@@ -10,13 +10,12 @@ export interface Integration {
   createdOn: string;
   lastLogin: string;
   name: string;
-  domain:string
   uuid: string;
   links: Link[];
   description:string,
   toObject: () => Integration;
   status: string;
   from:string,
-  store:string;
+  store:{storeDomain:string};
   [key: string]: unknown;
 }

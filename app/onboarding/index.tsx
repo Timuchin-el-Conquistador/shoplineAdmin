@@ -46,13 +46,11 @@ function Onboarding(props: PageProps) {
 
 
 
-
-
   return (
     <>
    {integrations.length ? <ShopifyOnboarding
       themes={[{ id: "down", name: "Down" }]}
-      store={integrations[0].domain.split('.myshopify.com')[0]}
+      store={integrations[0].store.storeDomain.split('.myshopify.com')[0]}
     /> : <p></p>}
     </>
   );

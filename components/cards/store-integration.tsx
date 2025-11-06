@@ -140,7 +140,7 @@ function Integration(props: ComponentProps) {
               aria-orientation="vertical"
               aria-labelledby="options-menu"
               className="expandable-section-menu bg-white divide-y divide-gray-100 focus:outline-none"
-              style={{ bottom: "-28%" }}
+              style={{ bottom: "-14%" }}
             >
               <div role="none" className="py-1">
                 <button
