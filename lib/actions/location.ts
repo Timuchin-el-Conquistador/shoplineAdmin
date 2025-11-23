@@ -160,6 +160,7 @@ export async function retrieveKPI() {
         staff: string;
         status: string;
         date: string;
+        link: string;
       }[];
 
       monthlyVisitors: number[][];

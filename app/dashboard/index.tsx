@@ -42,6 +42,7 @@ type PageProps = {
     staff: string;
     status: string;
     date: string;
+    link:string
   }[] | null;
   monthlyVisitors: number[][] | null;
   locations: string[] | null;

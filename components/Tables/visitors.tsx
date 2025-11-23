@@ -8,6 +8,7 @@ import { Call } from "@/lib/types/call";
 
 import { Caller } from "@/lib/types/call";
 import { useMemo } from "react";
+import Link from "next/link";
 
 const SlButton = dynamic(
   // Notice how we use the full path to the component. If you only do `import("@shoelace-style/shoelace/dist/react")` you will load the entire component library and not get tree shaking.
@@ -56,12 +57,11 @@ function Table(props: {
                 <td>Location</td>
                 <td>Date</td>
                 <td>Staff</td>
+                <td>Link</td>
               </tr>
             </thead>
             <tbody>
               {props.visitors?.map((session: any) => {
-
-
                 return (
                   <tr key={session._id}>
                     <td className="truncate">
@@ -77,6 +77,11 @@ function Table(props: {
                     </td>
                     <td className="text-left truncate">
                       <b className="truncate">{session.staff}</b>
+                    </td>
+                    <td className="text-left truncate">
+                      <Link className="truncate" href={session.link}>
+                        {session.link}
+                      </Link>
                     </td>
                   </tr>
                 );
