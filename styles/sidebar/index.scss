@@ -43,3 +43,171 @@
 #dashboard-sidebar .advanced-buttons.selected {
     font-weight: 700;
 }
+
+/* Dark gradient sidebar header + nav styling to match design */
+/* Root sidebar column (header + nav) */
+#dashboard-sidebar .flex.flex-col {
+    background: linear-gradient(180deg, #0b1320 0%, #14202a 40%, #0b1720 100%);
+    color: #ffffff;
+    padding-bottom: 12px;
+    border-top-right-radius: 24px;
+}
+
+/* Logo pill in header */
+#dashboard-sidebar .sidebar-header a img,
+#dashboard-sidebar .sidebar-header a > :global(img) {
+    background: linear-gradient(90deg, #0ea5e9 0%, #7c3aed 100%);
+    padding: 4px 10px;
+    border-radius: 9999px;
+    box-shadow: 0 8px 18px rgba(2,6,23,0.55);
+    height: 28px;
+    width: auto;
+    display: inline-block;
+}
+
+/* Collapse toggle round button */
+#dashboard-sidebar button[aria-label="Toggle sidebar"] {
+    width: 40px;
+    height: 40px;
+    padding: 0.45rem;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #fff;
+}
+
+#dashboard-sidebar .sidebar-header {
+    padding-left: 16px;
+    padding-right: 14px;
+}
+
+/* Nav item styles for dark sidebar */
+#dashboard-sidebar .sidebar-button {
+    color: rgba(255,255,255,0.92);
+    background: transparent;
+    padding: 12px 14px;
+    margin: 6px 4px;
+    align-items: center;
+    gap: 10px;
+}
+
+#dashboard-sidebar .sidebar-button:hover {
+    background: rgba(255,255,255,0.03);
+    color: #fff;
+}
+
+/* Selected nav item becomes a rounded pill */
+#dashboard-sidebar .sidebar-button.selected,
+#dashboard-sidebar a[aria-current="page"] {
+    background: #2176FF; /* primary blue */
+    color: #fff;
+    border-radius: 9999px; /* full pill */
+    padding-left: 14px;
+    padding-right: 20px;
+    display: block;
+    width: calc(100% - 28px);
+    margin-left: 8px;
+    box-shadow: 0 6px 18px rgba(33,118,255,0.12);
+}
+
+/* Sidebar icons lighter */
+#dashboard-sidebar .sidebar-sidebar-icon,
+#dashboard-sidebar .dashboard-sidebar-icon {
+    color: rgba(255,255,255,0.78);
+    margin-right: 12px;
+}
+
+/* Small circular icon background inside selected item */
+#dashboard-sidebar .sidebar-button svg {
+    background: transparent;
+    padding: 6px;
+    border-radius: 8px;
+    width: 28px;
+    height: 28px;
+    box-sizing: content-box;
+    transition: background-color .15s, color .15s;
+}
+
+/* Selected item: icon inside white circle with blue fill */
+#dashboard-sidebar .sidebar-button.selected svg,
+#dashboard-sidebar .sidebar-button.selected svg * {
+    color: #fff;
+    stroke: #fff;
+    fill: #fff;
+}
+
+#dashboard-sidebar .sidebar-button.selected svg {
+    background: rgba(255,255,255,0.12);
+    padding: 6px;
+    border-radius: 9999px;
+}
+
+/* Increase nav text size slightly */
+#dashboard-sidebar .sidebar-button span {
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+/* Slightly increase spacing between nav items */
+#dashboard-sidebar .space-y-1 > * {
+    margin-bottom: 8px;
+}
+
+/* Bottom section divider and spacing */
+#dashboard-sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#dashboard-sidebar .nav-bottom-sep {
+    border-top: 1px solid rgba(255,255,255,0.04);
+    margin-top: 18px;
+}
+
+/* Make selected pill slightly elevated */
+#dashboard-sidebar .sidebar-button.selected {
+    box-shadow: 0 6px 18px rgba(2,6,23,0.5);
+}
+
+/* Decorative SVG blob sizing and header border */
+#dashboard-sidebar .sidebar-header {
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    position: relative;
+    height: 78px; /* header area: allow some bleed of the blob */
+    overflow: visible;
+}
+
+/* Decorative blob behind the logo */
+#dashboard-sidebar .sidebar-decor-blob {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.92;
+}
+
+/* Let the SVG render at its original/native size */
+#dashboard-sidebar .sidebar-decor-blob .sidebar-decor-svg {
+    width: auto !important;
+    height: auto !important;
+    transform: none !important;
+    position: absolute !important;
+    top: -60px !important;
+}
+
+/* Ensure logo sits above the decorative blob */
+#dashboard-sidebar .sidebar-header a img,
+#dashboard-sidebar .sidebar-header a > :global(img) {
+    position: relative;
+    z-index: 2;
+}
+
+/* Ensure logo sits above the decorative blob */
+#dashboard-sidebar .sidebar-header a img,
+#dashboard-sidebar .sidebar-header a > :global(img) {
+    position: relative;
+    z-index: 2;
+}
+

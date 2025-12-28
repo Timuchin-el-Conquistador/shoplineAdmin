@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import dynamic from "next/dynamic";
 
 import "@/styles/table.scss";
+import Pagination from "@/components/Pagination";
 
 import {useRouter} from 'next/navigation'
 
@@ -21,7 +23,13 @@ type ComponentProps = {
 };
 
 function Table(props: ComponentProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
+  const totalPages = Math.ceil(props.locations.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentLocations = props.locations.slice(startIndex, endIndex);
 
   const router = useRouter()
   return (
@@ -37,32 +45,28 @@ function Table(props: ComponentProps) {
               </tr>
             </thead>
             <tbody>
-              {props.locations.map((location: any) => {
+              {currentLocations.map((location: any) => {
                 return (
                   <tr key={location._id}>
-                    <td className="truncate">
-                      <span className="text-gray-500 text-xs lg:text-sm block w-full truncate">
-                        {location.locationName}
-                      </span>
+                    <td>
+                      <div className="font-medium text-gray-900">{location.locationName}</div>
                     </td>
-                    <td className="truncate">
-                      <span className="text-gray-500 text-xs lg:text-sm block w-full truncate">
-                        {location.locationAddress}
-                      </span>
+                    <td>
+                      <div className="text-sm text-gray-600">{location.locationAddress}</div>
                     </td>
                     
                     <td>
-                      <SlButton
-                        size="small"
-                        variant="default"
-                        data-optional=""
-                        data-valid=""
+                      <button
                         onClick={() => {
                           router.push(`/locations/edit/${location._id}`)
                         }}
+                        className="text-gray-400 hover:text-gray-600"
+                        title="More options"
                       >
-                        Details
-                      </SlButton>
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                        </svg>
+                      </button>
                     </td>
                   </tr>
                 );
@@ -70,6 +74,13 @@ function Table(props: ComponentProps) {
             </tbody>
           </table>
         </div>
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </div>
 
       <div className="mt-4 mb-12 mx-0 sm:mx-0 sm:hidden">

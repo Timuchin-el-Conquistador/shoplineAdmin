@@ -1,13 +1,14 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
 import "@/styles/table.scss";
+import Pagination from "@/components/Pagination";
 
 import { Call } from "@/lib/types/call";
-
 import { Caller } from "@/lib/types/call";
-import { useMemo } from "react";
 
 const SlButton = dynamic(
   // Notice how we use the full path to the component. If you only do `import("@shoelace-style/shoelace/dist/react")` you will load the entire component library and not get tree shaking.
@@ -47,6 +48,15 @@ type ComponentProps = {
 };
 
 function Table(props: ComponentProps) {
+  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(props.calls.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentCalls = props.calls.slice(startIndex, endIndex);
+
   return (
     <>
       <div id="sessions" className="mb-6 mx-0 sm:mx-0 hidden sm:block">
@@ -54,16 +64,17 @@ function Table(props: ComponentProps) {
           <table>
             <thead>
               <tr>
-                <td>Visitor</td>
-                <td>Duration</td>
-                <td className="hidden lg:table-cell">Link</td>
-                <td className="hidden lg:table-cell">Since</td>
-                <td>Status</td>
-                <td></td>
+                <th>Visitor</th>
+                <th>Link</th>
+                <th>Status</th>
+                <th>Duration</th>
+                <th>Date Created</th>
+                <th>Answered By</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {props.calls.map((call: Call) => {
+              {currentCalls.map((call: Call) => {
                 // Step 1: Remove the ordinal suffix (e.g., "nd")
 
                 const cleanedDateString = call.callStartedTime.replace(
@@ -78,86 +89,111 @@ function Table(props: ComponentProps) {
                 const isoDate = date.toISOString();
 
                 const callStatus = call.callStatus;
-                const variant =
-                  callStatus == "waiting"
-                    ? "primary"
-                    : callStatus == "live"
-                    ? "success"
-                    : "danger";
-                const showBadge =
-                  callStatus == "waiting" || callStatus == "live";
+
+                const getStatusDot = () => {
+                  if (callStatus === "live") return "bg-green-500";
+                  if (callStatus === "waiting") return "bg-yellow-500";
+                  if (callStatus === "ended") return "bg-gray-500";
+                  return "bg-red-500";
+                };
+
+                const getStatusColor = () => {
+                  if (callStatus === "live") return "text-green-700 bg-green-50";
+                  if (callStatus === "waiting") return "text-yellow-700 bg-yellow-50";
+                  return "text-gray-700 bg-gray-50";
+                };
 
                 return (
                   <tr key={call._id}>
-                    <td className="truncate">
-                      <b className="truncate">{call.callerInfo.fullName}</b>
-                      <span className="text-gray-500 text-xs lg:text-sm block w-full truncate">
-                        {call.callerInfo.email}
-                      </span>
-                    </td>
-                    <td className="truncate">
-                      <b>{Math.round(call.duration / 60)}</b>
-                      <span className="text-gray-500 text-xs lg:text-sm block w-full truncate">
-                        minute(s)
-                      </span>
-                    </td>
-                    <td className="hidden lg:table-cell truncate">
-                      <b>{call.link.linkName}</b>
-                      <span className="text-gray-500 text-xs lg:text-sm block w-full truncate">
-                        {call.slug}
-                      </span>
-                    </td>
-                    <td className="hidden lg:table-cell truncate">
-                      <b>
-                        <SlRelativeTime date={isoDate} />
-                      </b>
-                    </td>
-                    <td className="text-left truncate">
-                      {showBadge && (
-                        <SlBadge variant={variant} className="inline-block">
-                          {call.callStatus}
-                        </SlBadge>
-                      )}
-                      {!showBadge && callStatus != "ended" && (
-                        <span className="text-red-500"> {call.callStatus}</span>
-                      )}
+                    <td>
+                      <div>
+                        <div className="font-medium text-gray-900">{call.callerInfo.fullName}</div>
+                        {call.callerInfo.email && (
+                          <div className="text-sm text-gray-500">{call.callerInfo.email}</div>
+                        )}
+                      </div>
                     </td>
                     <td>
-                      <SlButton
-                        size="small"
-                        variant="default"
-                        data-optional=""
-                        data-valid=""
-                        onClick={() => {
-                          if (
-                            call.callStatus == "live" ||
-                            call.callStatus == "waiting"
-                          ) {
-                            // Step 2: Parse the date
-                            const date = new Date(
-                              call.callStartedTime.replace(
-                                /(\d+)(st|nd|rd|th)/,
-                                "$1"
-                              )
-                            );
-
-                            // Step 3: Convert to ISO 8601 format
-                            const isoDate = date.toISOString();
-                            props.openDrawer(
-                              call._id,
-                              call.slug,
-                              isoDate,
-                              call.callerInfo,
-                              call.callStatus,
-                              call?.callAnsweredBy ?? ""
-                            );
-                            return;
-                          }
-                          props.openCall(call._id);
-                        }}
-                      >
-                        Details
-                      </SlButton>
+                      <div>
+                        <div className="font-medium text-gray-900">{call.link.linkName}</div>
+                        <div className="text-sm text-blue-600">@{call.slug}</div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full ${getStatusDot()}`}></span>
+                        <span className="text-sm capitalize">{call.callStatus}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="text-sm text-gray-900">
+                        {Math.round(call.duration / 60)} min
+                      </span>
+                    </td>
+                    <td>
+                      <span className="text-sm text-gray-600">
+                        <SlRelativeTime date={isoDate} />
+                      </span>
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        {call.callAnsweredBy ? (
+                          <>
+                            <div className="flex-shrink-0 h-8 w-8">
+                              <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">
+                                {call.callAnsweredBy.charAt(0).toUpperCase()}
+                              </div>
+                            </div>
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">{call.callAnsweredBy}</div>
+                            </div>
+                          </>
+                        ) : (
+                          <span className="text-sm text-gray-400">Not answered</span>
+                        )}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <button
+                          className="text-gray-400 hover:text-red-600 transition-colors"
+                          title="Delete"
+                          onClick={() => {
+                            if (
+                              call.callStatus == "live" ||
+                              call.callStatus == "waiting"
+                            ) {
+                              props.openDrawer(
+                                call._id,
+                                call.slug,
+                                isoDate,
+                                call.callerInfo,
+                                call.callStatus,
+                                call?.callAnsweredBy ?? ""
+                              );
+                              return;
+                            }
+                            props.openCall(call._id);
+                          }}
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                        <button
+                          className="text-gray-400 hover:text-gray-600"
+                          title="More options"
+                          onClick={() => {
+                            if (call.callStatus !== "waiting") {
+                              router.push(`/calls/${call._id}`);
+                            }
+                          }}
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                          </svg>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -165,6 +201,13 @@ function Table(props: ComponentProps) {
             </tbody>
           </table>
         </div>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+
       </div>
 
       <div className="mt-4 mb-12 mx-0 sm:mx-0 sm:hidden">

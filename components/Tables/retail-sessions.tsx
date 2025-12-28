@@ -1,31 +1,10 @@
 "use client";
-
+import { useState } from "react";
 import dynamic from "next/dynamic";
-
 import "@/styles/table.scss";
-
-import { Call } from "@/lib/types/call";
-
-import { Caller } from "@/lib/types/call";
-import { useMemo } from "react";
+import Pagination from "@/components/Pagination";
 import Link from "next/link";
 
-const SlButton = dynamic(
-  // Notice how we use the full path to the component. If you only do `import("@shoelace-style/shoelace/dist/react")` you will load the entire component library and not get tree shaking.
-  () => import("@shoelace-style/shoelace/dist/react/button/index.js"),
-  {
-    //   loading: () => <p>Loading...</p>,
-    ssr: false,
-  }
-);
-
-const SlBadge = dynamic(
-  () => import("@shoelace-style/shoelace/dist/react/badge/index.js"),
-  {
-    //  loading: () => <p>Loading...</p>,
-    ssr: false,
-  }
-);
 const SlRelativeTime = dynamic(
   () => import("@shoelace-style/shoelace/dist/react/relative-time/index.js"),
   {
@@ -35,7 +14,7 @@ const SlRelativeTime = dynamic(
 );
 
 function Table(props: {
-  visitors:
+  retailsSessions:
     | {
         _id: string;
         visitor: string;
@@ -46,6 +25,15 @@ function Table(props: {
       }[]
     | null;
 }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const sessions = props.retailsSessions || [];
+  const totalPages = Math.ceil(sessions.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentSessions = sessions.slice(startIndex, endIndex);
+
   return (
     <>
       <div id="sessions" className="mb-6 mx-0 sm:mx-0 hidden sm:block">
@@ -61,25 +49,25 @@ function Table(props: {
               </tr>
             </thead>
             <tbody>
-              {props.visitors?.map((session: any) => {
+              {currentSessions.map((session: any) => {
                 return (
                   <tr key={session._id}>
-                    <td className="truncate">
-                      <b className="truncate">{session.visitor}</b>
+                    <td>
+                      <div className="font-medium text-gray-900">{session.visitor}</div>
                     </td>
-                    <td className="text-left truncate">
-                      <b className="truncate">{session.location}</b>
+                    <td>
+                      <div className="text-sm text-gray-600">{session.location}</div>
                     </td>
-                    <td className="hidden lg:table-cell truncate">
-                      <b>
+                    <td className="hidden lg:table-cell">
+                      <span className="text-sm text-gray-600">
                         <SlRelativeTime date={session.date} />
-                      </b>
+                      </span>
                     </td>
-                    <td className="text-left truncate">
-                      <b className="truncate">{session.staff}</b>
+                    <td>
+                      <div className="text-sm text-gray-600">{session.staff}</div>
                     </td>
-                    <td className="text-left truncate">
-                      <Link className="truncate" href={session.link}>
+                    <td>
+                      <Link className="text-sm text-blue-600 hover:text-blue-800" href={session.link}>
                         {session.link}
                       </Link>
                     </td>
@@ -89,11 +77,18 @@ function Table(props: {
             </tbody>
           </table>
         </div>
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </div>
 
       <div className="mt-4 mb-12 mx-0 sm:mx-0 sm:hidden">
         <ul className="rounded-lg mt-2 divide-y divide-gray-200 overflow-hidden shadow">
-          {props.visitors?.map((session: any) => {
+          {props.retailsSessions?.map((session: any) => {
             return (
               <li key={session._id}>
                 <div className="block px-4 py-4 bg-white hover:bg-gray-50">

@@ -6,13 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 
-const SlButton = dynamic(
-  () => import("@shoelace-style/shoelace/dist/react/button/index.js"),
-  {
-    //  loading: () => <>Loading...</>,
-    ssr: false,
-  }
-);
+// removed SlButton dynamic import to standardize button styles
 
 const SlIcon = dynamic(
   // Notice how we use the full path to the component. If you only do `import("@shoelace-style/shoelace/dist/react")` you will load the entire component library and not get tree shaking.
@@ -152,10 +146,15 @@ function EditRetailUser(props: PageProps) {
               </div>{" "}
               <div className="md:w-1/2 relative">
                 <div className="flex relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
                   <input
                     name="Name"
                     placeholder="name"
-                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-3 pr-10 !truncate"
+                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-10 pr-10 !truncate"
                     ref={staffName}
                     defaultValue={props.user.userName}
                   />{" "}
@@ -169,10 +168,15 @@ function EditRetailUser(props: PageProps) {
               </div>{" "}
               <div className="md:w-1/2 relative">
                 <div className="flex relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
                   <input
                     name="Email"
                     placeholder="Email"
-                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-3 pr-10 !truncate"
+                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-10 pr-10 !truncate"
                     ref={staffEmail}
                     defaultValue={props.user.userEmail}
                   />{" "}
@@ -186,10 +190,14 @@ function EditRetailUser(props: PageProps) {
               </div>{" "}
               <div className="md:w-1/2 relative">
                 <div className="flex relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
                   <input
                     name="Password"
-                    type="password"
-                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-3 pr-10 !truncate"
+                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-10 pr-10 !truncate"
                     ref={staffPassword}
                     defaultValue={props.user.userPassword}
                   />{" "}
@@ -205,10 +213,15 @@ function EditRetailUser(props: PageProps) {
               </div>{" "}
               <div className="md:w-1/2 relative">
                 <div className="flex relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </div>
                   <input
                     name="Phone"
                     placeholder="Phone number"
-                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-3 pr-10 !truncate"
+                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-10 pr-10 !truncate"
                     ref={staffPhoneNumber}
                     defaultValue={props.user.userPhoneNumber}
                   />{" "}
@@ -222,10 +235,15 @@ function EditRetailUser(props: PageProps) {
               </div>{" "}
               <div className="md:w-1/2 relative">
                 <div className="flex relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
                   <input
                     name="Role"
                     placeholder="Role"
-                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-3 pr-10 !truncate"
+                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-10 pr-10 !truncate"
                     ref={staffRole}
                     defaultValue={props.user.role}
                   />{" "}
@@ -266,28 +284,20 @@ function EditRetailUser(props: PageProps) {
             </div>
             <hr />
             <div className="w-full flex items-center justify-between mt-16 mb-1">
-              <SlButton
-                variant="default"
-                size="medium"
-                data-optional=""
-                data-valid=""
-                className="inline-block"
+              <button
+                className="btn btn-outline btn-lg"
                 onClick={() => {
                   router.back();
                 }}
               >
                 Cancel
-              </SlButton>{" "}
-              <SlButton
-                variant="primary"
-                size="medium"
-                data-optional=""
-                data-valid=""
-                className="inline-block"
+              </button>{" "}
+              <button
+                className="btn btn-primary btn-lg"
                 onClick={createSession}
               >
                 {loading ? <Spinner /> : "Save"}
-              </SlButton>
+              </button>
             </div>
           </div>
         </div>

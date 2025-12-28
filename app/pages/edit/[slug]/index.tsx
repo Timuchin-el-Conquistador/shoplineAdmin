@@ -588,29 +588,21 @@ function EditLink(props: PageProps) {
             </div>
           </div>
           <div className="w-full flex items-center justify-between mt-16 mb-1">
-            <SlButton
-              variant="default"
-              size="medium"
-              data-optional=""
-              data-valid=""
-              className="inline-block"
-              onClick={() => {
-                router.back();
-              }}
-            >
-              Cancel
-            </SlButton>{" "}
-            <SlButton
-              variant="primary"
-              size="medium"
-              data-optional=""
-              data-valid=""
-              className="inline-block"
+              <button
+                className="btn btn-outline btn-lg"
+                onClick={() => {
+                  router.back();
+                }}
+              >
+                Cancel
+              </button>{" "}
+            <button
+              className="btn btn-primary btn-lg"
               onClick={async () => {
                 try {
                   setLoading(true);
                
-           await props.updateUrlAction(
+                await props.updateUrlAction(
                     form.link._id!,
                     form.link.slug,
                     form.link.linkName,
@@ -630,7 +622,7 @@ function EditLink(props: PageProps) {
               }}
             >
               Save
-            </SlButton>
+            </button>
           </div>
         </div>
       </div>

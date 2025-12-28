@@ -43,7 +43,7 @@ export async function createLocationAction(
   }
 }
 
-export async function updateLoationAction(
+export async function updateLocationAction(
   locationId: string,
   email: string,
   name: string,
@@ -153,7 +153,7 @@ export async function retrieveKPI() {
         visitors: number;
         sessions: number;
       };
-      visitors: {
+      retailsSessions: {
         _id: string;
         visitor: string;
         location: string;
@@ -162,9 +162,17 @@ export async function retrieveKPI() {
         date: string;
         link: string;
       }[];
-
       monthlyVisitors: number[][];
       locations: string[];
+      // Optional dashboard dataset fields provided by backend
+      topMetrics?: any[];
+      topPerformingRetailLinks?: any[];
+      regionData?: any[];
+      recentRecommendations?: any[];
+      recentTransactions?: any[];
+      barChartData?: any;
+      lineChartData?: any;
+      doughnutData?: any;
     } = await fakeBackend.get(path);
     return response;
   } catch (error) {

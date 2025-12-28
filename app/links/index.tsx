@@ -55,8 +55,9 @@ function Links(props: PageProps) {
 
 
   return (
-    <div id="pages-grid" className="index-card-grid">
-      {links.map((link) => (
+    <div className="p-6">
+      <div id="pages-grid" className="index-card-grid">
+        {links.map((link) => (
         <Fragment key={link._id}>
           <Card
             slug={link.slug}
@@ -127,6 +128,7 @@ function Links(props: PageProps) {
           setLinks((prevState) => prevState.filter((el) => el.slug != slug));
         }}
       />
+      </div>
     </div>
   );
 }

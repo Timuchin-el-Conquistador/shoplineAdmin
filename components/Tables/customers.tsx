@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import dynamic from "next/dynamic";
 
 import "@/styles/table.scss";
+import Pagination from "@/components/Pagination";
 
 import { type Call } from "@/lib/types/call";
 import { type User } from "@/lib/types/user";
@@ -37,6 +39,14 @@ type ComponentProps = {
 };
 
 function Table(props: ComponentProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(props.customers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentCustomers = props.customers.slice(startIndex, endIndex);
+
   return (
     <>
       <div id="sessions" className="mb-6 mx-0 sm:mx-0 hidden sm:block">
@@ -52,7 +62,7 @@ function Table(props: ComponentProps) {
               </tr>
             </thead>
             <tbody>
-              {props.customers.map((customer: User) => {
+              {currentCustomers.map((customer: User) => {
                 // Step 1: Remove the ordinal suffix (e.g., "nd")
                 let isoDate;
                     if(customer.lastLogin){
@@ -74,48 +84,55 @@ function Table(props: ComponentProps) {
 
                 const showBadge = subscriptionStatus != "active" && subscriptionStatus != 'trialing';
 
+                const getStatusDot = () => {
+                  if (subscriptionStatus === "active" || subscriptionStatus === "trialing") return "bg-green-500";
+                  if (subscriptionStatus === "pending") return "bg-orange-500";
+                  return "bg-red-500";
+                };
+
                 return (
                   <tr key={customer._id}>
-                    <td className="truncate">
-                      <b className="truncate">{customer.fullName}</b>
-                      <span className="text-gray-500 text-xs lg:text-sm block w-full truncate">
-                        {customer.email}
-                      </span>
+                    <td>
+                      <div>
+                        <div className="font-medium text-gray-900">{customer.fullName}</div>
+                        <div className="text-sm text-gray-500">{customer.email}</div>
+                      </div>
                     </td>
-                    <td className="truncate">
-                      <b>{customer.accountStatus}</b>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full ${getStatusDot()}`}></span>
+                        <span className="text-sm">{customer.accountStatus}</span>
+                      </div>
                     </td>
 
-                    <td className="hidden lg:table-cell truncate">
-                      <b>
+                    <td className="hidden lg:table-cell">
+                      <span className="text-sm text-gray-600">
                         <SlRelativeTime date={isoDate} />
-                      </b>
+                      </span>
                     </td>
-                    <td className="text-left truncate">
-                      {showBadge && (
+                    <td>
+                      {showBadge ? (
                         <SlBadge variant={variant} className="inline-block">
                           {subscriptionStatus}
                         </SlBadge>
-                      )}
-                      {!showBadge && (
-                        <span className="text-green-500">
-                          {" "}
+                      ) : (
+                        <span className="text-sm text-green-600 font-medium">
                           {subscriptionStatus}
                         </span>
                       )}
                     </td>
                     <td>
-                      <SlButton
-                        size="small"
-                        variant="default"
-                        data-optional=""
-                        data-valid=""
+                      <button
                         onClick={() => {
                           props.openDrawer(customer._id, customer.email);
                         }}
+                        className="text-gray-400 hover:text-gray-600"
+                        title="More options"
                       >
-                        Details
-                      </SlButton>
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                        </svg>
+                      </button>
                     </td>
                   </tr>
                 );
@@ -123,6 +140,13 @@ function Table(props: ComponentProps) {
             </tbody>
           </table>
         </div>
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </div>
 
       <div className="mt-4 mb-12 mx-0 sm:mx-0 sm:hidden">

@@ -1,6 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import dynamic from "next/dynamic";
 
 import "@/styles/table.scss";
+import Pagination from "@/components/Pagination";
 
 import { type Call, type Caller } from "@/lib/types/call";
 
@@ -33,6 +37,13 @@ type ComponentProps = {
   ) => void;
 };
 function Table(props: ComponentProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(props.sessions.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentSessions = props.sessions.slice(startIndex, endIndex);
 
   return (
     <>
@@ -49,7 +60,7 @@ function Table(props: ComponentProps) {
               </tr>
             </thead>
             <tbody>
-              {props.sessions.map((session: Call) => (
+              {currentSessions.map((session: Call) => (
                 <tr key={session._id}>
                   <td className="truncate">
                     <span className="truncate block w-full font-semibold">
@@ -116,6 +127,13 @@ function Table(props: ComponentProps) {
             </tbody>
           </table>
         </div>
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </div>
 
       <div className="mt-4 mb-12 mx-0 sm:mx-0 sm:hidden">

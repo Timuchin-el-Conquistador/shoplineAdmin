@@ -227,23 +227,23 @@ function NewLink(props: PageProps) {
         </div>
         <div className="p-6 bg-white">
           <div className="flex flex-col max-w-3xl w-full">
-            <h2 className="font-semibold text-xl mb-12">Create Link</h2>{" "}
+            <h2 className="font-bold text-2xl mb-8 text-gray-900">Create Link</h2>{" "}
             <div className="md:flex w-full">
               <div className="md:w-1/2">
-                <label className="font-medium text-md">Link address</label>{" "}
+                <label className="font-semibold text-sm text-gray-900">Link address <span className="text-red-500">*</span></label>{" "}
                 <p className="text-xs text-gray-400 mb-2 md:mb-auto">
                   You will share this with others.
                 </p>
               </div>{" "}
               <div className="md:w-1/2 relative">
                 <div className="flex relative">
-                  <span className="flex items-center px-3 text-sm text-gray-950 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md max-w-48">
+                  <span className="flex items-center px-3 text-sm text-gray-900 bg-gray-100 border-0 rounded-l-xl">
                     {props.domain}
                   </span>{" "}
                   <input
                     name="Slug"
                     placeholder="yourname"
-                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-3 pr-10 !truncate"
+                    className="bg-gray-50 border-0 rounded-r-xl text-gray-900 focus:ring-0 block w-full text-sm py-3.5 pl-3 pr-10 placeholder-gray-500"
                     value={form.link.slug}
                     onChange={(event) => {
                       const value = sanitizeInput(event.target.value);
@@ -323,7 +323,7 @@ function NewLink(props: PageProps) {
             <hr />{" "}
             <div className="md:flex w-full">
               <div className="md:w-1/2">
-                <label className="font-medium text-md">Link name</label>{" "}
+                <label className="font-semibold text-sm text-gray-900">Link name <span className="text-red-500">*</span></label>{" "}
                 <p className="text-xs text-gray-400 mb-2 md:mb-auto">
                   Visible to visitors, title of your link page.
                 </p>
@@ -332,7 +332,7 @@ function NewLink(props: PageProps) {
                 <input
                   name="Name"
                   placeholder="Enter unique name for your page"
-                  className="border border-gray-300 text-gray-700 text-sm rounded-md focus:border-blue-300 focus:outline-none block w-full py-2 px-3 !truncate"
+                  className="bg-gray-50 border-0 rounded-xl text-gray-900 focus:ring-0 block w-full text-sm py-3.5 px-4 placeholder-gray-500"
                   value={form.link.linkName}
                   onChange={(event) => {
                     const value = event.target.value;
@@ -344,7 +344,7 @@ function NewLink(props: PageProps) {
             <hr />{" "}
             <div className="lg:flex w-full">
               <div className="flex flex-col lg:w-1/2">
-                <label className="font-medium text-md">Devices</label>{" "}
+                <label className="font-semibold text-sm text-gray-900">Devices <span className="text-red-500">*</span></label>{" "}
                 <p className="text-xs text-gray-400 mb-2 lg:mb-auto w-[95%]">
                   When a visitor calls, devices will be notified based on the
                   selected call distribution strategy.
@@ -462,7 +462,7 @@ function NewLink(props: PageProps) {
             <hr />{" "}
             <div className="lg:flex w-full">
               <div className="flex flex-col lg:w-1/2">
-                <label className="font-medium text-md">Stores</label>{" "}
+                <label className="font-semibold text-sm text-gray-900">Stores</label>{" "}
                 <p className="text-xs text-gray-400 mb-2 lg:mb-auto w-[95%]">
                   Receive incoming calls from your store visitors
                   <SlTooltip
@@ -633,7 +633,7 @@ function NewLink(props: PageProps) {
                     name="online-message"
                     placeholder="Maximum 180 characters"
                     rows={3}
-                    className="border border-gray-300 text-gray-700 text-sm rounded-lg focus:border-blue-300 focus:shadow-none focus:ring-0 focus:outline-none block w-full py-2 px-3"
+                  className="bg-gray-50 border-0 rounded-xl text-gray-900 focus:ring-0 block w-full text-sm py-3.5 px-4 placeholder-gray-500"
                     defaultValue={form.link.settings.onlineMessage}
                     onChange={(event) => {
                       const value = (event.target as HTMLTextAreaElement).value;
@@ -655,7 +655,7 @@ function NewLink(props: PageProps) {
                     name="offline-message"
                     placeholder="Maximum 180 characters"
                     rows={3}
-                    className="border border-gray-300 text-gray-700 text-sm rounded-lg focus:border-blue-300 focus:shadow-none focus:ring-0 focus:outline-none block w-full py-2 px-3"
+                  className="bg-gray-50 border-0 rounded-xl text-gray-900 focus:ring-0 block w-full text-sm py-3.5 px-4 placeholder-gray-500"
                     defaultValue={form.link.settings.offlineMessage}
                     onChange={(event) => {
                       const value = (event.target as HTMLTextAreaElement).value;
@@ -667,24 +667,16 @@ function NewLink(props: PageProps) {
               </div>
             </div>
             <div className="w-full flex items-center justify-between mt-16 mb-1">
-              <SlButton
-                variant="default"
-                size="medium"
-                data-optional=""
-                data-valid=""
-                className="inline-block"
+              <button
+                className="btn btn-outline btn-lg"
                 onClick={() => {
                   router.back();
                 }}
               >
                 Cancel
-              </SlButton>{" "}
-              <SlButton
-                variant="primary"
-                size="medium"
-                data-optional=""
-                data-valid=""
-                className="inline-block"
+              </button>{" "}
+              <button
+                className="btn btn-primary btn-lg"
                 onClick={async () => {
                   if (
                     !form.link.connectedDevices.filter(
@@ -698,7 +690,7 @@ function NewLink(props: PageProps) {
                 }}
               >
                 {loading ? <Spinner /> : "Save"}
-              </SlButton>
+              </button>
             </div>
           </div>
         </div>

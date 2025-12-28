@@ -32,161 +32,223 @@ function Sidebar({
     isOpen: false,
   });
 
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   return (
     <>
       <div id="dashboard-sidebar">
         <div className="hidden md:flex md:flex-shrink-0 h-full">
-          <div className="flex flex-col w-64 border-r border-gray-200 pt-5 pb-4 bg-white overflow-y-auto">
-            <div className="flex items-center justify-center pt-2 pb-2">
-              <a href="/">
-                <Image
-                  className="inline-block"
-                  src="/shoporia-logo.svg"
-                  alt="logo"
-                  width={150}
-                  height={0}
-                />
-              </a>
+          <div className={`flex flex-col border-r border-gray-200 pb-4 bg-[#1a2332] transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`} style={{ overflow: 'visible', borderTopRightRadius: '24px' }}>
+            <div className="flex items-center justify-between px-3 pt-2 pb-6 sidebar-header" style={{ position: 'relative' }}>
+              {!isCollapsed && (
+                <>
+                  <div className="sidebar-decor-blob" aria-hidden>
+                    <svg className="sidebar-decor-svg" width="282" height="334" viewBox="0 0 282 334" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g filter="url(#filter0_f_644_1012)">
+                        <path d="M143.49 179.494C65.4917 181.056 -7.64664 165.161 -19.8694 143.99C-32.0921 122.82 21.2293 104.391 99.2273 102.829C177.225 101.267 250.364 117.162 262.586 138.332C274.809 159.503 221.488 177.931 143.49 179.494Z" fill="#E3E0FF"/>
+                      </g>
+                      <defs>
+                        <filter id="filter0_f_644_1012" x="-175.413" y="-51.0771" width="593.543" height="384.477" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                          <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+                          <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                          <feGaussianBlur stdDeviation="76.9" result="effect1_foregroundBlur_644_1012"/>
+                        </filter>
+                      </defs>
+                    </svg>
+                  </div>
+                  <a href="/">
+                    <Image
+                      className="inline-block"
+                      src="/logo.png"
+                      alt="shoporia logo"
+                      width={120}
+                      height={40}
+                    />
+                  </a>
+                </>
+              )}
+              <button
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                className={`p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors ${isCollapsed ? 'mx-auto' : 'ml-auto'}`}
+                aria-label="Toggle sidebar"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={`transition-transform ${isCollapsed ? 'rotate-180' : ''}`}
+                >
+                  <use xlinkHref="/feather-sprite.svg#chevrons-left"></use>
+                </svg>
+              </button>
             </div>{" "}
-            <div className="mt-5 flex-grow flex flex-col">
-              <nav className="flex-1 px-2 bg-white">
+            <div className="mt-2 flex-grow flex flex-col justify-between">
+              <nav className="flex-1 px-3" style={{ overflow: 'visible' }}>
                 <div className="space-y-1">
                     <a
                     href="/dashboard"
-                    className={`sidebar-button ${
-                      page == "dashboard"  && "selected"
+                    className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      page == "dashboard" 
+                        ? "bg-blue-600 text-white" 
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
                     }`}
+                    style={page == "dashboard" ? {
+                      borderTopLeftRadius: '8px',
+                      borderBottomLeftRadius: '8px',
+                      borderTopRightRadius: '24px',
+                      borderBottomRightRadius: '24px',
+                      marginRight: '-12px',
+                      paddingRight: '24px'
+                    } : {}}
+                    title={isCollapsed ? "Dashboard" : ""}
                   >
                     <svg
-                      width="24"
-                      height="24"
+                      width="20"
+                      height="20"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="sidebar-sidebar-icon"
+                      className={isCollapsed ? "" : "mr-3"}
                       style={{ display: "inline-block" }}
                     >
                       <use xlinkHref="/feather-sprite.svg#home"></use>
                     </svg>
-                    Dashboard
+                    {!isCollapsed && <span>Dashboard</span>}
                   </a>{" "}
                   <a
                     href="/links"
-                    className={`sidebar-button ${
-                      (page == "links" || page.includes("pages")) &&
-                      "selected"
+                    className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      (page == "links" || page.includes("pages"))
+                        ? "bg-blue-600 text-white" 
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
                     }`}
+                    style={(page == "links" || page.includes("pages")) ? {
+                      borderTopLeftRadius: '8px',
+                      borderBottomLeftRadius: '8px',
+                      borderTopRightRadius: '24px',
+                      borderBottomRightRadius: '24px',
+                      marginRight: '-12px',
+                      paddingRight: '24px'
+                    } : {}}
+                    title={isCollapsed ? "Links" : ""}
                   >
                     <svg
-                      width="24"
-                      height="24"
+                      width="20"
+                      height="20"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="sidebar-sidebar-icon"
+                      className={isCollapsed ? "" : "mr-3"}
                       style={{ display: "inline-block" }}
                     >
-                      <use xlinkHref="/feather-sprite.svg#home"></use>
+                      <use xlinkHref="/feather-sprite.svg#link"></use>
                     </svg>
-                    Links
+                    {!isCollapsed && <span>Links</span>}
                   </a>{" "}
                   <a
                     href="/calls"
-                    className={`sidebar-button ${
-                      page == "calls" && "selected"
+                    className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      page == "calls"
+                        ? "bg-blue-600 text-white" 
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
                     }`}
+                    style={page == "calls" ? {
+                      borderTopLeftRadius: '8px',
+                      borderBottomLeftRadius: '8px',
+                      borderTopRightRadius: '24px',
+                      borderBottomRightRadius: '24px',
+                      marginRight: '-12px',
+                      paddingRight: '24px'
+                    } : {}}
+                    title={isCollapsed ? "Call Support" : ""}
                   >
                     <svg
-                      width="24"
-                      height="24"
+                      width="20"
+                      height="20"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="sidebar-sidebar-icon"
+                      className={isCollapsed ? "" : "mr-3"}
                       style={{ display: "inline-block" }}
                     >
                       <use xlinkHref="/feather-sprite.svg#phone"></use>
                     </svg>
-                    Calls
-                  </a>{" "}
-                  <a
-                    href="/onboarding"
-                    className={`sidebar-button ${
-                      page == "onboarding" && "selected"
-                    }`}
-                  >
-                    <svg
-                      fill="#9CA3AF"
-                      viewBox="0 0 1920 1920"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="sidebar-sidebar-icon"
-                      style={{ display: "inline-block" }}
-                      width="24"
-                      height="24"
-                    >
-                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                      <g
-                        id="SVGRepo_tracerCarrier"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></g>
-                      <g id="SVGRepo_iconCarrier">
-                        {" "}
-                        <path
-                          d="M1920 332v1257H0V332h1920Zm-115 114H115v1032h1690V446Zm-574 683v113H409v-113h822Zm275-226v113H409V903h1097Zm-275-226v113H409V677h822Z"
-                          fillRule="evenodd"
-                        ></path>{" "}
-                      </g>
-                    </svg>
-                    Onboarding
+                    {!isCollapsed && <span>Call Support</span>}
                   </a>{" "}
                   <a
                     href="/locations"
-                    className={`sidebar-button ${
-                      page == "locations" ? "selected" : ""
+                    className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      page == "locations"
+                        ? "bg-blue-600 text-white" 
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
                     }`}
+                    style={page == "locations" ? {
+                      borderTopLeftRadius: '8px',
+                      borderBottomLeftRadius: '8px',
+                      borderTopRightRadius: '24px',
+                      borderBottomRightRadius: '24px',
+                      marginRight: '-12px',
+                      paddingRight: '24px'
+                    } : {}}
+                    title={isCollapsed ? "Locations" : ""}
                   >
                     <svg
-                      width="24"
-                      height="24"
+                      width="20"
+                      height="20"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="sidebar-sidebar-icon"
+                      className={isCollapsed ? "" : "mr-3"}
                       style={{ display: "inline-block" }}
                     >
-                      <use xlinkHref="/feather-sprite.svg#home"></use>
+                      <use xlinkHref="/feather-sprite.svg#map-pin"></use>
                     </svg>
-                    Locations
+                    {!isCollapsed && <span>Locations</span>}
                   </a>{" "}
+
                   <a
                     href="/staff"
-                    className={`sidebar-button ${
-                      page == "staff" ? "selected" : ""
+                    className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      page == "staff"
+                        ? "bg-blue-600 text-white" 
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
                     }`}
+                    style={page == "staff" ? {
+                      borderTopLeftRadius: '8px',
+                      borderBottomLeftRadius: '8px',
+                      borderTopRightRadius: '24px',
+                      borderBottomRightRadius: '24px',
+                      marginRight: '-12px',
+                      paddingRight: '24px'
+                    } : {}}
+                    title={isCollapsed ? "Staff" : ""}
                   >
                     <svg
-                      width="24"
-                      height="24"
+                      width="20"
+                      height="20"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="sidebar-sidebar-icon"
+                      className={isCollapsed ? "" : "mr-3"}
                       style={{ display: "inline-block" }}
                     >
-                      <use xlinkHref="/feather-sprite.svg#home"></use>
+                      <use xlinkHref="/feather-sprite.svg#users"></use>
                     </svg>
-                    Staff
+                    {!isCollapsed && <span>Staff</span>}
                   </a>{" "}
                   {/*<a
                     href="/customers"
@@ -225,44 +287,111 @@ function Sidebar({
                   Stats
                 </Link>*/}
                 </div>{" "}
-                <div className="mt-8">
-                  <h3 className="px-3 pb-1 text-xs leading-4 font-semibold text-gray-500 uppercase">
-                    MORE
-                  </h3>{" "}
+                <div className="mt-6">
+                  {!isCollapsed && (
+                    <h3 className="px-3 pb-2 text-xs leading-4 font-semibold text-gray-400 uppercase tracking-wider">
+                      MORE
+                    </h3>
+                  )}{" "}
                   <div className="mt-1 space-y-1">
-                    {/*<a href="/organizations" className="advanced-buttons ">
-                    <span className="text-gray-300">&gt; &nbsp;</span>{" "}
-                    Organizations
-                  </a>{" "}*/}
                     <a
                       href="/integrations"
-                      className={`advanced-buttons ${
-                        page == "integrations" && "selected"
+                      className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                        page == "integrations"
+                          ? "bg-blue-600 text-white" 
+                          : "text-gray-300 hover:bg-gray-700 hover:text-white"
                       }`}
+                      title={isCollapsed ? "Integrations" : ""}
                     >
-                      <span className="text-gray-300">&gt; &nbsp;</span>{" "}
-                      Integrations
+                      <svg
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={isCollapsed ? "" : "mr-3"}
+                        style={{ display: "inline-block" }}
+                      >
+                        <use xlinkHref="/feather-sprite.svg#share-2"></use>
+                      </svg>
+                      {!isCollapsed && <span>Integrations</span>}
+                    </a>{" "}
+                    <a
+                      href="/onboarding"
+                      className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                        page == "onboarding"
+                          ? "bg-blue-600 text-white" 
+                          : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                      }`}
+                      title={isCollapsed ? "Onboarding" : ""}
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={isCollapsed ? "" : "mr-3"}
+                        style={{ display: "inline-block" }}
+                      >
+                        <use xlinkHref="/feather-sprite.svg#book-open"></use>
+                      </svg>
+                      {!isCollapsed && <span>Onboarding</span>}
                     </a>{" "}
                     <a
                       href="/settings"
-                      className={`advanced-buttons ${
-                        page == "settings" && "selected"
+                      className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                        page == "settings"
+                          ? "bg-blue-600 text-white" 
+                          : "text-gray-300 hover:bg-gray-700 hover:text-white"
                       }`}
+                      title={isCollapsed ? "Settings" : ""}
                     >
-                      <span className="text-gray-300">&gt; &nbsp;</span>{" "}
-                      Settings
+                      <svg
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={isCollapsed ? "" : "mr-3"}
+                        style={{ display: "inline-block" }}
+                      >
+                        <use xlinkHref="/feather-sprite.svg#settings"></use>
+                      </svg>
+                      {!isCollapsed && <span>Settings</span>}
                     </a>{" "}
-                    {/*<a
-                      href="/billing"
-                      className={`advanced-buttons ${
-                        page == "billing" && "selected"
-                      }`}
-                    >
-                      <span className="text-gray-300">&gt; &nbsp;</span> Billing
-                    </a>*/}
                   </div>
                 </div>
               </nav>
+              
+              <div className="px-3 pb-4">
+                <a
+                  href="/users/sign_out"
+                  className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors text-gray-300 hover:bg-gray-700 hover:text-white`}
+                  title={isCollapsed ? "Sign out" : ""}
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={isCollapsed ? "" : "mr-3"}
+                    style={{ display: "inline-block" }}
+                  >
+                    <use xlinkHref="/feather-sprite.svg#log-out"></use>
+                  </svg>
+                  {!isCollapsed && <span>Sign out</span>}
+                </a>
+              </div>
             </div>
           </div>
         </div>

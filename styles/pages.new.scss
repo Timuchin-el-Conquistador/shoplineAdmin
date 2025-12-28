@@ -106,3 +106,56 @@ textarea {
 ;
     }
 }
+
+/* Page /pages/new specific layout tweaks (CSS-only) */
+#main > .p-6.bg-white {
+	border-radius: 16px;
+	padding: 32px;
+	background: #ffffff;
+	box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+
+#main .max-w-3xl {
+	margin: 0 auto;
+	width: 100%;
+	padding: 0 8px;
+}
+
+/* Move the form action buttons to the right and reduce their size slightly */
+#main .max-w-3xl .w-full.flex.items-center.justify-between {
+	justify-content: flex-end !important;
+	gap: 12px;
+}
+
+#main .max-w-3xl .w-full.flex.items-center.justify-between > button {
+	padding: 8px 16px !important;
+	border-radius: 9999px !important;
+	font-weight: 600;
+}
+
+/* Cancel button: subtle outline */
+#main .max-w-3xl .w-full.flex.items-center.justify-between > button:first-child {
+	background: #fff !important;
+	border-color: #111827 !important;
+	color: #111827 !important;
+}
+
+/* Save button: primary blue look, slightly smaller */
+#main .max-w-3xl .w-full.flex.items-center.justify-between > button:last-child {
+	padding: 8px 18px !important;
+	box-shadow: 0 4px 10px rgba(59,130,246,0.12);
+}
+
+/* Make input groups and cards breathe more like the design */
+#main .max-w-3xl input,
+#main .max-w-3xl textarea {
+	padding-top: 12px !important;
+	padding-bottom: 12px !important;
+}
+
+/* Slightly soften the horizontal rules */
+#main .max-w-3xl hr {
+	border-color: #eef2f7;
+	margin-top: 24px;
+	margin-bottom: 24px;
+}

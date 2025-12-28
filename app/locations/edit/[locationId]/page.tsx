@@ -1,4 +1,4 @@
-import { updateLoationAction, retrieveLocation } from "@/lib/actions/location";
+import { updateLocationAction, retrieveLocation } from "@/lib/actions/location";
 import EditLocation from ".";
 import Layout from "@/components/layouts/private";
 import InternalServerError from "@/components/Presentational/500";
@@ -14,8 +14,8 @@ async function EditLocationPage(props: { params: { locationId: string } }) {
   return (
     <Layout page="locations" sidebar={true} notifications={true}>
       <EditLocation
-        updateLoationAction={updateLoationAction}
-        location={location}
+        updateLocationAction={updateLocationAction}
+        location={location} 
       />
     </Layout>
   );

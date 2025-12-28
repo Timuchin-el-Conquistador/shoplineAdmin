@@ -1,4 +1,5 @@
 import NotificationsLayout from "./notifications";
+import PageHeader from "./page-header";
 
 import {
   hasDeviceIntegrations,
@@ -20,11 +21,15 @@ async function PrivateLayout({
   page,
   sidebar,
   notifications,
+  pageTitle,
+  pageSubtitle,
 }: {
   children: React.ReactNode;
   page: string;
   sidebar: boolean;
   notifications: boolean;
+  pageTitle?: string;
+  pageSubtitle?: string;
 }) {
   const session = await retrieveSession() as Session;
   if (session == null) return <InternalServerError />;
@@ -43,6 +48,12 @@ async function PrivateLayout({
 
   if (account == null) return <InternalServerError />;
 
+  // Get page title from page prop if not provided
+  const getPageTitle = () => {
+    if (pageTitle) return pageTitle;
+    return page.charAt(0).toUpperCase() + page.slice(1);
+  };
+
 
 
   return (
@@ -55,7 +66,13 @@ async function PrivateLayout({
         />
       )}
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
-        <main className="flex-1 relative overflow-y-auto focus:outline-none">
+        <main className="flex-1 relative overflow-y-auto focus:outline-none bg-gray-100">
+          <PageHeader
+            title={getPageTitle()}
+            subtitle={pageSubtitle}
+            notificationCount={0}
+            userName={session.fullName as string}
+          />
           <NotificationsLayout
             hasActiveDevices={hasActiveDevices}
             isNotificationsOn={notifications}

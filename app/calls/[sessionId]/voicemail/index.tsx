@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
-
 import "@/styles/calls/index.scss";
 import "@/styles/calls/recording.scss";
+
+import CallSessionShell from "../call-session-shell";
 
 import { useEffect, useState } from "react";
 
@@ -22,7 +22,6 @@ function Voicemail(props: PageProps) {
   const [voicemailUrl, setVoicemailUrl] = useState<string>();
 
   const [loading, setLoadingState] = useState(false);
-  const [errpr, setErrorMessage] = useState(false);
   useEffect(() => {
     async function retrieveCallRecordId(callId: string) {
       setLoadingState(true);
@@ -35,48 +34,14 @@ function Voicemail(props: PageProps) {
     }
 
     retrieveCallRecordId(props.callId);
-  }, []);
+  }, [props.callId, props.retrieveVoicemail]);
 
   return (
-    <div id="session" className="p-6">
-      <div className="bg-white p-6">
-        <div>
-          <div className="mb-6 border-b border-gray-200">
-            <nav className="-mb-px flex overflow-y-scroll remove-scroll">
-              <Link
-                href={`/calls/${props.callId}`}
-                className="
-									whitespace-nowrap py-4 px-2 sm:px-6 border-b-2 border-transparent font-medium text-sm focus:outline-none
-							hover:text-blue-500 hover:border-blue-300
-							text-gray-500 
-						"
-              >
-                Details
-              </Link>{" "}
-              <Link
-                href={`/calls/${props.callId}/recording`}
-                className="
-										whitespace-nowrap py-4 px-2 sm:px-6 border-b-2 border-transparent font-medium text-sm focus:outline-none
-							hover:text-blue-500 hover:border-blue-300
-							text-gray-500 
-						"
-              >
-                Recording
-              </Link>
-              <Link
-                href={`/calls/${props.callId}/voicemail`}
-                className="
-											whitespace-nowrap py-4 px-2 sm:px-6 border-b-2 border-transparent font-medium text-sm focus:outline-none
-							hover:text-blue-500 hover:border-blue-300
-							text-blue-500 border-blue-300 
-						"
-              >
-                Voice mail
-              </Link>
-            </nav>
-          </div>
-        </div>{" "}
-        <div id="recording">
+    <CallSessionShell callId={props.callId} activeTab="voicemail">
+      <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <h3 className="text-sm font-semibold text-gray-900">Voice mail</h3>
+
+        <div id="recording" className="mt-4">
           {loading && <AudioLoadingSkeletonPulse />}
           {!loading && voicemailUrl && (
             <audio
@@ -90,11 +55,12 @@ function Voicemail(props: PageProps) {
               support the audio element.
             </audio>
           )}
-          {!loading && !voicemailUrl && <h1>No Audio Records</h1>}
-
+          {!loading && !voicemailUrl && (
+            <div className="dotted-container text-gray-400">No Audio Records</div>
+          )}
         </div>
       </div>
-    </div>
+    </CallSessionShell>
   );
 }
 

@@ -44,7 +44,7 @@ const MyBarChart: React.FC<MyBarChartProps> = ({ data, options }) => {
       },
       title: {
         display: true,
-        text: 'Visitors per Location',
+        text: 'Sessions per Location',
       },
     },
   };

@@ -20,7 +20,7 @@ async function LinksPage() {
     return <InternalServerError/>
   }
   return (
-    <Layout page="links" sidebar={true} notifications={true}>
+    <Layout page="links" sidebar={true} notifications={true} pageTitle="Links" pageSubtitle="Last 30 days summary">
       <Links
         removeLinkAction={removeLinkAction}
         retrieveUrlsAction={retrieveUrlsAction}

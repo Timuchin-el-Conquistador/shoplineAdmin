@@ -30,9 +30,9 @@ const SlAlert = dynamic(
 );
 
 type PageProps = {
-  updateLoationAction: (
+  updateLocationAction: (
     locationId:string,
-    loationEmail: string,
+    locationEmail: string,
     locationName: string,
     locationPhoneNumber: string,
     locationAddress: string
@@ -51,7 +51,7 @@ function EditLocation(props: PageProps) {
   const locationPhoneNumber = useRef<HTMLInputElement | null>(null);
   const locationAddress = useRef<HTMLInputElement | null>(null);
 
-  const updateLoation = async () => {
+  const updateLocation = async () => {
     const email = locationEmail?.current?.value || props.location.locationEmail;
     const name = locationName?.current?.value || props.location.locationName;
     const phoneNumber =
@@ -59,7 +59,7 @@ function EditLocation(props: PageProps) {
     const address =
       locationAddress?.current?.value || props.location.locationAddress;
 
-    const response = await props.updateLoationAction(
+    const response = await props.updateLocationAction(
       props.location._id,
       email,
       name,
@@ -183,29 +183,21 @@ function EditLocation(props: PageProps) {
               </div>
             </div>{" "}
             <hr />
-            <div className="w-full flex items-center justify-between mt-16 mb-1">
-              <SlButton
-                variant="default"
-                size="medium"
-                data-optional=""
-                data-valid=""
-                className="inline-block"
+             <div className="w-full flex items-center justify-between mt-16 mb-1">
+              <button
+                className="btn btn-outline btn-lg"
                 onClick={() => {
                   router.back();
                 }}
               >
                 Cancel
-              </SlButton>{" "}
-              <SlButton
-                variant="primary"
-                size="medium"
-                data-optional=""
-                data-valid=""
-                className="inline-block"
-                onClick={updateLoation}
+              </button>{" "}
+              <button
+                className="btn btn-primary btn-lg"
+                onClick={updateLocation}
               >
                 {loading ? <Spinner /> : "Save"}
-              </SlButton>
+              </button>
             </div>
           </div>
         </div>

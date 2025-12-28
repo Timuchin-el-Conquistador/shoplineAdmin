@@ -164,43 +164,58 @@ function Calls(props: PageProps) {
           <strong>{error?.message}</strong>
         </SlAlert>
       </div>
-      <div className="mb-4">
-        <div className="block lg:flex lg:justify-between lg:items-center w-full">
-          <div className="mb-4 sm:mb-0">
-            <input
-              type="text"
-              placeholder="Search by visitor's email or name..."
-              className="w-full sm:w-80 h-9 text-sm shadow-sm"
-              onChange={handleChange}
-            />
+      <div className="rounded-lg  mb-6 p-4">
+        <div className="flex flex-wrap lg:flex-nowrap lg:justify-between lg:items-center w-full gap-4">
+          <div className="w-full sm:w-auto sm:flex-1 sm:max-w-md">
+            <div className="relative">
+              <svg
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z" stroke="#667085" strokeWidth={1.66667} strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <input
+                type="text"
+                style={{
+                    paddingLeft: '45px'
+                }}
+                placeholder="Search by visitor's email or name..."
+                className="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={handleChange}
+              />
+            </div>
           </div>{" "}
-          <div className="block sm:flex items-center">
-            <div className="mb-4 sm:mb-0">
+          <div className="flex items-center gap-3">
+            <div className="w-full sm:w-auto">
               <div
-                className="!w-full !max-w-full sm:!w-48 sm:!max-w-xs sm:!text-sm h-9"
-                style={{ maxWidth: "300px", width: "300px" }}
+                className="!w-full sm:!w-auto"
+                style={{ minWidth: "200px" }}
               >
                 {" "}
                 <div className="relative h-full">
                   <button
                     type="button"
-                    className="relative w-full rounded-md bg-white py-1 lg:py-1.5 pl-3 pr-10 text-left text-gray-900 ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 !leading-6 sm:text-sm h-full cursor-pointer shadow-sm"
+                    className="relative w-full rounded-lg bg-white py-2 px-4 text-left text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm cursor-pointer hover:bg-gray-50 transition-colors"
                     onClick={() => {
                       setDropDownVisibility(true);
                     }}
                   >
                     <div
-                      className="truncate text-gray-600"
+                      className="truncate text-gray-700 font-medium"
                       style={{ fontSize: "14px" }}
                     >
                       {linkName}
                     </div>{" "}
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-2">
+                    <span className="absolute inset-y-0 right-0 flex items-center pr-3">
                       <svg
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         aria-hidden="true"
-                        className="h-5 w-5 text-gray-600"
+                        className="h-5 w-5 text-gray-400"
                       >
                         <path
                           fillRule="evenodd"
@@ -214,14 +229,14 @@ function Calls(props: PageProps) {
                     <ul
                       tabIndex={-1}
                       role="listbox"
-                      className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white shadow-lg text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm py-1"
+                      className="absolute z-30 mt-2 w-full overflow-auto rounded-lg bg-white shadow-xl border border-gray-200 text-base focus:outline-none sm:text-sm py-1"
                       style={{ maxHeight: "300px" }}
                       ref={elementRef}
                     >
                       <li
                         id="option1"
                         role="option"
-                        className="relative flex items-center select-none py-2 pr-4 hover:bg-gray-100 text-gray-900 cursor-pointer pl-10"
+                        className="relative flex items-center select-none py-2.5 px-4 hover:bg-blue-50 text-gray-900 cursor-pointer transition-colors"
                         style={{ fontSize: "14px" }}
                         onClick={() => {
                           setDropDownVisibility(false);
@@ -238,7 +253,7 @@ function Calls(props: PageProps) {
                             key={el.slug}
                             id="option12"
                             role="option"
-                            className="relative flex items-center select-none py-2 pr-4 hover:bg-gray-100 text-gray-900 cursor-pointer pl-10"
+                            className="relative flex items-center select-none py-2.5 px-4 hover:bg-blue-50 text-gray-900 cursor-pointer transition-colors"
                             style={{ fontSize: "14px" }}
                             onClick={() => {
                               setDropDownVisibility(false);
