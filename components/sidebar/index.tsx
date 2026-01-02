@@ -90,53 +90,35 @@ function Sidebar({
               <nav className="flex-1 px-3" style={{ overflow: 'visible' }}>
                 <div className="space-y-1">
                     <a
-                    href="/dashboard"
-                    className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
-                      page == "dashboard" 
-                        ? "bg-blue-600 text-white" 
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
-                    }`}
-                    style={page == "dashboard" ? {
-                      borderTopLeftRadius: '8px',
-                      borderBottomLeftRadius: '8px',
-                      borderTopRightRadius: '24px',
-                      borderBottomRightRadius: '24px',
-                      marginRight: '-12px',
-                      paddingRight: '24px'
-                    } : {}}
-                    title={isCollapsed ? "Dashboard" : ""}
-                  >
+                      href="/dashboard"
+                      className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                        page == "dashboard" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
+                      }`}
+                      title={isCollapsed ? "Dashboard" : ""}
+                    >
                     <svg
-                      width="20"
-                      height="20"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
                       fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                       stroke="currentColor"
-                      strokeWidth="2"
+                      strokeWidth={1.8}
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className={isCollapsed ? "" : "mr-3"}
+                      className={isCollapsed ? "" : "mr-1"}
                       style={{ display: "inline-block" }}
                     >
-                      <use xlinkHref="/feather-sprite.svg#home"></use>
+                      <path d="M5.25 11.9469C5.25 11.9469 6.375 12.6969 9 12.6969C11.625 12.6969 12.75 11.9469 12.75 11.9469M2.25 9.22537L2.25 12.15C2.25 13.4101 2.25 14.0401 2.49524 14.5214C2.71095 14.9448 3.05516 15.289 3.47852 15.5047C3.95982 15.75 4.58988 15.75 5.85 15.75H12.15C13.4101 15.75 14.0402 15.75 14.5215 15.5047C14.9448 15.289 15.289 14.9448 15.5048 14.5214C15.75 14.0401 15.75 13.4101 15.75 12.15V9.22537C15.75 8.45152 15.75 8.0646 15.6586 7.70283C15.5776 7.38218 15.4441 7.07713 15.2635 6.80002C15.0599 6.48739 14.7757 6.22483 14.2072 5.6997L11.4429 3.14585C10.5815 2.34997 10.1507 1.95204 9.66135 1.80154C9.23041 1.66902 8.76959 1.66902 8.33865 1.80154C7.84925 1.95204 7.41852 2.34997 6.55706 3.14585L3.79275 5.6997C3.22435 6.22483 2.94015 6.48739 2.73645 6.80002C2.55591 7.07713 2.42242 7.38218 2.34141 7.70283C2.25 8.0646 2.25 8.45152 2.25 9.22537Z" />
                     </svg>
                     {!isCollapsed && <span>Dashboard</span>}
                   </a>{" "}
                   <a
-                    href="/links"
-                    className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
-                      (page == "links" || page.includes("pages"))
-                        ? "bg-blue-600 text-white" 
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
+                    href="/ecommerce"
+                    className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      page == "ecommerce" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
                     }`}
-                    style={(page == "links" || page.includes("pages")) ? {
-                      borderTopLeftRadius: '8px',
-                      borderBottomLeftRadius: '8px',
-                      borderTopRightRadius: '24px',
-                      borderBottomRightRadius: '24px',
-                      marginRight: '-12px',
-                      paddingRight: '24px'
-                    } : {}}
-                    title={isCollapsed ? "Links" : ""}
+                    title={isCollapsed ? "eCommerce" : ""}
                   >
                     <svg
                       width="20"
@@ -146,28 +128,93 @@ function Sidebar({
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className={isCollapsed ? "" : "mr-3"}
+                      className={isCollapsed ? "" : "mr-1"}
                       style={{ display: "inline-block" }}
                     >
-                      <use xlinkHref="/feather-sprite.svg#link"></use>
+                      <use xlinkHref="/feather-sprite.svg#shopping-bag"></use>
+                    </svg>
+                    {!isCollapsed && <span>eCommerce</span>}
+                  </a>{" "}
+                  <a
+                    href="/crm"
+                    className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      page == "crm" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
+                    }`}
+                    title={isCollapsed ? "CRM" : ""}
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={isCollapsed ? "" : "mr-1"}
+                      style={{ display: "inline-block" }}
+                    >
+                      <use xlinkHref="/feather-sprite.svg#briefcase"></use>
+                    </svg>
+                    {!isCollapsed && <span>CRM</span>}
+                  </a>{" "}
+                  <a
+                    href="/reporting"
+                    className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      page == "reporting" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
+                    }`}
+                    title={isCollapsed ? "Reporting" : ""}
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={isCollapsed ? "" : "mr-1"}
+                      style={{ display: "inline-block" }}
+                    >
+                      <use xlinkHref="/feather-sprite.svg#bar-chart-2"></use>
+                    </svg>
+                    {!isCollapsed && <span>Reporting</span>}
+                  </a>{" "}
+                  <a
+                    href="/links"
+                    className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      (page == "links" || page.includes("pages")) ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
+                    }`}
+                    title={isCollapsed ? "Links" : ""}
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="currentColor"
+                      strokeWidth={1.8}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={isCollapsed ? "" : "mr-1"}
+                      style={{ display: "inline-block" }}
+                    >
+                      <g clipPath="url(#clip0_670_2627)">
+                        <path d="M8.08728 15.0953C6.19674 16.1868 3.77932 15.539 2.68782 13.6485C1.59632 11.758 2.24407 9.34055 4.1346 8.24905L6.18847 7.06325C7.51184 6.2992 9.20404 6.75262 9.96809 8.07599M8.24893 4.13448C9.34043 2.24394 11.7578 1.5962 13.6484 2.6877C15.5389 3.7792 16.1867 6.19662 15.0952 8.08715L13.9094 10.141C13.1453 11.4644 11.4531 11.9178 10.1297 11.1538M12.75 15V16.5M15 12.75H16.5M5.25 3V1.5M3 5.25H1.5" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_670_2627">
+                          <rect width="18" height="18" fill="white" />
+                        </clipPath>
+                      </defs>
                     </svg>
                     {!isCollapsed && <span>Links</span>}
                   </a>{" "}
                   <a
                     href="/calls"
-                    className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
-                      page == "calls"
-                        ? "bg-blue-600 text-white" 
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
+                    className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      page == "calls" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
                     }`}
-                    style={page == "calls" ? {
-                      borderTopLeftRadius: '8px',
-                      borderBottomLeftRadius: '8px',
-                      borderTopRightRadius: '24px',
-                      borderBottomRightRadius: '24px',
-                      marginRight: '-12px',
-                      paddingRight: '24px'
-                    } : {}}
                     title={isCollapsed ? "Call Support" : ""}
                   >
                     <svg
@@ -178,7 +225,7 @@ function Sidebar({
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className={isCollapsed ? "" : "mr-3"}
+                      className={isCollapsed ? "" : "mr-1"}
                       style={{ display: "inline-block" }}
                     >
                       <use xlinkHref="/feather-sprite.svg#phone"></use>
@@ -187,19 +234,9 @@ function Sidebar({
                   </a>{" "}
                   <a
                     href="/locations"
-                    className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
-                      page == "locations"
-                        ? "bg-blue-600 text-white" 
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
+                    className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      page == "locations" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
                     }`}
-                    style={page == "locations" ? {
-                      borderTopLeftRadius: '8px',
-                      borderBottomLeftRadius: '8px',
-                      borderTopRightRadius: '24px',
-                      borderBottomRightRadius: '24px',
-                      marginRight: '-12px',
-                      paddingRight: '24px'
-                    } : {}}
                     title={isCollapsed ? "Locations" : ""}
                   >
                     <svg
@@ -210,7 +247,7 @@ function Sidebar({
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className={isCollapsed ? "" : "mr-3"}
+                      className={isCollapsed ? "" : "mr-1"}
                       style={{ display: "inline-block" }}
                     >
                       <use xlinkHref="/feather-sprite.svg#map-pin"></use>
@@ -220,19 +257,9 @@ function Sidebar({
 
                   <a
                     href="/staff"
-                    className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
-                      page == "staff"
-                        ? "bg-blue-600 text-white" 
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
+                    className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
+                      page == "staff" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
                     }`}
-                    style={page == "staff" ? {
-                      borderTopLeftRadius: '8px',
-                      borderBottomLeftRadius: '8px',
-                      borderTopRightRadius: '24px',
-                      borderBottomRightRadius: '24px',
-                      marginRight: '-12px',
-                      paddingRight: '24px'
-                    } : {}}
                     title={isCollapsed ? "Staff" : ""}
                   >
                     <svg
@@ -243,7 +270,7 @@ function Sidebar({
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className={isCollapsed ? "" : "mr-3"}
+                      className={isCollapsed ? "" : "mr-1"}
                       style={{ display: "inline-block" }}
                     >
                       <use xlinkHref="/feather-sprite.svg#users"></use>
@@ -296,10 +323,8 @@ function Sidebar({
                   <div className="mt-1 space-y-1">
                     <a
                       href="/integrations"
-                      className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors ${
-                        page == "integrations"
-                          ? "bg-blue-600 text-white" 
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                      className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                        page == "integrations" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white"
                       }`}
                       title={isCollapsed ? "Integrations" : ""}
                     >
@@ -311,7 +336,7 @@ function Sidebar({
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className={isCollapsed ? "" : "mr-3"}
+                        className={isCollapsed ? "" : "mr-1"}
                         style={{ display: "inline-block" }}
                       >
                         <use xlinkHref="/feather-sprite.svg#share-2"></use>
@@ -319,11 +344,53 @@ function Sidebar({
                       {!isCollapsed && <span>Integrations</span>}
                     </a>{" "}
                     <a
+                      href="/documentation"
+                      className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                          page == "documentation" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                      title={isCollapsed ? "Documentation" : ""}
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={isCollapsed ? "" : "mr-1"}
+                        style={{ display: "inline-block" }}
+                      >
+                        <use xlinkHref="/feather-sprite.svg#file-text"></use>
+                      </svg>
+                      {!isCollapsed && <span>Documentation</span>}
+                    </a>{" "}
+                    <a
+                      href="/ai-help"
+                      className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                          page == "ai-help" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                      title={isCollapsed ? "AI Help" : ""}
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={isCollapsed ? "" : "mr-1"}
+                        style={{ display: "inline-block" }}
+                      >
+                        <use xlinkHref="/feather-sprite.svg#zap"></use>
+                      </svg>
+                      {!isCollapsed && <span>AI Help</span>}
+                    </a>{" "}
+                    <a
                       href="/onboarding"
-                      className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors ${
-                        page == "onboarding"
-                          ? "bg-blue-600 text-white" 
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                      className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                        page == "onboarding" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white"
                       }`}
                       title={isCollapsed ? "Onboarding" : ""}
                     >
@@ -335,7 +402,7 @@ function Sidebar({
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className={isCollapsed ? "" : "mr-3"}
+                        className={isCollapsed ? "" : "mr-1"}
                         style={{ display: "inline-block" }}
                       >
                         <use xlinkHref="/feather-sprite.svg#book-open"></use>
@@ -344,10 +411,8 @@ function Sidebar({
                     </a>{" "}
                     <a
                       href="/settings"
-                      className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors ${
-                        page == "settings"
-                          ? "bg-blue-600 text-white" 
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                      className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                        page == "settings" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white"
                       }`}
                       title={isCollapsed ? "Settings" : ""}
                     >
@@ -359,7 +424,7 @@ function Sidebar({
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className={isCollapsed ? "" : "mr-3"}
+                        className={isCollapsed ? "" : "mr-1"}
                         style={{ display: "inline-block" }}
                       >
                         <use xlinkHref="/feather-sprite.svg#settings"></use>
@@ -384,7 +449,7 @@ function Sidebar({
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className={isCollapsed ? "" : "mr-3"}
+                    className={isCollapsed ? "" : "mr-1"}
                     style={{ display: "inline-block" }}
                   >
                     <use xlinkHref="/feather-sprite.svg#log-out"></use>

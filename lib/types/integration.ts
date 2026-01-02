@@ -18,4 +18,5 @@ export interface Integration {
   from:string,
   store:{storeDomain:string};
   [key: string]: unknown;
+  connected:boolean
 }

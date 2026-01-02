@@ -27,18 +27,40 @@
 	}
 
 	.index-card {
-		display: grid;
-		grid-template-columns: 17% 83%;
-		grid-template-rows: auto auto 1fr auto;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
 		background-color: #FFF;
-		width: 20rem;
-		height: 20rem;
-		margin: 1.5rem 0rem 0 1.5rem;
-		padding: 1.5rem;
-		border-top: solid 2px #0056FF;
-		border-radius: 0px 0px 0.5rem 0.5rem;
-		box-shadow: 0px 0px 1px #333;
-		overflow: hidden;
+		width: 22rem;
+		height: 14rem;
+		margin: 1.25rem 0 0 1.25rem;
+		padding: 1rem 1rem;
+		border: none;
+		border-radius: 0.75rem;
+		box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+		overflow: visible;
+		position: relative;
+		transition: transform .12s ease, box-shadow .15s ease;
+		box-sizing: border-box;
+		display: block;
+		background-color: white;
+		box-shadow: none;
+		border-radius: 0.5rem;
+		text-align: center;
+	}
+
+	/* size variants */
+	.index-card.index-card--sm { width: 16rem; height: 10rem; padding: 1rem; }
+	.index-card.index-card--md { width: 22rem; height: 14rem; }
+	.index-card.index-card--lg { width: 28rem; height: 18rem; }
+
+	/* orientation modifiers (container-only changes) */
+	.index-card--vertical { flex-direction: column; }
+	.index-card--horizontal { flex-direction: row; align-items: flex-start; gap: 1rem; }
+
+	/* ensure horizontal cards wrap on smaller screens */
+	@media (max-width: 880px) {
+		.index-card--horizontal { flex-direction: column; }
 	}
 
 	@media (max-width: 680px) {
@@ -73,8 +95,10 @@
 		border-radius: 0.375rem;
 		background-color: white;
 		box-shadow: 0px 0px 1px #333;
+		display: block;
+		visibility: visible;
+		pointer-events: auto;
 	}
-	
 	.index-card .expandable-section-menu-item {
 		display: block;
 		padding: 0.5rem 1rem ;
@@ -83,6 +107,7 @@
 		color: #222;
 		cursor: pointer;
 		background: white;
+		text-align: left;
 	}
 	
 	.index-card .expandable-section-menu-item:hover {
@@ -91,32 +116,101 @@
 
 	/* Content */
 
+	.index-card .index-card-header {
+		text-align: center;
+		padding-top: 6px;
+	}
 	.index-card .index-card-header h4 {
 		font-size: 1rem;
 		color: #222;
 		display: block;
+		margin: 0;
 	}
-	
+
 	.index-card .index-card-header h3 {
-		font-size: 0.75rem;
-		color: #AAA;
+		font-size: 0.875rem;
+		color: #6B7280;
 		display: block;
-		margin-top: -0.1rem;
+		margin: 4px 0 0 0;
 	}
-	
+
+	/* ensure top-level children fit inside the new card dimensions */
+	.index-card > * {
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	/* layout regions: header (fixed), body (flexible scroll), footer (fixed) */
+	.index-card > .index-card-header { flex: 0 0 auto; }
+	.index-card > .index-card-footer { flex: 0 0 auto; }
+	.index-card > :not(.index-card-header):not(.index-card-footer) {
+		flex: 1 1 auto;
+		overflow: auto;
+		min-height: 0; /* allow proper flexbox scrolling */
+		padding: 0 8px;
+	}
+
+	/* small icon/image in header only */
+	.index-card .index-card-header img,
+	.index-card .index-card-header svg,
+	.index-card .index-card-header > img,
+	.index-card .index-card-header > svg {
+		width: 44px;
+		height: 44px;
+		object-fit: contain;
+		display: block;
+		margin: 0 auto 8px auto;
+	}
+
+	/* content blocks used in components (col-span) should shrink and wrap */
+	.index-card div[class*="col-span"] {
+		padding: 0 8px;
+		margin: 0;
+	}
+
+	/* reduce large vertical spacing inside cards */
+	.index-card .mt-6 { margin-top: 8px !important; }
+	.index-card .mt-4 { margin-top: 6px !important; }
+
+	/* compact footer buttons to fit within the card */
+	/* compact footer buttons to fit within the card */
+	.index-card .index-card-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		padding: 0.6rem 0;
+	}
+	.index-card .index-card-footer-button {
+		padding: 0.4rem 0.6rem;
+		font-size: 0.82rem;
+		min-width: 48px;
+		flex: 1 1 0;
+		display:flex;
+		align-items:center;
+		justify-content:center;
+		gap:6px;
+	}
+	.index-card .index-card-footer-button svg { width:20px; height:20px; }
+	.index-card .index-card-footer-button div.inline-block { display:block; font-size:0.78rem; }
+
+
 	.index-card .index-card-footer {
 		display: flex;
 		flex-wrap: nowrap;
-		grid-column: span 2;
-		border-top: solid 1px #DDD;
-		margin: 0rem -1.5rem -1.5rem -1.5rem;
+		width: 100%;
+		border-top: solid 1px #EEE;
+		margin-top: 12px;
+		padding-top: 12px;
+		justify-content: space-between;
+		gap: 8px;
+				margin-top: 35px;
 	}
 	
 	.index-card .index-card-footer-button {
 		display: block;
 		align-items: stretch;
 		width: 50%;
-		padding: 1rem;
 		color: #222;
 		font-size: 0.85rem;
 		text-align: center;

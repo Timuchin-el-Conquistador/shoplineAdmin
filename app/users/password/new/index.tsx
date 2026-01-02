@@ -1,7 +1,8 @@
 "use client";
 import dynamic from "next/dynamic";
 
-import "@/styles/user-confirmation.scss";
+import Image from "next/image";
+import "@/styles/login.scss";
 
 import { useUserStore } from "@/providers/user";
 
@@ -37,96 +38,25 @@ function ForgotPassword() {
 
   return (
     <>
-     <div id="stripe-bar" className="w-full border-t-4 border-brand-400 absolute top-0 left-0 right-0 z-50" ></div>
-      <div className="mx-auto w-full text-center">
-        <img className="inline-block w-16 mt-8" src="/logo-white.svg" alt="Shoporia logo" />
-        <h2 className="text-xl mt-4">Reset Your Password</h2>
-      </div>
-      <div className="authenticate-page p-4 sm:p-0">
-        <div className="flex flex-col md:flex-row main-panel">
-          <div className="hidden left-panel p-16">
-            <div className="">
-              <h2 className="mb-3 text-gray-700 text-2xl leading-8 font-bold">
-                Walk-ins Welcome!
-              </h2>
+      <div className="min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 log-auth">
+        <Image src="/logo-auth.png" alt="logo" width={120} height={120} className="fixed top-4 left-4 z-50" />
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="bg-white py-8 px-6 shadow-lg rounded-3xl sm:px-10">
+            <div className="mb-8 text-center">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Reset Your Password</h2>
+            </div>
 
-              <div className="mt-8">
-                <ul role="list" className="mt-8 space-y-5 grid grid-rows">
-                  <li className="flex items-end lg:col-span-1">
-                    <div className="flex-shrink-0 text-green-400">
-                      <svg
-                        width="18"
-                        height="18"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        style={{ display: "inline-block" }}
-                        className=""
-                        id=""
-                      >
-                        {" "}
-                        <use xlinkHref="/feather-sprite.svg#check-circle"></use>{" "}
-                      </svg>
-                    </div>
-                    <p className="ml-3 text-sm text-gray-700">Value prop one</p>
-                  </li>
-
-                  <li className="flex items-end lg:col-span-1">
-                    <div className="flex-shrink-0 text-green-400">
-                      <svg
-                        width="18"
-                        height="18"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        style={{ display: "inline-block" }}
-                        className=""
-                        id=""
-                      >
-                        {" "}
-                        <use xlinkHref="/feather-sprite.svg#check-circle"></use>{" "}
-                      </svg>
-                    </div>
-                    <p className="ml-3 text-sm text-gray-700">Value prop two</p>
-                  </li>
-
-                  <li className="flex items-end lg:col-span-1">
-                    <div className="flex-shrink-0 text-green-400">
-                      <svg
-                        width="18"
-                        height="18"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        style={{ display: "inline-block" }}
-                        className=""
-                        id=""
-                      >
-                        {" "}
-                        <use xlinkHref="/feather-sprite.svg#check-circle"></use>{" "}
-                      </svg>
-                    </div>
-                    <p className="ml-3 text-sm text-gray-700">
-                      Value prop three
-                    </p>
-                  </li>
-                </ul>
+            <div className="relative mb-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-3 bg-white text-gray-500">OR</span>
               </div>
             </div>
-          </div>
-
-          <div className="w-full sp-form auth-form py-4 px-4 md:py-16 md:px-16">
-            {loading && <SlSpinner></SlSpinner>}
 
             <form
-              className="new_user"
-              id="new_user"
+              className="space-y-4"
               onSubmit={(event) => {
                 event.preventDefault();
                 const email = emailRef?.current?.value || "";
@@ -134,14 +64,20 @@ function ForgotPassword() {
                 forgotPassword(email, router);
               }}
             >
-          
-
-              <div>
-                <label htmlFor="user_email">Email</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clipPath="url(#clip0_631_1511)">
+                      <path d="M18.3337 4.99992C18.3337 4.08325 17.5837 3.33325 16.667 3.33325H3.33366C2.41699 3.33325 1.66699 4.08325 1.66699 4.99992M18.3337 4.99992V14.9999C18.3337 15.9166 17.5837 16.6666 16.667 16.6666H3.33366C2.41699 16.6666 1.66699 15.9166 1.66699 14.9999V4.99992M18.3337 4.99992L10.0003 10.8333L1.66699 4.99992" stroke="#383838" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
+                    </g>
+                  </svg>
+                </div>
                 <input
                   autoFocus
                   autoComplete="email"
-                  className="w-full sm:text-sm"
+                  style={{ paddingLeft: '40px' }}
+                  className="bg-gray-50 border-0 rounded-xl text-gray-900 focus:ring-2 focus:ring-blue-500 block w-full text-sm py-3 pr-10 placeholder-gray-400"
+                  placeholder="your@email.com"
                   type="email"
                   name="user[email]"
                   id="user_email"
@@ -149,28 +85,20 @@ function ForgotPassword() {
                 />
               </div>
 
-              <div className="mt-6 mb-2">
-                <input
+              <div>
+                <button
                   type="submit"
-                  name="commit"
-                  value="Send me reset password instructions"
-                  className="w-full btn btn-blue"
-                  data-disable-with="Send me reset password instructions"
-                />
+                  disabled={loading}
+                  className="w-full bg-blue-50 text-blue-600 py-3 px-4 rounded-xl font-semibold hover:bg-blue-100 transition-colors flex items-center justify-center gap-2"
+                >
+                  {loading ? <SlSpinner style={{ fontSize: "1.2rem" }}></SlSpinner> : "Send me reset password instructions"}
+                </button>
               </div>
 
-              <a className="authentication-link" href="/users/sign_in">
-                Log in
-              </a>
-              <span className="text-gray-500"> with your account.</span>
-              <br />
-
-              <a className="authentication-link" href="/users/sign_up">
-                Sign up
-              </a>
-              <span className="text-gray-500"> for a new account.</span>
-              <br />
-      
+              <p className="text-center text-sm text-gray-500">
+                Already have an account?{' '}
+                <a className="text-blue-600 hover:text-blue-700 font-medium" href="/users/sign_in">Log in</a>
+              </p>
             </form>
           </div>
         </div>

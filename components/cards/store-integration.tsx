@@ -2,11 +2,12 @@ import Image from "next/image";
 
 import dynamic from "next/dynamic";
 
-import { useRef, useState, useEffect } from "react";
+import { useState } from "react";
 
 import { type Integration as IIntegration } from "@/lib/types//integration";
 
 import Agents from "../modals/agents";
+import Link from "next/link";
 
 import { selectAgentAvatarAction } from "@/lib/actions/user";
 
@@ -32,30 +33,10 @@ type ComponentProps = {
 };
 
 function Integration(props: ComponentProps) {
-  const [isDropdownVisible, setDropDownVisibility] = useState(false);
-
   const [isAgentsModalVisible, setAgentsModalVisibility] = useState(false);
-
-  const elementRef = useRef<HTMLDivElement | null>(null);
-
-  const handleOutsideClick = (event: MouseEvent) => {
-    if (
-      elementRef.current &&
-      !elementRef.current.contains(event.target as Node)
-    ) {
-      setDropDownVisibility(false); // Close or perform an action
-    }
-  };
-
-  useEffect(() => {
-    // Add event listener to detect clicks
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    // Cleanup the event listener
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
+  const [isConnected, setIsConnected] = useState<boolean>(
+    props.integration?.connected ?? false
+  );
 
   // Step 1: Remove the ordinal suffix (e.g., "nd")
 
@@ -73,21 +54,18 @@ function Integration(props: ComponentProps) {
   return (
     <>
       <div className="index-card item-overflow-visible relative">
-        {" "}
+        <div className="flex justify-between items-start">
         <Image
           src="/shopify.jpg"
           width={100}
           height={100}
           alt="shopify integration"
           className="mt-1 h-full w-full object-cover"
+          style={{width:'50px', height: '50px'}}
         />{" "}
-        <div className="index-card-header relative">
-          <h4 className="w-full truncate">Shopify</h4>{" "}
-          <h3 className="w-full truncate"> {props.integration.name}</h3>{" "}
-          <div className="index-card-top-right"></div>
-        </div>{" "}
+        </div>
         <div className="flex items-center col-span-3"></div>{" "}
-        <div className="col-span-2">
+        <div className="flex justify-between items-start">
           <div className="mt-6">
             <div className="text-sm text-gray-400">Status</div>{" "}
             <div className="text-sm">{props.integration.status}</div>
@@ -111,52 +89,36 @@ function Integration(props: ComponentProps) {
             <div className="text-sm">{props.integration.name}</div>
           </div>{" "}
         </div>{" "}
-        <div className="index-card-footer">
-          <div className="w-full">
-            <button
-              className="index-card-footer-button full-button"
-              onClick={() => setDropDownVisibility((state) => !state)}
-            >
+        <div className="index-card-footer integration-footer">
+          <div className="connect-left">
+            <button className="connect-pill" onClick={() => setIsConnected((s) => !s)}>
               <svg
-                width="16"
-                height="16"
+                width="14"
+                height="14"
                 fill="none"
-                stroke="#222"
-                strokeWidth="1"
+                stroke="currentColor"
+                strokeWidth="1.6"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                id=""
                 style={{ display: "inline-block" }}
               >
-                <use xlinkHref="/feather-sprite.svg#settings"></use>
-              </svg>{" "}
-              <div className="inline-block">Settings</div>
+                <use xlinkHref="/feather-sprite.svg#link" />
+              </svg>
+              <div className="inline-block">{isConnected ? "Connected" : "Connect"}</div>
             </button>
-          </div>{" "}
-          {isDropdownVisible && (
-            <div
-              ref={elementRef}
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="options-menu"
-              className="expandable-section-menu bg-white divide-y divide-gray-100 focus:outline-none"
-              style={{ bottom: "-14%" }}
-            >
-              <div role="none" className="py-1">
-                <button
-                  role="menuitem"
-                  className="expandable-section-menu-item w-full text-left"
-                  onClick={() => {
-                    setAgentsModalVisibility(true);
-                    setDropDownVisibility(false); // Close or perform an action
-                  }}
-                >
-                  Agent
-                </button>
-              </div>
+          </div>
 
-            </div>
-          )}
+          <div className="flex items-center gap-3">
+            <label className="toggle">
+              <input
+                type="checkbox"
+                checked={isConnected}
+                onChange={(e) => setIsConnected(e.target.checked)}
+              />
+              <span className="track" />
+              <span className="knob" />
+            </label>
+          </div>
         </div>
       </div>
       <Agents

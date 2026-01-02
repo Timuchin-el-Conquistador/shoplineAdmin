@@ -17,9 +17,7 @@
     transition-duration: 150ms;
 }
 
-#dashboard-sidebar .sidebar-button:hover,
-#dashboard-sidebar .sidebar-button.selected
-{
+#dashboard-sidebar .sidebar-button:hover {
     background-color: #EEE;
     color: #444;
 }
@@ -85,10 +83,10 @@
 #dashboard-sidebar .sidebar-button {
     color: rgba(255,255,255,0.92);
     background: transparent;
-    padding: 12px 14px;
-    margin: 6px 4px;
+    padding: 8px 12px; /* reduced vertical padding to decrease height */
+    margin: 4px 4px; /* tighter spacing */
     align-items: center;
-    gap: 10px;
+    line-height: 1; /* keep tighter line-height */
 }
 
 #dashboard-sidebar .sidebar-button:hover {
@@ -96,56 +94,77 @@
     color: #fff;
 }
 
-/* Selected nav item becomes a rounded pill */
-#dashboard-sidebar .sidebar-button.selected,
+/* Selected nav item becomes a rounded pill (custom active style) */
+/* Active/selected anchors */
+/* Active/selected anchors */
+#dashboard-sidebar nav a.sidebar-button.selected,
+#dashboard-sidebar a.sidebar-button.selected,
 #dashboard-sidebar a[aria-current="page"] {
-    background: #2176FF; /* primary blue */
-    color: #fff;
-    border-radius: 9999px; /* full pill */
-    padding-left: 14px;
-    padding-right: 20px;
+    background: #21303A !important; /* darker active background */
+    color: #FFFFFF !important;
+    padding-left: 12px; /* slightly smaller horizontal padding */
+    padding-right: 16px;
     display: block;
-    width: calc(100% - 28px);
-    margin-left: 8px;
-    box-shadow: 0 6px 18px rgba(33,118,255,0.12);
+    width: calc(100% - 24px);
+    min-width: min-content;
+    border: 0.5px solid transparent;
+    border-image-source: linear-gradient(296.92deg, rgba(212, 212, 212, 0) 20.41%, #FFFFFF 49.05%, rgba(153, 153, 153, 0) 77.14%);
+    border-image-slice: 1;
+    box-shadow: 0 10px 24px rgba(16,22,26,0.6), 0 0 16px rgba(255,255,255,0.02);
 }
 
 /* Sidebar icons lighter */
 #dashboard-sidebar .sidebar-sidebar-icon,
 #dashboard-sidebar .dashboard-sidebar-icon {
     color: rgba(255,255,255,0.78);
-    margin-right: 12px;
+    margin-right: 8px;
 }
 
 /* Small circular icon background inside selected item */
 #dashboard-sidebar .sidebar-button svg {
     background: transparent;
-    padding: 6px;
+    padding: 4px;
     border-radius: 8px;
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
     box-sizing: content-box;
     transition: background-color .15s, color .15s;
 }
 
 /* Selected item: icon inside white circle with blue fill */
+/* Selected svg: white circular background with blue stroke icon */
 #dashboard-sidebar .sidebar-button.selected svg,
 #dashboard-sidebar .sidebar-button.selected svg * {
-    color: #fff;
-    stroke: #fff;
-    fill: #fff;
+    color: #6F90FF !important;
+    stroke: #6F90FF !important;
+    fill: none !important;
 }
 
 #dashboard-sidebar .sidebar-button.selected svg {
-    background: rgba(255,255,255,0.12);
-    padding: 6px;
     border-radius: 9999px;
+    box-shadow: 0 2px 6px rgba(2,6,23,0.12);
+}
+
+/* Default icon color for sidebar items (not active) */
+#dashboard-sidebar .sidebar-button svg,
+#dashboard-sidebar .sidebar-button svg * {
+    stroke: #FFFFFF !important;
+    color: #FFFFFF !important;
+    fill: none !important;
+}
+
+/* Ensure dashboard anchor (specific) also uses blue stroke on selection */
+#dashboard-sidebar a[href="/dashboard"].sidebar-button.selected svg,
+#dashboard-sidebar a[href="/dashboard"].sidebar-button.selected svg * {
+    stroke: #6F90FF !important;
+    color: #6F90FF !important;
+    fill: none !important;
 }
 
 /* Increase nav text size slightly */
 #dashboard-sidebar .sidebar-button span {
-    font-size: 15px;
-    line-height: 1.4;
+    font-size: 14px;
+    line-height: 1.2;
 }
 
 /* Slightly increase spacing between nav items */
@@ -165,9 +184,9 @@
     margin-top: 18px;
 }
 
-/* Make selected pill slightly elevated */
+/* Make selected pill slightly elevated and keep glow consistent */
 #dashboard-sidebar .sidebar-button.selected {
-    box-shadow: 0 6px 18px rgba(2,6,23,0.5);
+    box-shadow: 0 8px 20px rgba(46,61,74,0.55), 0 0 18px rgba(255,255,255,0.03);
 }
 
 /* Decorative SVG blob sizing and header border */

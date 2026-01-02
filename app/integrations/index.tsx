@@ -8,6 +8,7 @@ import Link from "next/link";
 
 import DeviceIntegrations from "@/components/cards/device-integration";
 import StoreIntegration from "@/components/cards/store-integration";
+import IntegrationRequestCard from "@/components/cards/integration-request";
 import { CardSkeletonPulse } from "@/components/Loaders/pulse";
 //import ShopifyOnboarding from "@/components/onboarding";
 
@@ -142,26 +143,7 @@ function Integrations(props: PageProps) {
               </Fragment>
             ))}
           {loading && <CardSkeletonPulse />}
-          <div
-            className="index-card bordered"
-            style={{
-              overflow: "visible",
-              position: "relative",
-            }}
-          >
-            <div className="p-6">
-              <h4 className="text-lg font-bold">New Integration </h4>{" "}
-              <div className="mt-6">
-                Click on the button below to create a new integration.
-              </div>
-              <Link
-                href="/integrations/new"
-                className="block btn btn-blue mt-8"
-              >
-                New Integration
-              </Link>
-            </div>
-          </div>
+          <IntegrationRequestCard />
         </div>
 
   );

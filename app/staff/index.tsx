@@ -67,9 +67,9 @@ function Locations(props: PageProps) {
       </div>
       <Link
         href="/staff/new"
-        className="block btn btn-blue mt-8 w-[125px] flex justify-center mb-3"
+        className="block btn-create mt-8 mb-3"
       >
-        New User
+        Create New
       </Link>
       {staff.length > 0 && !loading && (
         <Table

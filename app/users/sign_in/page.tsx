@@ -64,7 +64,8 @@ function Login() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 log-auth">
+        <Image src="/logo-auth.png" alt="logo" width={120} height={120} className="fixed top-4 left-4 z-50" />
         <div
           style={{
             position: "fixed",
@@ -193,13 +194,6 @@ function Login() {
                     )}
                   </svg>
                 </button>
-              </div>
-
-              <div className="text-sm text-gray-500">
-                Forgot logging in?{" "}
-                <Link href="/users/password/new" className="text-blue-600 hover:text-blue-700 font-medium">
-                  reset password
-                </Link>
               </div>
 
               <button

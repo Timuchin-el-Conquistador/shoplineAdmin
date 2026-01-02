@@ -73,3 +73,14 @@
   background-color: #fff;
   padding: 0 15px;
 }
+
+/* Auth pages background color */
+.log-auth {
+  background-color: #F5F4FD;
+}
+
+
+.log-auth input:focus::placeholder,
+.log-auth textarea:focus::placeholder {
+  color: rgba(0,0,0,0.45);
+}

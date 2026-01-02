@@ -46,47 +46,51 @@ function Card(props: ComponentProps) {
     };
   }, []);
   return (
-    <div className="index-card item-overflow-visible relative">
-      <svg
-        width="36"
-        height="36"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#000"
-        strokeWidth="1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="mt-1"
-      >
-        <circle
-          cx="19"
-          cy="6"
-          r="3"
-          fill={props.availability == "online" ? "#2ECC71" : "#CCCCCC"}
-          strokeWidth="0"
-        ></circle>{" "}
-        <path d="M22 12v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"></path>{" "}
-        <path d="M12 17v4"></path> <path d="M8 21h8"></path>
-      </svg>{" "}
-      <div className="index-card-header relative">
-        <h4 className="w-full truncate">{props.linkName}</h4>{" "}
-        <h3 className="w-full truncate">{props.slug}</h3>{" "}
-        <div className="index-card-top-right"></div>
-      </div>{" "}
-      {props.hasConnectedDevice ? (
-        <div className="flex items-center col-span-3"></div>
-      ) : (
-        <div className="flex items-center col-span-3">
-          <SlTooltip
-            content="No Devices"
-            className="text-sm"
-            style={{ maxWidth: "200px" }}
+    <div className="index-card">
+      <div className="flex items-start justify-between">
+        <div>
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000"
+            strokeWidth="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="mt-1"
           >
-            <WarningBadge>No Devices</WarningBadge>
-          </SlTooltip>
+            <circle
+              cx="19"
+              cy="6"
+              r="3"
+              fill={props.availability == "online" ? "#2ECC71" : "#CCCCCC"}
+              strokeWidth="0"
+            ></circle>{" "}
+            <path d="M22 12v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"></path>{" "}
+            <path d="M12 17v4"></path> <path d="M8 21h8"></path>
+          </svg>{" "}
+          <div className="index-card-header relative flex items-center ">
+            <h4 className="w-full truncate">{props.linkName}</h4>{" "}
+            <h3 className="w-full truncate">{props.slug}</h3>{" "}
+            <div className="index-card-top-right"></div>
+          </div>{" "}
         </div>
-      )}
-      <div className="col-span-2">
+        {props.hasConnectedDevice ? (
+          <div className="flex items-center col-span-3"></div>
+        ) : (
+          <div className="flex items-center col-span-3">
+            <SlTooltip
+              content="No Devices"
+              className="text-sm"
+              style={{ maxWidth: "200px" }}
+            >
+              <WarningBadge>No Devices</WarningBadge>
+            </SlTooltip>
+          </div>
+        )}
+      </div>
+      <div className="col-span-2 flex align-middle justify-between">
         <div className="mt-6">
           <div className="text-sm text-gray-400">Minutes</div>{" "}
           <div className="text-sm">
@@ -143,7 +147,7 @@ function Card(props: ComponentProps) {
             aria-orientation="vertical"
             aria-labelledby="options-menu"
             className="expandable-section-menu bg-white divide-y divide-gray-100 focus:outline-none"
-            style={{bottom: '-44%'}}
+            style={{ bottom: "-61%" }}
           >
             <div role="none" className="py-1">
               <Link

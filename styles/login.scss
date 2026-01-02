@@ -1,6 +1,41 @@
 @import './auth.scss';
 
 
+/* Decorative blurred blobs background for auth pages (viewport-anchored) */
+.log-auth {
+    position: relative;
+}
+.log-auth::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60vh;
+    background-image: url('/Group7474.png');
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: cover;
+    opacity: 0.5;
+    filter: blur(36px);
+    pointer-events: none;
+    z-index: 0;
+}
+.log-auth .bg-white {
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .log-auth::before {
+    width: 80vw;
+    height: 40vh;
+    opacity: 0.16;
+    filter: blur(28px);
+  }
+}
+
+
 
 .authenticate-page .social-sign-in-button {
     display: flex;

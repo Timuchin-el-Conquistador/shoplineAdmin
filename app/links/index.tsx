@@ -78,7 +78,7 @@ function Links(props: PageProps) {
       ))}
       {!loaded && <CardSkeletonPulse />}
       <div
-        className="index-card bordered "
+        className="index-card "
         style={{
           overflow: "visible",
           position: "relative",

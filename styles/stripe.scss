@@ -49,7 +49,7 @@
       padding: 0 12px;
       font-size: 17px;
       /* Body/B2 */
-      font-family: "Montserrat", sans-serif;
+      font-family: "Inter", sans-serif;
       font-weight: 500;
       font-style: normal;
 
@@ -141,7 +141,7 @@
     z-index: 101;
   }
   span {
-    font-family: "SF Pro Display";
+    font-family: "Inter";
 
     font-style: normal;
     font-weight: 500;
@@ -168,7 +168,7 @@
     justify-content: space-between;
     span {
       &:first-child {
-        font-family: "SF Pro Display";
+        font-family: "Inter";
 
         font-style: normal;
         font-weight: 400;
@@ -181,7 +181,7 @@
         color: #98a2b3;
       }
       &:last-child {
-        font-family: "SF Pro Display";
+        font-family: "Inter";
 
         font-style: normal;
 
@@ -210,7 +210,7 @@
     }
     span {
       //styleName: Text sm/Medium;
-      font-family: "SF Pro Display";
+      font-family: "Inter";
 
       font-size: 14px;
       font-weight: 500;
@@ -255,7 +255,7 @@
     border-radius: 4px;
     border: transparent;
     outline: none;
-    font-family: "Montserrat";
+    font-family: "Inter";
     font-style: normal;
     font-weight: 500;
     font-size: 16px;

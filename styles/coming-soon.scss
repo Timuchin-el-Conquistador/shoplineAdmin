@@ -1,0 +1,72 @@
+.coming-soon-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 120px);
+  padding: 4rem 1rem;
+  background: transparent;
+}
+
+.coming-soon-card {
+  width: 100%;
+  max-width: 820px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  border-radius: 16px;
+  padding: 36px;
+  box-shadow: 0 18px 50px rgba(16, 24, 40, 0.12), inset 0 1px 0 rgba(255,255,255,0.6);
+  text-align: center;
+  border: 1px solid rgba(2,6,23,0.04);
+}
+
+.cs-icon {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 18px auto;
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #6b46ff 0%, #3b82f6 100%);
+  box-shadow: 0 8px 30px rgba(59,130,246,0.18);
+  transform: translateY(-6px);
+}
+
+.cs-title {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin: 0 0 8px 0;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.cs-subtitle {
+  margin: 0 0 20px 0;
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.cs-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.cs-action {
+  min-width: 160px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .coming-soon-card {
+    padding: 24px;
+    border-radius: 12px;
+  }
+  .cs-icon {
+    width: 72px;
+    height: 72px;
+  }
+  .cs-title {
+    font-size: 1.25rem;
+  }
+}
