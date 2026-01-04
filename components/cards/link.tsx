@@ -122,7 +122,6 @@ function Card(props: ComponentProps) {
           >
             <use xlinkHref="/feather-sprite.svg#settings"></use>
           </svg>{" "}
-          <div className="inline-block">Settings</div>
         </button>{" "}
         <Link href={`/${props.slug}`} className="index-card-footer-button">
           <svg
@@ -138,7 +137,6 @@ function Card(props: ComponentProps) {
           >
             <use xlinkHref="/feather-sprite.svg#play"></use>
           </svg>{" "}
-          <div className="inline-block">Open</div>
         </Link>{" "}
         {isDropdownVisible && (
           <div
