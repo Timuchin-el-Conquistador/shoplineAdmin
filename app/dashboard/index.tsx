@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import "@/styles/links.scss";
 
@@ -24,7 +25,7 @@ type PageProps = {
     sessions: number;
   } | null;
   retailsSessions: any[] | null;
-  monthlyVisitors: number[][] | null;
+  monthlyVisitors: any;
   locations: string[] | null;
 };
 
@@ -32,6 +33,9 @@ type DashboardProps = PageProps & {
   topMetrics?: any[];
   topPerformingProducts?: any[];
   totalEngagementViaAI?: any;
+  dailyEngagement?: any;
+  weeklyEngagement?: any;
+  monthlyEngagement?: any;
   topPerformingRetailLinks?: any;
   regionData?: any[];
   recentRecommendations?: any[];
@@ -39,6 +43,7 @@ type DashboardProps = PageProps & {
   barChartData?: any;
   lineChartData?: any;
   doughnutData?: any;
+  aiInteractions?: any;
 };
 
 const DEFAULT_TOP_METRICS = [
@@ -110,6 +115,32 @@ const DEFAULT_BAR = {
   ],
 };
 
+const WEEKLY_BAR = {
+  labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+  datasets: [
+    {
+      label: "Weekly Views",
+      data: [120, 190, 150, 250],
+      backgroundColor: "rgba(99, 102, 241, 0.9)",
+      borderColor: "rgba(99, 102, 241, 1)",
+      borderWidth: 1,
+    },
+  ],
+};
+
+const MONTHLY_BAR = {
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  datasets: [
+    {
+      label: "Monthly Views",
+      data: [420, 520, 480, 600, 580, 640],
+      backgroundColor: "rgba(99, 102, 241, 0.9)",
+      borderColor: "rgba(99, 102, 241, 1)",
+      borderWidth: 1,
+    },
+  ],
+};
+
 const DEFAULT_LINE = {
   labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
   datasets: [
@@ -148,8 +179,15 @@ function Dashboard(props: DashboardProps) {
   const recentRecommendations = props.recentRecommendations ?? DEFAULT_REC_RECS;
   const recentTransactions = props.recentTransactions ?? DEFAULT_TRANSACTIONS;
   const totalEngagementViaAI = props.totalEngagementViaAI ?? DEFAULT_BAR;
+  const dailyEngagement = props.dailyEngagement ?? totalEngagementViaAI;
+  const weeklyEngagement = props.weeklyEngagement ?? WEEKLY_BAR;
+  const monthlyEngagement = props.monthlyEngagement ?? MONTHLY_BAR;
   const lineChartData = props.lineChartData ?? DEFAULT_LINE;
   const topPerformingRetailLinks = props.topPerformingRetailLinks ?? DEFAULT_DOUGHNUT;
+
+  const [range, setRange] = useState<'Daily' | 'Weekly' | 'Monthly'>('Daily');
+  const chartData =
+    range === 'Daily' ? dailyEngagement : range === 'Weekly' ? weeklyEngagement : monthlyEngagement;
 
 
 
@@ -207,16 +245,35 @@ function Dashboard(props: DashboardProps) {
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm lg:col-span-2">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold">Total engagement via AI</h3>
+            <div className="flex items-center gap-2">
+              {(['Daily', 'Weekly', 'Monthly'] as const).map((r) => (
+                <button
+                  key={r}
+                  onClick={() => setRange(r)}
+                  className={`text-sm px-3 py-1 rounded-full transition-colors border ${
+                    range === r
+                      ? 'bg-indigo-600 text-white border-indigo-600'
+                      : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+                  }`}
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
           </div>
-          <div style={{ height: "200px" }}>
-            <MyBarChart data={totalEngagementViaAI} />
+          <div style={{ height: '220px' }}>
+            <MyBarChart data={chartData} />
           </div>
         </div>
       </div>
 
-      {/* Second Row 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        {/* Top Performing Products 
+        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm lg:col-span-3">
+          <h3 className="text-lg font-semibold mb-2">Coming soon</h3>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
           <h3 className="text-lg font-semibold mb-4">Top performing products</h3>
           <div className="space-y-4">
@@ -239,7 +296,7 @@ function Dashboard(props: DashboardProps) {
           </div>
         </div>
 
-        {/* Revenue Chart
+
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm lg:col-span-2">
           <h3 className="text-lg font-semibold mb-4">Revenue vs Expenses</h3>
           <div style={{ height: "250px" }}>
@@ -248,9 +305,8 @@ function Dashboard(props: DashboardProps) {
         </div>
       </div>
 
-      {/* Bottom Row 
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {/* Recent Recommendations 
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold">Recent recommendations</h3>
@@ -284,7 +340,7 @@ function Dashboard(props: DashboardProps) {
           </div>
         </div>
 
-        {/* Region Data with Map 
+
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
           <h3 className="text-lg font-semibold mb-4">Visitors by country</h3>
           <div className="space-y-3">
@@ -306,7 +362,7 @@ function Dashboard(props: DashboardProps) {
         </div>
       </div>
 
-      {/* Recent Transactions 
+
       <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Recent Transactions</h3>
@@ -332,7 +388,7 @@ function Dashboard(props: DashboardProps) {
             </tbody>
           </table>
         </div>
-      </div>*/}
+      </div>
     </div>
   );
 }

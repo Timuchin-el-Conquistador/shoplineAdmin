@@ -30,6 +30,7 @@ async function DashboardPage() {
         topMetrics={kpi.topMetrics}
         topPerformingProducts={kpi.topPerformingProducts}
         topPerformingRetailLinks={kpi.topPerformingRetailLinks}
+        aiInteractions={kpi.aiInteractions}
         regionData={kpi.regionData}
         recentRecommendations={kpi.recentRecommendations}
         recentTransactions={kpi.recentTransactions}
@@ -37,6 +38,8 @@ async function DashboardPage() {
         barChartData={kpi.barChartData}
         lineChartData={kpi.lineChartData}
         doughnutData={kpi.doughnutData}
+        weeklyEngagement={kpi.weeklyEngagement}
+        monthlyEngagement={kpi.monthlyEngagement}
       />
     </Layout>
   );

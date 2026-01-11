@@ -144,7 +144,7 @@ export async function retrieveKPI() {
     const session = await verifySession();
 
     if (!session) return redirect("/users/sign_in");
-    const path = `api/v1/user/${session.email}/locations/kpi`;
+    const path = `api/v1/user/${session.email}/analytics/kpi`;
     const response: {
       message: string;
       summary: {
