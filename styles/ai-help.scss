@@ -1,0 +1,363 @@
+.ai-help-page {
+  padding: 24px 28px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-family: "Montserrat", "Arimo", sans-serif;
+}
+
+.ai-help-hero h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.ai-help-hero p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.ai-help-panel {
+  background: #f5f6f9;
+  border-radius: 20px;
+  padding: 20px 18px 22px;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
+}
+
+.ai-help-topics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.ai-help-label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.ai-help-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #eff1f5;
+  border-radius: 999px;
+  padding: 6px;
+  width: fit-content;
+}
+
+.ai-help-chip {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  cursor: default;
+  transition: all 0.2s ease;
+}
+
+.ai-help-chip.active {
+  background: #e8f1ff;
+  border-color: #93c5fd;
+  color: #3b82f6;
+}
+
+.ai-help-body {
+  background: transparent;
+  border-radius: 18px;
+  padding: 0;
+  box-shadow: none;
+}
+
+.ai-help-pick-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.ai-help-pick-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.ai-help-dot {
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 999px;
+}
+
+.ai-help-live {
+  background: #d1fae5;
+  color: #10b981;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.ai-help-more {
+  border: none;
+  background: #f3f4f6;
+  color: #6b7280;
+  padding: 4px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ai-help-topic-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.ai-help-topic-card {
+  border: 1px solid #eceff3;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 14px 14px 16px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.ai-help-topic-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.ai-help-topic-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0;
+}
+
+.ai-help-topic-card p {
+  margin: 0;
+  font-size: 11px;
+  color: #9ca3af;
+  line-height: 1.4;
+}
+
+.ai-help-icon {
+  width: 22px;
+  height: 22px;
+  background: #f0e7ff;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-help-card-more {
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.ai-help-icon svg {
+  width: 12px;
+  height: 12px;
+  fill: #8b5cf6;
+}
+
+.ai-help-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #ffffff;
+}
+
+.ai-help-messages {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.ai-help-messages-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.ai-help-messages-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.ai-help-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.ai-help-message.user {
+  justify-content: flex-end;
+}
+
+.ai-help-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ai-help-bubble {
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 12px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  max-width: 70%;
+  line-height: 1.4;
+}
+
+.ai-help-message.ai .ai-help-bubble {
+  background: #f5f3ff;
+  color: #4c1d95;
+}
+
+.ai-help-message.user .ai-help-bubble {
+  background: #eef4ff;
+  color: #1d4ed8;
+}
+
+.ai-help-typing .ai-help-bubble {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-help-typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ai-help-typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.4;
+  animation: aiHelpTyping 1.2s infinite ease-in-out;
+}
+
+.ai-help-typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.ai-help-typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes aiHelpTyping {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 0.9;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ai-help-input input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.ai-help-send {
+  border: 1px solid #dbe3ff;
+  background: #eef4ff;
+  color: #4f46e5;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ai-help-send svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+  transform: rotate(180deg);
+}
+
+@media (max-width: 1200px) {
+  .ai-help-topic-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .ai-help-page {
+    padding: 20px 16px 32px;
+  }
+
+  .ai-help-topic-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-help-chips {
+    width: 100%;
+  }
+}
