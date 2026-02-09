@@ -7,6 +7,8 @@ import { validateToken } from "./utils/session";
 const routes = [
   /^\/dashboard$/,
   /^\/links$/,
+  /^\/crm$/,
+  /^\/crm\/([a-zA-Z0-9\-]+)$/,
   /^\/embed$/,
   /^\/embed\/([a-zA-Z0-9\-]+)$/,
   /^\/([a-zA-Z0-9\-]+)$/,
@@ -45,6 +47,8 @@ const routes = [
 const protectedRoutes = [
   /^\/dashboard$/,
   /^\/links$/,
+  /^\/crm$/,
+  /^\/crm\/([a-zA-Z0-9\-]+)$/,
   /^\/embed$/,
   /^\/embed\/([a-zA-Z0-9\-]+)$/,
   /^\/calls$/,

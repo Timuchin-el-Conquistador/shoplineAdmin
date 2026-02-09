@@ -24,6 +24,7 @@ import { socket } from "@/utils/socket";
 
 import { QRCodeCanvas } from "qrcode.react";
 import { Integration } from "@/lib/types/integration";
+import Spinner from "@/components/Loaders/spinner";
 
 const SlButton = dynamic(
   () => import("@shoelace-style/shoelace/dist/react/button/index.js"),
@@ -621,7 +622,7 @@ function EditLink(props: PageProps) {
                 }
               }}
             >
-              Save
+                {loading ? <Spinner /> : "Save"}
             </button>
           </div>
         </div>

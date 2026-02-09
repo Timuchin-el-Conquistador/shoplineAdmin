@@ -72,33 +72,38 @@ function EditRetailUser(props: PageProps) {
   }, []);
 
   const createSession = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
+      const email = staffEmail?.current?.value || props.user.userEmail;
+      const password =
+        staffPassword?.current?.value || props.user.userPassword;
+      const name = staffName?.current?.value || props.user.userName;
+      const phoneNumber =
+        staffPhoneNumber?.current?.value || props.user.userPhoneNumber;
+      const role = staffRole?.current?.value || props.user.role;
+      const location = staffLocation?.current?.value || props.user.location;
 
-    const email = staffEmail?.current?.value || props.user.userEmail;
-    const password = staffPassword?.current?.value || props.user.userPassword;
-    const name = staffName?.current?.value || props.user.userName;
-    const phoneNumber =
-      staffPhoneNumber?.current?.value || props.user.userPhoneNumber;
-    const role = staffRole?.current?.value || props.user.role;
-    const location = staffLocation?.current?.value || props.user.location;
+      const response = await props.updateUserAction(
+        props.user._id,
+        email,
+        password,
+        name,
+        phoneNumber,
+        role,
+        location
+      );
+      if (response.status != "OK") {
+        setErrorMessage(response.message);
+        return;
+      }
 
-    const response = await props.updateUserAction(
-      props.user._id,
-      email,
-      password,
-      name,
-      phoneNumber,
-      role,
-      location
-    );
-    setLoading(false);
-    if (response.status != "OK") {
-      setErrorMessage(response.message);
-      return;
+      setSuccessMesssage(response.message);
+      router.replace("/staff");
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
     }
-
-    setSuccessMesssage(response.message);
-    router.replace("/staff");
   };
 
   return (

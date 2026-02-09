@@ -38,7 +38,7 @@ function Sidebar({
     <>
       <div id="dashboard-sidebar">
         <div className="hidden md:flex md:flex-shrink-0 h-full">
-          <div className={`flex flex-col border-r border-gray-200 pb-4 bg-[#1a2332] transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`} style={{ overflow: 'visible', borderTopRightRadius: '24px' }}>
+          <div className={`flex flex-col border-r border-gray-200 pb-4 bg-[#1a2332] transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`} style={{ overflow: 'auto', borderTopRightRadius: '24px' }}>
             <div className="flex items-center justify-between px-3 pt-2 pb-6 sidebar-header" style={{ position: 'relative' }}>
               {!isCollapsed && (
                 <>
@@ -184,7 +184,7 @@ function Sidebar({
                     className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
                       (page == "links" || page.includes("pages")) ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
                     }`}
-                    title={isCollapsed ? "Links" : ""}
+                    title={isCollapsed ? "Call Support" : ""}
                   >
                     <svg
                       width="18"
@@ -208,14 +208,14 @@ function Sidebar({
                         </clipPath>
                       </defs>
                     </svg>
-                    {!isCollapsed && <span>Links</span>}
+                    {!isCollapsed && <span>Call Support</span>}
                   </a>{" "}
                   <a
                     href="/calls"
                     className={`sidebar-button flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-3'} py-2.5 text-sm font-medium transition-colors ${
                       page == "calls" ? "selected" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg"
                     }`}
-                    title={isCollapsed ? "Call Support" : ""}
+                    title={isCollapsed ? "Calls" : ""}
                   >
                     <svg
                       width="20"
@@ -230,7 +230,7 @@ function Sidebar({
                     >
                       <use xlinkHref="/feather-sprite.svg#phone"></use>
                     </svg>
-                    {!isCollapsed && <span>Call Support</span>}
+                    {!isCollapsed && <span>Calls</span>}
                   </a>{" "}
                   <a
                     href="/locations"
@@ -482,7 +482,7 @@ function Sidebar({
             >
               <use xlinkHref="/feather-sprite.svg#home"></use>
             </svg>{" "}
-            <span className="text-xs block text-gray-700 mt-1">Links</span>
+            <span className="text-xs block text-gray-700 mt-1">Call Support</span>
           </Link>{" "}
           <Link
             href="/calls"

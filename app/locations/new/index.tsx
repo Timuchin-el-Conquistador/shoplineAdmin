@@ -53,26 +53,33 @@ function NewLocation(props: PageProps) {
   const locationAddressr = useRef<HTMLInputElement | null>(null);
 
   const createLocation = async () => {
-    const email = locationEmail?.current?.value || "";
-    const name = locationName?.current?.value || "";
-    const phoneNumber = locationPhoneNumber?.current?.value || "";
-    const address = locationAddressr?.current?.value || "";
+    try {
+      setLoading(true);
+      const email = locationEmail?.current?.value || "";
+      const name = locationName?.current?.value || "";
+      const phoneNumber = locationPhoneNumber?.current?.value || "";
+      const address = locationAddressr?.current?.value || "";
 
-    const response = await props.createLocationAction(
-      props.storeId,
-      email,
-      name,
-      phoneNumber,
-      address,
-    );
+      const response = await props.createLocationAction(
+        props.storeId,
+        email,
+        name,
+        phoneNumber,
+        address
+      );
 
-    if (response.status != "OK") {
-      setErrorMessage(response.message);
-      return;
+      if (response.status != "OK") {
+        setErrorMessage(response.message);
+        return;
+      }
+
+      setSuccessMesssage(response.message);
+      router.replace("/locations");
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
     }
-
-    setSuccessMesssage(response.message);
-    router.replace("/locations");
   };
 
   return (

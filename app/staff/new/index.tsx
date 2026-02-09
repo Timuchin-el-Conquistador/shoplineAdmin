@@ -73,31 +73,35 @@ function NewRetailUser(props: PageProps) {
   }, []);
 
   const createUser = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
+      const email = staffEmail?.current?.value || "";
+      const password = staffPassword?.current?.value || "";
+      const name = staffName?.current?.value || "";
+      const phoneNumber = staffPhoneNumber?.current?.value || "";
+      const role = staffRole?.current?.value || "";
+      const location = staffLocation?.current?.value || "";
 
-    const email = staffEmail?.current?.value || "";
-    const password = staffPassword?.current?.value || "";
-    const name = staffName?.current?.value || "";
-    const phoneNumber = staffPhoneNumber?.current?.value || "";
-    const role = staffRole?.current?.value || "";
-    const location = staffLocation?.current?.value || "";
+      const response = await props.createUserAction(
+        email,
+        password,
+        name,
+        phoneNumber,
+        role,
+        location
+      );
+      if (response.status != "OK") {
+        setErrorMessage(response.message);
+        return;
+      }
 
-    const response = await props.createUserAction(
-      email,
-      password,
-      name,
-      phoneNumber,
-      role,
-      location
-    );
-    setLoading(false);
-    if (response.status != "OK") {
-      setErrorMessage(response.message);
-      return;
+      setSuccessMesssage(response.message);
+      router.replace("/staff");
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
     }
-
-    setSuccessMesssage(response.message);
-    router.replace("/staff");
   };
 
   return (

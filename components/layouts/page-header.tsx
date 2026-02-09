@@ -18,7 +18,7 @@ function PageHeader({
   userName
 }: PageHeaderProps) {
   return (
-    <div className="px-4 pb-4">
+    <div className="px-4 pb-4 mt-4">
       <div className="bg-white rounded-3xl shadow-sm border border-gray-200">
         <div className="flex items-center justify-between px-6 py-4">
           <div>

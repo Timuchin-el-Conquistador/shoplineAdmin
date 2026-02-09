@@ -52,28 +52,37 @@ function EditLocation(props: PageProps) {
   const locationAddress = useRef<HTMLInputElement | null>(null);
 
   const updateLocation = async () => {
-    const email = locationEmail?.current?.value || props.location.locationEmail;
-    const name = locationName?.current?.value || props.location.locationName;
-    const phoneNumber =
-      locationPhoneNumber?.current?.value || props.location.loationPhoneNumber;
-    const address =
-      locationAddress?.current?.value || props.location.locationAddress;
+    try {
+      setLoading(true);
+      const email =
+        locationEmail?.current?.value || props.location.locationEmail;
+      const name = locationName?.current?.value || props.location.locationName;
+      const phoneNumber =
+        locationPhoneNumber?.current?.value ||
+        props.location.loationPhoneNumber;
+      const address =
+        locationAddress?.current?.value || props.location.locationAddress;
 
-    const response = await props.updateLocationAction(
-      props.location._id,
-      email,
-      name,
-      phoneNumber,
-      address
-    );
+      const response = await props.updateLocationAction(
+        props.location._id,
+        email,
+        name,
+        phoneNumber,
+        address
+      );
 
-    if (response.status != "OK") {
-      setErrorMessage(response.message);
-      return;
+      if (response.status != "OK") {
+        setErrorMessage(response.message);
+        return;
+      }
+
+      setSuccessMesssage(response.message);
+      router.replace("/locations");
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
     }
-
-    setSuccessMesssage(response.message);
-    router.replace("/locations");
   };
 
   return (
