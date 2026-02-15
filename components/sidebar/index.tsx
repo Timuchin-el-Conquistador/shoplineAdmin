@@ -38,7 +38,7 @@ function Sidebar({
     <>
       <div id="dashboard-sidebar">
         <div className="hidden md:flex md:flex-shrink-0 h-full">
-          <div className={`flex flex-col border-r border-gray-200 pb-4 bg-[#1a2332] transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`} style={{ overflow: 'auto', borderTopRightRadius: '24px' }}>
+          <div className={`flex flex-col border-r border-gray-200 pb-4 bg-[#1a2332] transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`} style={{ overflow: 'hidden', overflowY: 'auto', borderTopRightRadius: '24px' }}>
             <div className="flex items-center justify-between px-3 pt-2 pb-6 sidebar-header" style={{ position: 'relative' }}>
               {!isCollapsed && (
                 <>
