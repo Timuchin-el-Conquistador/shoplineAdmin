@@ -28,10 +28,11 @@ async function DashboardPage() {
         monthlyVisitors={kpi.monthlyVisitors}
         locations={kpi.locations}
         topMetrics={kpi.topMetrics}
-        topPerformingProducts={kpi.topPerformingProducts}
+        topPerformingProducts={kpi.recommendedProducts}
         topPerformingRetailLinks={kpi.topPerformingRetailLinks}
         aiInteractions={kpi.aiInteractions}
         regionData={kpi.regionData}
+        countryCount={kpi.countryCount}
         recentRecommendations={kpi.recentRecommendations}
         recentTransactions={kpi.recentTransactions}
         totalEngagementViaAI={kpi.totalEngagementViaAI}
