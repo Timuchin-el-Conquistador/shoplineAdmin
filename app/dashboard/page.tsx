@@ -18,8 +18,9 @@ async function DashboardPage() {
     retailsSessions: null,
     monthlyVisitors: null,
     locations: null,
+    cartCheckoutAnalytics: null,
   } : response;
-
+  
   return (
     <Layout page="dashboard" sidebar={true} notifications={true}>
       <Dashboard
@@ -41,6 +42,7 @@ async function DashboardPage() {
         doughnutData={kpi.doughnutData}
         weeklyEngagement={kpi.weeklyEngagement}
         monthlyEngagement={kpi.monthlyEngagement}
+        cartCheckoutAnalytics={kpi.cartCheckoutAnalytics}
       />
     </Layout>
   );

@@ -8,11 +8,6 @@ const Sparkline = dynamic(() => import("@/components/charts/sparkline"), {
   ssr: false,
 });
 
-// Dynamically import chart components
-const MyBarChart = dynamic(() => import("@/components/charts/bar"), {
-  ssr: false,
-});
-
 const MyLineChart = dynamic(() => import("@/components/charts/line"), {
   ssr: false,
 });
@@ -21,6 +16,11 @@ const DoughnutCard = dynamic(
   () => import("@/components/charts/doughnut-card"),
   { ssr: false },
 );
+
+// Dynamically import chart components
+const MyBarChart = dynamic(() => import("@/components/charts/bar"), {
+  ssr: false,
+});
 
 type PageProps = {
   summary: {
@@ -50,6 +50,36 @@ type DashboardProps = PageProps & {
   lineChartData?: any;
   doughnutData?: any;
   aiInteractions?: any;
+  cartCheckoutAnalytics?: {
+    totals?: {
+      carts?: number;
+      checkouts?: number;
+      cartOperations?: number;
+      checkoutOperations?: number;
+      conversionRate?: number;
+    };
+    byDay?: {
+      labels?: string[];
+      carts?: number[];
+      checkouts?: number[];
+      operations?: number[];
+      conversionRate?: number[];
+    };
+    byWeek?: {
+      labels?: string[];
+      carts?: number[];
+      checkouts?: number[];
+      operations?: number[];
+      conversionRate?: number[];
+    };
+    byMonth?: {
+      labels?: string[];
+      carts?: number[];
+      checkouts?: number[];
+      operations?: number[];
+      conversionRate?: number[];
+    };
+  };
 };
 
 const DEFAULT_TOP_METRICS = [
@@ -188,9 +218,99 @@ const DEFAULT_DOUGHNUT = {
   ],
 };
 
+const DEFAULT_CART_CHECKOUT_ANALYTICS = {
+  totals: {
+    carts: 1,
+    checkouts: 4,
+    cartOperations: 1,
+    checkoutOperations: 5,
+    conversionRate: 400,
+  },
+  byDay: {
+    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    carts: [1, 1, 2, 1, 2, 1, 1],
+    checkouts: [2, 3, 2, 4, 3, 4, 4],
+    operations: [3, 4, 4, 5, 5, 5, 5],
+    conversionRate: [200, 300, 100, 400, 150, 400, 400],
+  },
+  byWeek: {
+    labels: ["W1", "W2", "W3", "W4"],
+    carts: [3, 4, 2, 5],
+    checkouts: [6, 8, 5, 10],
+    operations: [9, 12, 7, 15],
+    conversionRate: [200, 200, 250, 200],
+  },
+  byMonth: {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    carts: [10, 14, 9, 16, 12, 18],
+    checkouts: [20, 28, 18, 34, 24, 40],
+    operations: [30, 42, 27, 50, 36, 58],
+    conversionRate: [200, 200, 200, 213, 200, 222],
+  },
+};
+
+const normalizeNumericArray = (value: unknown): number[] => {
+  if (!Array.isArray(value)) return [];
+  return value.map((item) => {
+    const parsed = Number(item);
+    return Number.isFinite(parsed) ? parsed : 0;
+  });
+};
+
+const toCartCheckoutLineData = (source?: {
+  labels?: string[];
+  carts?: number[];
+  checkouts?: number[];
+  conversionRate?: number[];
+}) => ({
+  labels: Array.isArray(source?.labels) ? source!.labels : [],
+  datasets: [
+    {
+      label: "Carts",
+      data: normalizeNumericArray(source?.carts),
+      borderColor: "#6366f1",
+      backgroundColor: "rgba(99, 102, 241, 0.12)",
+      tension: 0.35,
+    },
+    {
+      label: "Checkouts",
+      data: normalizeNumericArray(source?.checkouts),
+      borderColor: "#10b981",
+      backgroundColor: "rgba(16, 185, 129, 0.12)",
+      tension: 0.35,
+    },
+    {
+      label: "Conversion rate (%)",
+      data: normalizeNumericArray(source?.conversionRate),
+      borderColor: "#f59e0b",
+      backgroundColor: "rgba(245, 158, 11, 0.12)",
+      tension: 0.35,
+    },
+  ],
+});
+
+const toEngagementLineData = (source: any) => ({
+  labels: Array.isArray(source?.labels) ? source.labels : [],
+  datasets: Array.isArray(source?.datasets)
+    ? source.datasets.map((ds: any, index: number) => {
+        const fallbackColors = ["#6366f1", "#10b981", "#8b5cf6", "#f59e0b"];
+        const color =
+          ds?.borderColor || fallbackColors[index % fallbackColors.length];
+        return {
+          label: ds?.label || `Series ${index + 1}`,
+          data: normalizeNumericArray(ds?.data),
+          borderColor: color,
+          backgroundColor: "transparent",
+          tension: 0.35,
+        };
+      })
+    : [],
+});
+
 function Dashboard(props: DashboardProps) {
   const topMetrics = props.topMetrics ?? DEFAULT_TOP_METRICS;
-  const topPerformingProducts = props.topPerformingProducts ?? DEFAULT_TOP_PERFORMING;
+  const topPerformingProducts =
+    props.topPerformingProducts ?? DEFAULT_TOP_PERFORMING;
   const countryCount = props.countryCount ?? DEFAULT_REGION;
   const recentRecommendations = props.recentRecommendations ?? DEFAULT_REC_RECS;
   const recentTransactions = props.recentTransactions ?? DEFAULT_TRANSACTIONS;
@@ -198,17 +318,29 @@ function Dashboard(props: DashboardProps) {
   const dailyEngagement = props.dailyEngagement ?? totalEngagementViaAI;
   const weeklyEngagement = props.weeklyEngagement ?? WEEKLY_BAR;
   const monthlyEngagement = props.monthlyEngagement ?? MONTHLY_BAR;
-  const lineChartData = props.lineChartData ?? DEFAULT_LINE;
   const topPerformingRetailLinks =
     props.topPerformingRetailLinks ?? DEFAULT_DOUGHNUT;
+  const cartCheckoutAnalytics =
+    props.cartCheckoutAnalytics ?? DEFAULT_CART_CHECKOUT_ANALYTICS;
 
   const [range, setRange] = useState<"Daily" | "Weekly" | "Monthly">("Daily");
+  const [cartCheckoutRange, setCartCheckoutRange] = useState<
+    "Daily" | "Weekly" | "Monthly"
+  >("Daily");
   const chartData =
     range === "Daily"
       ? dailyEngagement
       : range === "Weekly"
         ? weeklyEngagement
         : monthlyEngagement;
+  const selectedCartCheckoutData =
+    cartCheckoutRange === "Daily"
+      ? cartCheckoutAnalytics.byDay
+      : cartCheckoutRange === "Weekly"
+        ? cartCheckoutAnalytics.byWeek
+        : cartCheckoutAnalytics.byMonth;
+  const cartCheckoutLineData = toCartCheckoutLineData(selectedCartCheckoutData);
+  const engagementLineData = toEngagementLineData(chartData);
 
   return (
     <div className="mx-4 px-6 py-6 bg-gradient-to-br from-indigo-50 via-white to-violet-50 min-h-screen">
@@ -340,7 +472,7 @@ function Dashboard(props: DashboardProps) {
             )}
           </div>
         </div>
-                <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
           <h3 className="text-lg font-semibold mb-4">
             Top performing products
           </h3>
@@ -366,21 +498,56 @@ function Dashboard(props: DashboardProps) {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm lg:col-span-3">
-          <h3 className="text-lg font-semibold mb-2">Coming soon</h3>
-        </div>
-      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm lg:col-span-2">
-          <h3 className="text-lg font-semibold mb-4">Revenue vs Expenses</h3>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold">
+              Cart vs Checkout vs Conversion Rate
+            </h3>
+            <div className="flex items-center gap-2">
+              {(["Daily", "Weekly", "Monthly"] as const).map((r) => (
+                <button
+                  key={r}
+                  onClick={() => setCartCheckoutRange(r)}
+                  className={`text-sm px-3 py-1 rounded-full transition-colors border ${
+                    cartCheckoutRange === r
+                      ? "bg-indigo-600 text-white border-indigo-600"
+                      : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
+                  }`}
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
+          </div>
           <div style={{ height: "250px" }}>
-            <MyLineChart data={lineChartData} />
+            <MyLineChart
+              data={cartCheckoutLineData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    position: "top",
+                  },
+                },
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                  },
+                },
+              }}
+            />
           </div>
         </div>
       </div>
 
+      <div className="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-6">
+        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm lg:col-span-3">
+          <h3 className="text-lg font-semibold mb-2">Coming soon</h3>
+        </div>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
           <div className="flex justify-between items-center mb-4">
