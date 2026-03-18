@@ -79,6 +79,13 @@ type DashboardProps = PageProps & {
       operations?: number[];
       conversionRate?: number[];
     };
+    byYear?: {
+      labels?: string[];
+      carts?: number[];
+      checkouts?: number[];
+      operations?: number[];
+      conversionRate?: number[];
+    };
   };
 };
 
@@ -247,6 +254,13 @@ const DEFAULT_CART_CHECKOUT_ANALYTICS = {
     operations: [30, 42, 27, 50, 36, 58],
     conversionRate: [200, 200, 200, 213, 200, 222],
   },
+  byYear: {
+    labels: ["2021", "2022", "2023", "2024", "2025", "2026"],
+    carts: [80, 95, 110, 130, 145, 160],
+    checkouts: [140, 175, 210, 250, 290, 340],
+    operations: [220, 270, 320, 380, 435, 500],
+    conversionRate: [175, 184, 191, 192, 200, 213],
+  },
 };
 
 const normalizeNumericArray = (value: unknown): number[] => {
@@ -325,8 +339,8 @@ function Dashboard(props: DashboardProps) {
 
   const [range, setRange] = useState<"Daily" | "Weekly" | "Monthly">("Daily");
   const [cartCheckoutRange, setCartCheckoutRange] = useState<
-    "Daily" | "Weekly" | "Monthly"
-  >("Daily");
+    "Weekly" | "Monthly" | "Yearly"
+  >("Weekly");
   const chartData =
     range === "Daily"
       ? dailyEngagement
@@ -334,11 +348,11 @@ function Dashboard(props: DashboardProps) {
         ? weeklyEngagement
         : monthlyEngagement;
   const selectedCartCheckoutData =
-    cartCheckoutRange === "Daily"
-      ? cartCheckoutAnalytics.byDay
-      : cartCheckoutRange === "Weekly"
+    cartCheckoutRange === "Weekly"
         ? cartCheckoutAnalytics.byWeek
-        : cartCheckoutAnalytics.byMonth;
+      : cartCheckoutRange === "Monthly"
+        ? cartCheckoutAnalytics.byMonth
+        : cartCheckoutAnalytics.byYear;
   const cartCheckoutLineData = toCartCheckoutLineData(selectedCartCheckoutData);
   const engagementLineData = toEngagementLineData(chartData);
 
@@ -506,7 +520,7 @@ function Dashboard(props: DashboardProps) {
               Cart vs Checkout vs Conversion Rate
             </h3>
             <div className="flex items-center gap-2">
-              {(["Daily", "Weekly", "Monthly"] as const).map((r) => (
+              {(["Weekly", "Monthly", "Yearly"] as const).map((r) => (
                 <button
                   key={r}
                   onClick={() => setCartCheckoutRange(r)}
