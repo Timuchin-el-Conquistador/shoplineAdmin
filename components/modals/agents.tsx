@@ -13,7 +13,7 @@ const SlButton = dynamic(
   }
 );
 const SlDialog = dynamic(
-  () => import("@shoelace-style/shoelace/dist/react/dialog/index.js"),
+  () => import("@shoelace-style/shoelace/dist/react/drawer/index.js"),
   {
     // loading: () => <>Loading...</>,
     ssr: false,
@@ -140,10 +140,10 @@ function Agents(props: Componentprops) {
 
   return (
     <SlDialog
-      label=""
-      className="dialog-overview with-header"
+      className="drawer-overview"
       open={props.isOpen}
       onSlAfterHide={props.closeModal}
+      placement="end"
       noHeader
     >
       <div className="p-2">

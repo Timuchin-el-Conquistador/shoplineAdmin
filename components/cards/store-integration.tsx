@@ -55,14 +55,39 @@ function Integration(props: ComponentProps) {
     <>
       <div className="index-card item-overflow-visible relative">
         <div className="flex justify-between items-start">
-        <Image
-          src="/shopify.jpg"
-          width={100}
-          height={100}
-          alt="shopify integration"
-          className="mt-1 h-full w-full object-cover"
-          style={{width:'50px', height: '50px'}}
-        />{" "}
+          <Image
+            src="/shopify.jpg"
+            width={100}
+            height={100}
+            alt="shopify integration"
+            className="mt-1 h-full w-full object-cover"
+            style={{ width: "50px", height: "50px" }}
+          />{" "}
+
+          <button
+            type="button"
+            className="p-2 hover:bg-gray-100 rounded-lg border border-gray-200 bg-white"
+            aria-label="Choose agent avatar"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setAgentsModalVisibility(true);
+            }}
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+              />
+            </svg>
+          </button>
         </div>
         <div className="flex items-center col-span-3"></div>{" "}
         <div className="flex justify-between items-start">
@@ -91,7 +116,10 @@ function Integration(props: ComponentProps) {
         </div>{" "}
         <div className="index-card-footer integration-footer">
           <div className="connect-left">
-            <button className="connect-pill" onClick={() => setIsConnected((s) => !s)}>
+            <button
+              className="connect-pill"
+              onClick={() => setIsConnected((s) => !s)}
+            >
               <svg
                 width="14"
                 height="14"
@@ -104,7 +132,9 @@ function Integration(props: ComponentProps) {
               >
                 <use xlinkHref="/feather-sprite.svg#link" />
               </svg>
-              <div className="inline-block">{isConnected ? "Connected" : "Connect"}</div>
+              <div className="inline-block">
+                {isConnected ? "Connected" : "Connect"}
+              </div>
             </button>
           </div>
 
