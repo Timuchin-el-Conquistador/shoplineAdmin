@@ -28,12 +28,33 @@ const SlIcon = dynamic(
 type PageProps = {
   retrieveUsersAction: (
   ) => Promise<{ status: string; message: string; staff: any[] }>;
+  deleteUserAction: (userId: string) => Promise<{
+    status: string;
+    message: string;
+  }>;
 };
 
 function Locations(props: PageProps) {
   const [staff, setStaff] = useState<any[]>([]);
   const [loading, setLoadingState] = useState(false);
   const [error, setError] = useState<null | string>();
+
+  const handleDeleteUser = async (userId: string) => {
+    const confirmed = window.confirm("Delete this staff member?");
+
+    if (!confirmed) return;
+
+    const response = await props.deleteUserAction(userId);
+
+    if (response.status !== "OK") {
+      setError(response.message);
+      return;
+    }
+
+    setStaff((currentStaff) =>
+      currentStaff.filter((user) => user._id !== userId)
+    );
+  };
 
   useEffect(() => {
     const retrieveUsers = async () => {
@@ -74,6 +95,7 @@ function Locations(props: PageProps) {
       {staff.length > 0 && !loading && (
         <Table
           staff={staff}
+          onDelete={handleDeleteUser}
         />
       )}
       {staff.length == 0 && !loading && (

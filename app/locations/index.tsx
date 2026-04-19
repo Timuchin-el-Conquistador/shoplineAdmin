@@ -42,6 +42,23 @@ function Locations(props: PageProps) {
   const [loading, setLoadingState] = useState(false);
   const [error, setError] = useState<null | string>();
 
+  const handleDeleteLocation = async (locationId: string) => {
+    const confirmed = window.confirm("Delete this location?");
+
+    if (!confirmed) return;
+
+    const response = await props.deleteLocationAction(locationId);
+
+    if (response.status !== "OK") {
+      setError(response.message);
+      return;
+    }
+
+    setLocations((currentLocations) =>
+      currentLocations.filter((location) => location._id !== locationId)
+    );
+  };
+
   useEffect(() => {
     const retrieveLoations = async () => {
       setLoadingState(true);
@@ -83,6 +100,7 @@ function Locations(props: PageProps) {
       {locations.length > 0 && !loading && (
         <Table
           locations={locations}
+          onDelete={handleDeleteLocation}
         />
       )}
       {locations.length == 0 && !loading && (

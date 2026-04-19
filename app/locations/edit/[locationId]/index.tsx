@@ -3,14 +3,14 @@ import dynamic from "next/dynamic";
 import Spinner from "@/components/Loaders/spinner";
 import "@/styles/pages.new.scss";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 const SlButton = dynamic(
   () => import("@shoelace-style/shoelace/dist/react/button/index.js"),
   {
     //  loading: () => <>Loading...</>,
     ssr: false,
-  }
+  },
 );
 
 const SlIcon = dynamic(
@@ -19,37 +19,51 @@ const SlIcon = dynamic(
   {
     //   loading: () => <p>Loading...</p>,
     ssr: false,
-  }
+  },
 );
 const SlAlert = dynamic(
   () => import("@shoelace-style/shoelace/dist/react/alert/index.js"),
   {
     //  loading: () => <>Loading...</>,
     ssr: false,
-  }
+  },
 );
 
 type PageProps = {
   updateLocationAction: (
-    locationId:string,
+    locationId: string,
+    storeId: string,
     locationEmail: string,
     locationName: string,
     locationPhoneNumber: string,
-    locationAddress: string
+    locationAddress: string,
   ) => Promise<{ status: string; message: string }>;
   location: any;
+  stores: any[];
 };
+
 function EditLocation(props: PageProps) {
   const router = useRouter();
 
   const [error, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccessMesssage] = useState<string>("");
+  const [selectedStoreId, setSelectedStoreId] = useState<string>("");
 
   const locationEmail = useRef<HTMLInputElement | null>(null);
   const locationName = useRef<HTMLInputElement | null>(null);
   const locationPhoneNumber = useRef<HTMLInputElement | null>(null);
   const locationAddress = useRef<HTMLInputElement | null>(null);
+
+  const activeStore = useMemo(
+    () =>
+      props.stores.find(
+        (store) =>
+          store._id === (props.location.onlineStore?._id || selectedStoreId),
+      ),
+    [props.stores, props.location.onlineStore?._id, selectedStoreId],
+  );
+
 
   const updateLocation = async () => {
     try {
@@ -57,6 +71,7 @@ function EditLocation(props: PageProps) {
       const email =
         locationEmail?.current?.value || props.location.locationEmail;
       const name = locationName?.current?.value || props.location.locationName;
+      const storeId = activeStore._id;
       const phoneNumber =
         locationPhoneNumber?.current?.value ||
         props.location.loationPhoneNumber;
@@ -65,10 +80,11 @@ function EditLocation(props: PageProps) {
 
       const response = await props.updateLocationAction(
         props.location._id,
+        storeId,
         email,
         name,
         phoneNumber,
-        address
+        address,
       );
 
       if (response.status != "OK") {
@@ -141,7 +157,43 @@ function EditLocation(props: PageProps) {
             <hr />
             <div className="md:flex w-full">
               <div className="md:w-1/2">
-                <label className="font-medium text-md">Loation Email</label>{" "}
+                <label className="font-medium text-md">Online Store</label>{" "}
+              </div>{" "}
+              <div className="md:w-1/2 relative">
+                <div className="flex relative">
+                  <select
+                    value={selectedStoreId}
+                    onChange={(event) => setSelectedStoreId(event.target.value)}
+                    className="rounded-none rounded-e-md border border-gray-300 text-gray-700 focus:border-blue-300 focus:outline-none block w-full text-sm py-2 pl-3 pr-10 !truncate"
+                  >
+                    <option value="">Select online store</option>
+                    {props.stores.map((store) => (
+                      <option key={store._id} value={store._id}>
+                        {store.name}
+                      </option>
+                    ))}
+                  </select>{" "}
+                </div>
+                {activeStore ? (
+                  <div className="mt-2 text-sm text-gray-600">
+                    Selected store:{" "}
+                    <span className="font-medium text-gray-900">
+                      {activeStore.name}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="mt-2 text-sm text-amber-600">
+                    Please select an online store.
+                  </div>
+                )}
+              </div>
+            </div>{" "}
+            <hr />
+            <div className="md:flex w-full">
+              <div className="md:w-1/2">
+                <label className="font-medium text-md">
+                  Loation Email
+                </label>{" "}
               </div>{" "}
               <div className="md:w-1/2 relative">
                 <div className="flex relative">
@@ -177,7 +229,9 @@ function EditLocation(props: PageProps) {
             <hr />
             <div className="md:flex w-full">
               <div className="md:w-1/2">
-                <label className="font-medium text-md">Location Address</label>{" "}
+                <label className="font-medium text-md">
+                  Location Address
+                </label>{" "}
               </div>{" "}
               <div className="md:w-1/2 relative">
                 <div className="flex relative">
@@ -192,7 +246,7 @@ function EditLocation(props: PageProps) {
               </div>
             </div>{" "}
             <hr />
-             <div className="w-full flex items-center justify-between mt-16 mb-1">
+            <div className="w-full flex items-center justify-between mt-16 mb-1">
               <button
                 className="btn btn-outline btn-lg"
                 onClick={() => {

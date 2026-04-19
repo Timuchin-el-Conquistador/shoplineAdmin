@@ -3,16 +3,7 @@ import dynamic from "next/dynamic";
 import Spinner from "@/components/Loaders/spinner";
 import "@/styles/pages.new.scss";
 import { useRouter } from "next/navigation";
-import { Fragment, useEffect, useRef, useState } from "react";
-import StaffModal from "@/components/modals/staff";
-
-const SlButton = dynamic(
-  () => import("@shoelace-style/shoelace/dist/react/button/index.js"),
-  {
-    //  loading: () => <>Loading...</>,
-    ssr: false,
-  }
-);
+import { useRef, useState } from "react";
 
 const SlIcon = dynamic(
   // Notice how we use the full path to the component. If you only do `import("@shoelace-style/shoelace/dist/react")` you will load the entire component library and not get tree shaking.
@@ -31,7 +22,6 @@ const SlAlert = dynamic(
 );
 
 type PageProps = {
-  storeId:string,
   createLocationAction: (
     storeId:string,
     loationEmail: string,
@@ -39,13 +29,16 @@ type PageProps = {
     locationPhoneNumber: string,
     locationAddress: string,
   ) => Promise<{ status: string; message: string }>;
+  stores: any[];
 };
+
 function NewLocation(props: PageProps) {
   const router = useRouter();
   
   const [error, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccessMesssage] = useState<string>("");
+  const [selectedStoreId, setSelectedStoreId] = useState<string>("");
 
   const locationEmail = useRef<HTMLInputElement | null>(null);
   const locationName = useRef<HTMLInputElement | null>(null);
@@ -59,9 +52,10 @@ function NewLocation(props: PageProps) {
       const name = locationName?.current?.value || "";
       const phoneNumber = locationPhoneNumber?.current?.value || "";
       const address = locationAddressr?.current?.value || "";
+      const storeId = selectedStoreId || "";
 
       const response = await props.createLocationAction(
-        props.storeId,
+        storeId,
         email,
         name,
         phoneNumber,
@@ -142,6 +136,38 @@ function NewLocation(props: PageProps) {
                     </svg>
                   </div>
                 </div>
+              </div>
+            </div>{" "}
+            <hr />
+            <div className="md:flex w-full">
+              <div className="md:w-1/2">
+                <label className="font-semibold text-sm text-gray-900">Online Store <span className="text-red-500">*</span></label>{" "}
+              </div>{" "}
+              <div className="md:w-1/2 relative">
+                <div className="flex relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7h18M5 7l1.5 12h11L19 7M9 11v4m6-4v4M10 7V5a2 2 0 114 0v2" />
+                    </svg>
+                  </div>
+                  <select
+                    value={selectedStoreId}
+                    onChange={(event) => setSelectedStoreId(event.target.value)}
+                    className="bg-gray-50 border-0 rounded-xl text-gray-900 focus:ring-0 block w-full text-sm py-3.5 pl-10 pr-4"
+                  >
+                    <option value="">Select online store</option>
+                    {props.stores.map((store) => (
+                      <option key={store._id} value={store._id}>
+                        {store.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {!selectedStoreId && (
+                  <div className="mt-3 text-sm text-amber-600">
+                    Please select an online store.
+                  </div>
+                )}
               </div>
             </div>{" "}
             <hr />

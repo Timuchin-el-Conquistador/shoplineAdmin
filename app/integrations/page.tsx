@@ -2,7 +2,9 @@ import Integrations from ".";
 
 import {
   retrieveIntegrationsActions,
-  removeIntegration
+  removeIntegration,
+  enableStoreIntegrationAction,
+  disableStoreIntegrationAction,
 } from "@/lib/actions/user";
 import { retrieveSession } from "@/lib/session";
 import { type Session } from "@/lib/types/user";
@@ -28,6 +30,8 @@ async function IntegrationsPage() {
       <Integrations
         retrieveIntegrationsActions={retrieveIntegrationsActions}
         removeIntegration={removeIntegration}
+        enableStoreIntegrationAction={enableStoreIntegrationAction}
+        disableStoreIntegrationAction={disableStoreIntegrationAction}
       />
     </Layout>
   );

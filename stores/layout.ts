@@ -3,11 +3,12 @@ import { createStore } from "zustand/vanilla";
 export type LayoutState = {
 
   selectedSidebarPage: string;
+  globalLoading: boolean;
 };
 
 export type LayoutActions = {
   selectActiveSidebarPage: (page: string) => void;
-  // splashScreenOn: () => void;
+  setGlobalLoading: (loading: boolean) => void;
 };
 
 export type LayoutStore = LayoutState & LayoutActions;
@@ -16,6 +17,7 @@ export type LayoutStore = LayoutState & LayoutActions;
 
 const defaultInitState: LayoutState = {
   selectedSidebarPage:  '',
+  globalLoading: false,
 };
 
 
@@ -28,6 +30,8 @@ export const createLayoutStore = (
     selectActiveSidebarPage: (page) => {
       set((state) => ({ ...state, selectedSidebarPage: page }));
     },
-    //splashScreenOn: () => set((state) => ({ splashScreen: true })),
+    setGlobalLoading: (loading) => {
+      set((state) => ({ ...state, globalLoading: loading }));
+    },
   }));
 };

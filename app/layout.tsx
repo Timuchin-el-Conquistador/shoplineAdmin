@@ -14,11 +14,13 @@ export const metadata: Metadata = {
 import { UserStoreProvider } from "@/providers/user";
 import { SessionStoreProvider } from "@/providers/session";
 import { CustomersStoreProvider } from "@/providers/customers";
+import { LayoutStoreProvider } from "@/providers/layout";
 
 import { retrieveSession } from "@/lib/session";
 import { Session } from "@/lib/types/user";
 
 import SocketConnectionLayout from "@/components/layouts/socket";
+import GlobalNavigationLoader from "@/components/layouts/global-navigation-loader";
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = (await retrieveSession()) as Session;
@@ -39,20 +41,23 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
       </head>
       <body>
-        <UserStoreProvider>
-          <SessionStoreProvider>
-            <CustomersStoreProvider>
-              <ShoelaceSetup>
-                <SocketConnectionLayout
-                  isAuth={session != null}
-                  userId={session?.userId || null}
-                >
-                  {props.children}
-                </SocketConnectionLayout>
-              </ShoelaceSetup>
-            </CustomersStoreProvider>
-          </SessionStoreProvider>
-        </UserStoreProvider>
+        <LayoutStoreProvider>
+          <UserStoreProvider>
+            <SessionStoreProvider>
+              <CustomersStoreProvider>
+                <ShoelaceSetup>
+                  <GlobalNavigationLoader />
+                  <SocketConnectionLayout
+                    isAuth={session != null}
+                    userId={session?.userId || null}
+                  >
+                    {props.children}
+                  </SocketConnectionLayout>
+                </ShoelaceSetup>
+              </CustomersStoreProvider>
+            </SessionStoreProvider>
+          </UserStoreProvider>
+        </LayoutStoreProvider>
       </body>
     </html>
   );

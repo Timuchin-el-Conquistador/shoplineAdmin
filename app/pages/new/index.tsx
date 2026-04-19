@@ -9,20 +9,13 @@ import NoConnectedDeviceWarning from "@/components/modals/no-connected-device-wa
 import AvailableDevices from "@/components/modals/available-devices";
 import IntegratedStores from "@/components/modals/integrated-stores";
 import Spinner from "@/components/Loaders/spinner";
-
 import useLinkForm from "@/hooks/link-form";
-
 import "@/styles/pages.new.scss";
-
 import { type Settings } from "@/lib/types/links";
-
 import { useRouter } from "next/navigation";
 import { Fragment, useCallback, useMemo, useState } from "react";
-
 import { socket } from "@/utils/socket";
-
 import Link from "next/link";
-
 import { QRCodeCanvas } from "qrcode.react";
 import { Integration } from "@/lib/types/integration";
 

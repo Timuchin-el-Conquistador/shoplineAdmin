@@ -1,4 +1,4 @@
-import { retrieveUsersAction } from "@/lib/actions/staff";
+import { removeUserAction, retrieveUsersAction } from "@/lib/actions/staff";
 import Loations from ".";
 
 import Layout from "@/components/layouts/private";
@@ -30,6 +30,7 @@ async function CustomersPage() {
     <Layout page="staff" sidebar={true} notifications={true}>
       <Loations
         retrieveUsersAction={retrieveUsersAction}
+        deleteUserAction={removeUserAction}
       />
     </Layout>
   );

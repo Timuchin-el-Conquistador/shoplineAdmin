@@ -1,11 +1,13 @@
-import { createLocationAction } from "@/lib/actions/location";
+import {
+  createLocationAction,
+  retrieveOnlineStoresAction,
+} from "@/lib/actions/location";
 import NewLocation from ".";
 
 import Layout from "@/components/layouts/private";
 import { Session } from "@/lib/types/user";
 import { retrieveSession } from "@/lib/session";
 import InternalServerError from "@/components/Presentational/500";
-import { retrieveAccountInformation } from "@/lib/actions/user";
 import { redirect } from "next/navigation";
 
 async function CreateLoationPage() {
@@ -16,15 +18,13 @@ async function CreateLoationPage() {
     return <InternalServerError />;
   }
 
-  const response = await retrieveAccountInformation();
-  const account =
-    response instanceof Error || response == null ? null : response;
+  const storesResponse = await retrieveOnlineStoresAction();
+  const stores =
+    storesResponse.status !== "OK" || storesResponse == null
+      ? []
+      : storesResponse.stores;
 
-  if (account == null) {
-    return <InternalServerError />;
-  }
-
-  if (account.store == null) {
+  if (stores.length === 0) {
     redirect("/integrations/new/shopify");
   }
 
@@ -32,7 +32,7 @@ async function CreateLoationPage() {
     <Layout page="locations" sidebar={true} notifications={true}>
       <NewLocation
         createLocationAction={createLocationAction}
-        storeId={account.store._id}
+        stores={stores}
       />
     </Layout>
   );

@@ -17,6 +17,6 @@ export interface Integration {
   status: string;
   from:string,
   store:{storeDomain:string};
+  enabled : boolean;
   [key: string]: unknown;
-  connected:boolean
 }

@@ -1,6 +1,7 @@
 "use server";
 
 import { verifySession } from "../dal";
+import { revalidatePath, unstable_noStore as noStore } from "next/cache";
 
 import { redirect } from "next/navigation";
 
@@ -36,6 +37,10 @@ export async function createUserAction(
       role,
       location,
     });
+
+    revalidatePath("/staff");
+    revalidatePath("/staff/new");
+
     return { status: "OK", message: response.message };
   } catch (error) {
     return {
@@ -78,6 +83,9 @@ export async function updateUserAction(
       location,
     });
 
+    revalidatePath("/staff");
+    revalidatePath(`/staff/edit/${userId}`);
+
     return { status: "OK", message: response.message };
   } catch (error) {
     return {
@@ -94,8 +102,11 @@ export async function removeUserAction(userId: string) {
 
     if (!session) return redirect("/users/sign_in");
 
-    const path = `api/v1/user/${session.email}/users/${userId}`;
+    const path = `api/v1/user/${session.email}/staff/${userId}`;
     const response: { message: string } = await fakeBackend.delete(path);
+
+    revalidatePath("/staff");
+    revalidatePath(`/staff/edit/${userId}`);
 
     return { status: "OK", message: response.message };
   } catch (error) {
@@ -108,6 +119,8 @@ export async function removeUserAction(userId: string) {
 
 export async function retrieveUser(userId: string) {
   try {
+    noStore();
+
     const session = await verifySession();
     if (!session) return redirect("/users/sign_in");
     const path = `api/v1/user/${session.email}/staff/${userId}`;
@@ -122,6 +135,8 @@ export async function retrieveUser(userId: string) {
 
 export async function retrieveUsersAction() {
   try {
+    noStore();
+
     const session = await verifySession();
     if (!session) return redirect("/users/sign_in");
     const path = `api/v1/user/${session.email}/staff`;

@@ -43,6 +43,12 @@ type PageProps = {
   removeIntegration: (
     integrationId: string
   ) => Promise<{ status: number; message: string }>;
+  enableStoreIntegrationAction: (
+    integrationId: string
+  ) => Promise<{ status: number; message: string }>;
+  disableStoreIntegrationAction: (
+    integrationId: string
+  ) => Promise<{ status: number; message: string }>;
 };
 
 function Integrations(props: PageProps) {
@@ -88,6 +94,40 @@ function Integrations(props: PageProps) {
     setTimeout(() => {
       setSuccessMesssage("");
     }, 2000);
+  };
+
+  const toggleStoreIntegrationConnection = async (
+    integrationId: string,
+    shouldEnable: boolean
+  ) => {
+    const response = shouldEnable
+      ? await props.enableStoreIntegrationAction(integrationId)
+      : await props.disableStoreIntegrationAction(integrationId);
+    if (response.status !== 200) {
+      setErrorMessage(response.message);
+
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 2000);
+
+      return false;
+    }
+
+    setIntegrations((prevState) =>
+      prevState.map((integration) =>
+        integration._id === integrationId
+          ? { ...integration, connected: shouldEnable, enabled: shouldEnable }
+          : integration
+      )
+    );
+
+    setSuccessMesssage(response.message);
+
+    setTimeout(() => {
+      setSuccessMesssage("");
+    }, 2000);
+
+    return true;
   };
 
 
@@ -139,6 +179,7 @@ function Integrations(props: PageProps) {
                 <StoreIntegration
                   integration={integration}
                   removeIntegration={removeIntegration}
+                  toggleConnection={toggleStoreIntegrationConnection}
                 />
               </Fragment>
             ))}

@@ -1,6 +1,7 @@
 "use server";
 
 import { verifySession } from "../dal";
+import { revalidatePath, unstable_noStore as noStore } from "next/cache";
 
 import { redirect } from "next/navigation";
 
@@ -15,7 +16,7 @@ export async function createLocationAction(
 ) {
   "use server";
   try {
-    if (!email || !name || !phoneNumber || !address) {
+    if (!storeId || !email || !name || !phoneNumber || !address) {
       return {
         status: "FAILED",
         message:
@@ -34,6 +35,10 @@ export async function createLocationAction(
       phoneNumber,
       address,
     });
+
+    revalidatePath("/locations");
+    revalidatePath("/locations/new");
+
     return { status: "OK", message: response.message };
   } catch (error) {
     return {
@@ -45,6 +50,7 @@ export async function createLocationAction(
 
 export async function updateLocationAction(
   locationId: string,
+  storeId: string,
   email: string,
   name: string,
   phoneNumber: string,
@@ -52,7 +58,7 @@ export async function updateLocationAction(
 ) {
   "use server";
   try {
-    if (!email || !name || !phoneNumber || !address) {
+    if (!storeId || !email || !name || !phoneNumber || !address) {
       return {
         status: "FAILED",
         message:
@@ -66,11 +72,15 @@ export async function updateLocationAction(
     const path = `api/v1/user/${session.email}/locations/${locationId}`;
 
     const response: { message: string } = await fakeBackend.put(path, {
+      storeId,
       name,
       email,
       phoneNumber,
       address,
     });
+
+    revalidatePath("/locations");
+    revalidatePath(`/locations/edit/${locationId}`);
 
     return { status: "OK", message: response.message };
   } catch (error) {
@@ -91,6 +101,9 @@ export async function removeLocationAction(locationId: string) {
     const path = `api/v1/user/${session.email}/locations/${locationId}`;
     const response: { message: string } = await fakeBackend.delete(path);
 
+    revalidatePath("/locations");
+    revalidatePath(`/locations/edit/${locationId}`);
+
     return { status: "OK", message: response.message };
   } catch (error) {
     return {
@@ -103,6 +116,8 @@ export async function removeLocationAction(locationId: string) {
 export async function retrieveLocationsAction() {
   "use server";
   try {
+    noStore();
+
     const session = await verifySession();
 
     if (!session) return redirect("/users/sign_in");
@@ -126,6 +141,8 @@ export async function retrieveLocationsAction() {
 
 export async function retrieveLocation(locationId: string) {
   try {
+    noStore();
+
     const session = await verifySession();
 
     if (!session) return redirect("/users/sign_in");
@@ -136,6 +153,33 @@ export async function retrieveLocation(locationId: string) {
     return response.location;
   } catch (error) {
     return error instanceof Error ? error : new Error(String(error));
+  }
+}
+
+export async function retrieveOnlineStoresAction() {
+  "use server";
+  try {
+    noStore();
+
+    const session = await verifySession();
+
+    if (!session) return redirect("/users/sign_in");
+
+    const path = `api/v1/user/${session.email}/stores`;
+    const response: { message: string; stores: any[] } =
+      await fakeBackend.get(path);
+
+    return {
+      status: "OK",
+      message: response.message,
+      stores: response.stores,
+    };
+  } catch (error) {
+    return {
+      status: "FAILED",
+      message: error instanceof Error ? error.message : String(error),
+      stores: [],
+    };
   }
 }
 

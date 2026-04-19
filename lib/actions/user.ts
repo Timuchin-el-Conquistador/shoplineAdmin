@@ -1,6 +1,7 @@
 "use server";
 
 import { verifySession } from "../dal";
+import { revalidatePath } from "next/cache";
 
 import { redirect } from "next/navigation";
 
@@ -176,6 +177,48 @@ export async function createShopifyIntegrationAction(storeName: string) {
   } catch (error: any) {
     return {
       status: error.status,
+      message: error instanceof Error ? error.message : String(error),
+    };
+  }
+}
+
+export async function enableStoreIntegrationAction(integrationId: string) {
+  try {
+    const session = await verifySession();
+
+    if (!session) return redirect("/users/sign_in");
+
+    const path = `api/v1/user/${session.email}/integrations/store/${integrationId}/enable`;
+    const response: { message: string } = await fakeBackend.put(path, {});
+
+    return {
+      status: 200,
+      message: response.message,
+    };
+  } catch (error: any) {
+    return {
+      status: error?.status ?? 400,
+      message: error instanceof Error ? error.message : String(error),
+    };
+  }
+}
+
+export async function disableStoreIntegrationAction(integrationId: string) {
+  try {
+    const session = await verifySession();
+
+    if (!session) return redirect("/users/sign_in");
+
+    const path = `api/v1/user/${session.email}/integrations/store/${integrationId}/disable`;
+    const response: { message: string } = await fakeBackend.put(path, {});
+
+    return {
+      status: 200,
+      message: response.message,
+    };
+  } catch (error: any) {
+    return {
+      status: error?.status ?? 400,
       message: error instanceof Error ? error.message : String(error),
     };
   }
